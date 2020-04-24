@@ -303,7 +303,7 @@ const userController = {
         if (info.Status === 'SUCCESS') {
           order.update({
             orderStatus: '已付款',
-            payment: ''
+            payment: info.Result.PaymentType
           }).then((o) => {
             res.render('paydone', JSON.parse(JSON.stringify({ order: o })))
           })
