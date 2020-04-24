@@ -5,7 +5,7 @@ const Catogory = db.Catogory
 const CartProduct = db.CartProduct
 const Order = db.Order
 const OrderProduct = db.OrderProduct
-
+const User = db.User
 const Transport = db.Transport
 const crypto = require('crypto')
 
