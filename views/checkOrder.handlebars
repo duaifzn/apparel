@@ -1,4 +1,3 @@
-<h1>checkOrder</h1>
 <div class="card">
   <h2 class="card-header text-success"><i class="fas fa-check-circle"></i> 訂單建立成功</h2>
   <div class="card-body">
@@ -28,14 +27,13 @@
       <div class="col">
         <h5>付款資訊</h5>
         付款金額:{{order.totalPrice}}<br>
-        付款方式: 未付款<br>
         付款狀態:{{order.orderStatus}}
       </div>
     </div>
   </div>
   <div class="card-footer">
     <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
-      <button type="submit" class="btn btn-success m-auto">付款</button>
+      <button type="submit" class="btn btn-success btn-lg btn-block">付款</button>
       <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden><br>
 
       <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}} " hidden><br>
