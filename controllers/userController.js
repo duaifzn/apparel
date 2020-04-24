@@ -139,7 +139,7 @@ const userController = {
   logOut: (req, res) => {
     req.flash('success_messages', '登出成功')
     req.logout()
-    res.redirect('/signin')
+    res.redirect('/')
   },
   itemsPage: (req, res) => {
     Product.findAll().then(products => {
