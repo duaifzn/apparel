@@ -316,19 +316,7 @@ const userController = {
 
   },
   adminPay: (req, res) => {
-    Order.findOne({ where: { sn: info.Result.MerchantOrderNo } })
-      .then(order => {
-        if (info.Status === 'SUCCESS') {
-          order.update({
-            orderStatus: '已付款'
-          }).then((o) => {
-            return
-          })
-        }
-        else {
-          return
-        }
-      })
+    return
   }
 
 
