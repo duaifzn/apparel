@@ -295,7 +295,7 @@ const userController = {
     console.log(req.query)
     console.log(req.body)
     let info = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
-    console.log("@@@@@@", info.Result.MerchantOrderNo)
+    console.log(info)
 
     Order.findOne({ where: { sn: info.Result.MerchantOrderNo }, include: [Transport] })
       .then(order => {
