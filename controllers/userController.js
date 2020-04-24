@@ -1,4 +1,5 @@
 const db = require('../models')
+const bcrypt = require('bcryptjs')
 const Product = db.Product
 const Cart = db.Cart
 const Catogory = db.Catogory
