@@ -16,7 +16,7 @@ const HashIV = process.env.HASH_IV
 const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
 const ReturnURL = URL + "/pay/callback?from=ReturnURL"
 const NotifyURL = URL + "/pay/callback?from=NotifyURL"
-const ClientBackURL = URL + "/paydone"
+const ClientBackURL = URL + "/checkorder"
 
 function genDataChain(TradeInfo) {
   let results = [];
