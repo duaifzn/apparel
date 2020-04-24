@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     orderStatus: DataTypes.STRING,
     TransportId: DataTypes.INTEGER,
     totalPrice: DataTypes.INTEGER,
-    sn: DataTypes.STRING
+    sn: DataTypes.STRING,
+    payment: DataTypes.STRING
   }, {});
   Order.associate = function (models) {
     Order.belongsTo(models.User)

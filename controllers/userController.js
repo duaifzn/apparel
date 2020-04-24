@@ -240,6 +240,7 @@ const userController = {
       address: req.body.receiver_address,
       UserId: req.user.id,
       orderStatus: '未付款',
+      payment: '未付款',
       TransportId: req.body.transport,
       totalPrice: req.body.totalPrice
     }).then((order) => {
@@ -301,7 +302,8 @@ const userController = {
       .then(order => {
         if (info.Status === 'SUCCESS') {
           order.update({
-            orderStatus: '已付款'
+            orderStatus: '已付款',
+            payment: ''
           }).then((o) => {
             res.render('paydone', JSON.parse(JSON.stringify({ order: o })))
           })

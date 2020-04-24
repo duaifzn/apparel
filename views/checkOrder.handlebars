@@ -2,21 +2,21 @@
   <h2 class="card-header text-success"><i class="fas fa-check-circle"></i> 訂單建立成功</h2>
   <div class="card-body">
     <div class="row">
-      <div class="col ">
+      <div class="col border-left">
         <strong>
           <h5>訂單資訊</h5>
         </strong>
         訂單編號:{{order.id}}<br>
         訂單日期:{{order.createdAt}}
       </div>
-      <div class="col ">
+      <div class="col border-left ">
         <h5>顧客資訊</h5>
         姓名:{{user.name}}<br>
         電話:{{user.telephone}}
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col">
+      <div class="col border-left ">
         <h5>送貨資訊</h5>
         收件人姓名:{{order.receiver}}<br>
         收件人電話:{{order.telephone}}<br>
@@ -24,9 +24,10 @@
         送貨方式: 宅配到府<br>
         送貨狀態:{{order.Transport.name}}
       </div>
-      <div class="col">
+      <div class="col border-left ">
         <h5>付款資訊</h5>
         付款金額:{{order.totalPrice}}<br>
+        付款方式:{{order.payment}}<br>
         付款狀態:{{order.orderStatus}}
       </div>
     </div>
@@ -34,13 +35,13 @@
   <div class="card-footer">
     <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
       <button type="submit" class="btn btn-success btn-lg btn-block">付款</button>
-      <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden><br>
+      <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden>
 
-      <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}} " hidden><br>
+      <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}} " hidden>
 
-      <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}" hidden><br>
+      <input type="text" name="TradeSha" value="{{tradeInfo.TradeSha}}" hidden>
 
-      <input type="text" name="Version" value="{{tradeInfo.Version}}" hidden><br>
+      <input type="text" name="Version" value="{{tradeInfo.Version}}" hidden>
 
     </form>
 
