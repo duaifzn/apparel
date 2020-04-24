@@ -57,7 +57,9 @@ module.exports = (app, passport, client) => {
   app.post('/checkorder', authenticated, userController.checkOrder)
   app.get('/checkorder', authenticated, userController.getOrder)
   //藍金callback
-  app.post('/pay/callback', authenticated, userController.pay)
+  app.get('/pay/callback', authenticated, userController.pay)
+  //顯示付款成功/失敗
+  //app.get('/pay', authenticated, userController.payDone)
   app.get('/test', (req, res) => {
     res.render('test')
   })
