@@ -295,7 +295,7 @@ const userController = {
     console.log(req.query)
     console.log(req.body)
     let info = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
-    console.log(info)
+    console.log("@@@@@@", info.Result.MerchantOrderNo)
 
     Order.findOne({ where: { sn: info.Result.MerchantOrderNo }, include: [Transport] })
       .then(order => {
@@ -314,7 +314,19 @@ const userController = {
 
   },
   adminPay: (req, res) => {
-
+    Order.findOne({ where: { sn: info.Result.MerchantOrderNo } })
+      .then(order => {
+        if (info.Status === 'SUCCESS') {
+          order.update({
+            orderStatus: '已付款'
+          }).then((o) => {
+            return
+          })
+        }
+        else {
+          return
+        }
+      })
   }
 
 
