@@ -9,7 +9,7 @@ const OrderProduct = db.OrderProduct
 const Transport = db.Transport
 const crypto = require('crypto')
 
-const URL = 'https://b994bd2c.ngrok.io'
+const URL = 'https://hidden-cliffs-50028.herokuapp.com/'
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
