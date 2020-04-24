@@ -16,7 +16,7 @@ const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
 const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
 const ReturnURL = URL + "/pay/callback?from=ReturnURL"
-//const NotifyURL = URL + "/pay/callback?from=NotifyURL"
+const NotifyURL = URL + "/admin/pay/callback?from=NotifyURL"
 const ClientBackURL = URL + "/checkorder"
 
 function genDataChain(TradeInfo) {
@@ -313,7 +313,9 @@ const userController = {
 
 
   },
+  adminPay: (req, res) => {
 
+  }
 
 
 }
