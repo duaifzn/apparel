@@ -24,7 +24,21 @@
           </a>
           {{/ifRole}} --}}
           {{#if user}}
-          <a class="btn" href="/users/{{user.id}}/tweets"><i class="far fa-user text-white"></i></a>
+          <div class="dropdown">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="far fa-user text-white"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {{#if user.Orders}}
+              {{#each user.Orders}}
+              <a class="dropdown-item">訂單{{this.dataValues.id}}</a>
+              {{/each}}
+              {{else}}
+              <a class="dropdown-item">無訂單</a>
+              {{/if}}
+            </div>
+          </div>
           <a class="btn" href="/cart"><i class="fas fa-shopping-cart text-white"></i> <span
               class="badge badge-light">{{user.CartProducts.length}}</span></a>
           <a href="/logout" class="font-weight-bold ml-2 mt-1 text-white">LogOut</a>
@@ -54,7 +68,11 @@
       {{{body}}}
     </div>
   </main>
+  <footer class="mt-5 pt-5">
 
+    <p class="d-flex justify-content-center">Copyright 2020 by author</p>
+
+  </footer>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
