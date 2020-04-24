@@ -17,14 +17,20 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER
       },
-      orderStatusId: {
+      orderStatus: {
+        type: Sequelize.STRING
+      },
+      TransportId: {
         type: Sequelize.INTEGER
       },
-      transportId: {
+      totalPrice: {
         type: Sequelize.INTEGER
+      },
+      sn: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

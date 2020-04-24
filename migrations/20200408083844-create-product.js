@@ -29,7 +29,7 @@ module.exports = {
       cost: {
         type: Sequelize.INTEGER
       },
-      catogoryId: {
+      CatogoryId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

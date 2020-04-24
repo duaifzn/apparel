@@ -1,0 +1,104 @@
+<h1>order</h1>
+<table class="table border">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">商品名稱</th>
+      <th scope="col">價格</th>
+      <th scope="col">數量</th>
+      <th scope="col">小計</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cartProducts}}
+    <tr>
+      <th scope="row">{{this.Product.name}}</th>
+      <td>{{this.Product.price}}</td>
+      <td>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a>
+          </div>
+          <input type="text" class="" id="amount" name="amount" value={{this.amount}}>
+          <div class="input-group-append">
+            <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a>
+          </div>
+        </div>
+      </td>
+      <td>{{this.price}}</td>
+      <td><a href="/cart/delete/{{this.ProductId}}" class="btn btn-outline-danger">刪除</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<form action="/checkorder" method="POST">
+  <div class="row">
+    <div class="col border">
+      <h4>顧客資訊</h4>
+
+      <div class="form-group">
+        <label for="name">顧客姓名</label>
+        <input type="text" class="form-control" id="name" value="{{user.name}}" disabled>
+      </div>
+      <div class="form-group">
+        <label for="telephone">電話</label>
+        <input type="text" class="form-control" id="telephone" value="{{user.telephone}}" disabled>
+      </div>
+      <div class="form-group">
+        <label for="email">電子信箱</label>
+        <input type="email" class="form-control" id="email" value="{{user.email}}" disabled>
+      </div>
+      <div class="form-group">
+        <label for="address">地址</label>
+        <input type="text" class="form-control" id="address" value="{{user.address}}" disabled>
+      </div>
+
+    </div>
+    <div class="col border">
+      <h4>配送資訊</h4>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="transport" id="transport" value="1" checked>
+        <label class="form-check-label" for="transport">
+          宅配到府
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="equal" onclick="Equal()">
+        <label class="form-check-label" for="equal">
+          收件人資料與顧客資訊相同
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="receiver">收件人姓名</label>
+        <input type="text" class="form-control" id="receiver" name="receiver" required>
+      </div>
+      <div class="form-group">
+        <label for="receiver_telephone">收件人電話</label>
+        <input type="text" class="form-control" id="receiver_telephone" name="receiver_telephone" required>
+      </div>
+      <div class="form-group">
+        <label for="receiver_address">收件人地址</label>
+        <input type="text" class="form-control" id="receiver_address" name="receiver_address" required>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <strong>總額: {{totalPrice}} 元</strong>
+  </div>
+  <input type="text" name="totalPrice" value="{{totalPrice}}" hidden>
+  <button type="submit" class="btn btn-success btn-block btn-lg">確認訂單</button>
+</form>
+<script>
+  function Equal() {
+    if (document.getElementById("equal").checked == true) {
+      document.getElementById("receiver").value = document.getElementById("name").value
+      document.getElementById("receiver_telephone").value = document.getElementById("telephone").value
+      document.getElementById("receiver_address").value = document.getElementById("address").value
+    }
+    else {
+      document.getElementById("receiver").value = ""
+      document.getElementById("receiver_telephone").value = ""
+      document.getElementById("receiver_address").value = ""
+    }
+  }
+</script>

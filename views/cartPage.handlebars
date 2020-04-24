@@ -1,0 +1,61 @@
+<h1>cart Page</h1>
+{{#if cartProducts.length}}
+<table class="table border">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">商品名稱</th>
+      <th scope="col">價格</th>
+      <th scope="col">數量</th>
+      <th scope="col">小計</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cartProducts}}
+    <tr>
+      <th scope="row">{{this.Product.name}}</th>
+      <td>${{this.Product.price}}</td>
+      <td>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a>
+          </div>
+          <input type="text" class="" id="amount" name="amount" value={{this.amount}}>
+          <div class="input-group-append">
+            <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a>
+          </div>
+        </div>
+      </td>
+      <td>${{this.price}}</td>
+      <td><a href="/cart/delete/{{this.ProductId}}" class="btn btn-outline-danger">刪除</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col">合計</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <th scope="row"></th>
+      <td></td>
+      <td></td>
+      <td>${{totalPrice}}</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<a href="/order" class="btn btn-success btn-block btn-lg">結帳</a>
+{{else}}
+您的購物車內沒有任何商品
+<a href="/">繼續購物</a>
+{{/if}}

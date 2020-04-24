@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>final</title>
+  <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
+</head>
+
+<body>
+  <header class="fixed-top">
+    {{!-- Navbar --}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
+      <a class="navbar-brand font-weight-bold ml-1" href="/">
+        <h3>LOGO</h3>
+      </a>
+      <div class="navbar-collapse offcanvas-collapse col-12 col-sm-5 col-md-3 d-flex justify-content-end"
+        id="navbarsExampleDefault">
+        <div class="buttons col-8 mx-1 px-1 d-flex justify-content-end">
+          {{!-- {{#ifRole user.role }}
+          <a href="/admin" class="text-light btn btn-warning font-weight-bold mx-1">
+            <i class="fas fa-users-cog"></i>
+          </a>
+          {{/ifRole}} --}}
+          {{#if user}}
+          <a class="btn" href="/users/{{user.id}}/tweets"><i class="far fa-user text-white"></i></a>
+          <a class="btn" href="/cart"><i class="fas fa-shopping-cart text-white"></i> <span
+              class="badge badge-light">{{user.CartProducts.length}}</span></a>
+          <a href="/logout" class="font-weight-bold ml-2 mt-1 text-white">LogOut</a>
+          {{else}}
+          <a class="btn" href="/signin"><i class="far fa-user text-white"></i></a>
+          <a class="btn" href="/signin"><i class="fas fa-shopping-cart text-white"></i> <span
+              class="badge badge-light">{{user.CartProducts.length}}</span></a>
+          <a href="/signin" class="font-weight-bold ml-2 mt-1 text-white">LogIn</a>
+          {{/if}}
+        </div>
+      </div>
+    </nav>
+    {{#if success_messages}}
+    <div class="alert alert-success" role="alert">
+      {{success_messages}}
+    </div>
+    {{/if}}
+    {{#if error_messages}}
+    <div class="alert alert-danger" role="alert">
+      {{error_messages}}
+    </div>
+    {{/if}}
+
+  </header>
+  <main class="pt-5 mt-5">
+    <div class="container">
+      {{{body}}}
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/c25a5b0a92.js" crossorigin="anonymous"></script>
+
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v6.0'
+      });
+    };
+
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Your customer chat code -->
+  <div class="fb-customerchat" attribution=setup_tool page_id="107752854246986" logged_in_greeting="需要幫忙嗎?"
+    logged_out_greeting="需要幫忙嗎?">
+  </div>
+</body>
+
+</html>

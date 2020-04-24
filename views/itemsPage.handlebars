@@ -1,0 +1,23 @@
+<h1>itemsPage</h1>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首頁</a></li>
+    {{#if catogory}}
+    <li class="breadcrumb-item active"><a href="/">{{catogory.name}}</a></li>
+    {{/if}}
+  </ol>
+</nav>
+<div class="row">
+  {{#each products}}
+  <div class="col-4 card">
+    <img src={{this.image1}} class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{this.name}}</h5>
+      <p class="card-text">{{this.introduction}}
+      </p>
+      <a href="/items/{{this.id}}" class="btn btn-outline-primary">詳細資訊</a>
+    </div>
+  </div>
+  {{/each}}
+</div>

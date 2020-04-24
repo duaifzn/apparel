@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const product = sequelize.define('Product', {
+  const Product = sequelize.define('Product', {
     name: DataTypes.STRING,
     amount: DataTypes.INTEGER,
     introduction: DataTypes.TEXT,
@@ -8,15 +8,17 @@ module.exports = (sequelize, DataTypes) => {
     image2: DataTypes.STRING,
     price: DataTypes.INTEGER,
     cost: DataTypes.INTEGER,
-    catogoryId: DataTypes.INTEGER
+    CatogoryId: DataTypes.INTEGER
   }, {});
   Product.associate = function (models) {
     Product.belongsTo(models.Catogory)
+    Product.hasMany(models.CartProduct)
     Product.belongsToMany(models.Order, {
       through: models.OrderProduct,
-      foreignKey: 'productId',
+      foreignKey: 'ProductId',
       as: 'getOrder'
     })
+
   };
   return Product;
 };
