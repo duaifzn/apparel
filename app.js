@@ -26,7 +26,7 @@ const client = MessengerClient.connect({
 app.engine('handlebars', exphbs({ defaultLayout: 'main', helpers: require('./config/handlebars-helper') }))
 app.set('view engine', 'handlebars')
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(methodOverride('_method'))
 app.use(session({
   secret: 'secret',

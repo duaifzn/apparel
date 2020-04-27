@@ -4,7 +4,7 @@ const adminController = require('../controllers/adminController')
 // const verify_token = process.env.VERIFY_TOKEN
 // const app_id = process.env.APP_ID
 // const app_secret = process.env.APP_SECRET
-
+let data = []
 module.exports = (app, passport, client) => {
 
   const authenticated = (req, res, next) => {
@@ -66,13 +66,74 @@ module.exports = (app, passport, client) => {
   })
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', (req, res) => {
-    console.log('!!!!!!!!!!!!!!!!!!!!!')
+    //console.log('app.post /webhook')
+    //console.log(req.body)
     const event = req.body.entry[0].messaging[0];
-
+    //console.log(event)
     const userId = event.sender.id; // 傳話給你的使用者 id
     const text = event.message.text; // 使用者講的話
 
-    client.sendText(userId, text);
+    //console.log(data)
+    if (!data.includes(userId)) {
+      switch (text) {
+        case '產品問題':
+          client.sendText(userId, '問題種類?', {
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: '產品有瑕疵',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+              {
+                content_type: 'text',
+                title: '使用上問題',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+              {
+                content_type: 'text',
+                title: '其他問題',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+            ],
+          });
+          break;
+        case '產品有瑕疵':
+          client.sendText(userId, '將會有專人為您服務');
+          break;
+        case '使用上問題':
+          client.sendText(userId, '將會有專人為您服務');
+          break;
+        case '其他問題':
+          client.sendText(userId, '將會有專人為您服務');
+          data.push(userId);
+          break;
+        case '如何購買':
+          client.sendText(userId, '申請會員，進入網站下單購買');
+          break;
+        default:
+          client.sendText(userId, '需要幫忙嗎?', {
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: '產品問題',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
+              },
+              {
+                content_type: 'text',
+                title: '如何購買',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+              {
+                content_type: 'text',
+                title: '其他問題',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+            ],
+          });
+          break;
+      }
+    }
+
 
     res.sendStatus(200);
   });

@@ -83,12 +83,11 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/c25a5b0a92.js" crossorigin="anonymous"></script>
-
-  <!-- Load Facebook SDK for JavaScript -->
-  <div id="fb-root"></div>
   <script>
     window.fbAsyncInit = function () {
       FB.init({
+        appId: '2788655681420572',
+        autoLogAppEvents: true,
         xfbml: true,
         version: 'v6.0'
       });
@@ -96,16 +95,17 @@
 
     (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
+      if (d.getElementById(id)) { return; }
       js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js';
+      js.src = "https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js";
       fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-  <!-- Your customer chat code -->
-  <div class="fb-customerchat" attribution=setup_tool page_id="107752854246986" logged_in_greeting="需要幫忙嗎?"
-    logged_out_greeting="需要幫忙嗎?">
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <div class="fb-customerchat" page_id="107752854246986" greeting_dialog_display="hide" logged_in_greeting="您好~"
+    logged_out_greeting="您好~">
   </div>
+
+
 </body>
 
 </html>
