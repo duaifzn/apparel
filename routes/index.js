@@ -59,10 +59,10 @@ module.exports = (app, passport, client) => {
   //藍金callback
   app.post('/pay/callback', authenticated, userController.pay)
   app.get('/admin/pay/callback', authenticated, userController.adminPay)
-  //顯示付款成功/失敗
+
   //app.get('/pay', authenticated, userController.payDone)
-  app.get('/test', (req, res) => {
-    res.render('test')
+  app.get('/done', authenticatedAdmin, (req, res) => {
+    data = []
   })
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', (req, res) => {
