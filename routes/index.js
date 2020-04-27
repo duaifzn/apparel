@@ -4,6 +4,7 @@ const adminController = require('../controllers/adminController')
 // const verify_token = process.env.VERIFY_TOKEN
 // const app_id = process.env.APP_ID
 // const app_secret = process.env.APP_SECRET
+
 let data = []
 module.exports = (app, passport, client) => {
 
@@ -60,9 +61,9 @@ module.exports = (app, passport, client) => {
   app.post('/pay/callback', authenticated, userController.pay)
   app.get('/admin/pay/callback', authenticated, userController.adminPay)
 
-  //app.get('/pay', authenticated, userController.payDone)
   app.get('/done', authenticatedAdmin, (req, res) => {
     data = []
+    res.redirect('back')
   })
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', (req, res) => {
@@ -145,11 +146,11 @@ module.exports = (app, passport, client) => {
     /** UPDATE YOUR VERIFY TOKEN **/
     const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
-    console.log("VERIFY_TOKEN", VERIFY_TOKEN)
-    console.log("req.query: ", req.query)
-    console.log("req.query['hub.mode']: ", req.query['hub.mode'])
-    console.log("req.query['hub.verify_token']: ", req.query['hub.verify_token'])
-    console.log("req.query['hub.challenge']: ", req.query['hub.challenge'])
+    //console.log("VERIFY_TOKEN", VERIFY_TOKEN)
+    //console.log("req.query: ", req.query)
+    //console.log("req.query['hub.mode']: ", req.query['hub.mode'])
+    //console.log("req.query['hub.verify_token']: ", req.query['hub.verify_token'])
+    //console.log("req.query['hub.challenge']: ", req.query['hub.challenge'])
     // Parse params from the webhook verification request
 
     if (
