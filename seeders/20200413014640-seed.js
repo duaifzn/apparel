@@ -50,11 +50,13 @@ module.exports = {
       updatedAt: new Date()
     }]);
     queryInterface.bulkInsert('Catogories', [{
+      id: 1,
       name: '衣服',
       createdAt: new Date(),
       updatedAt: new Date()
     },
     {
+      id: 2,
       name: '食品',
       createdAt: new Date(),
       updatedAt: new Date()
