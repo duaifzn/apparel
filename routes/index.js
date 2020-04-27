@@ -99,9 +99,11 @@ module.exports = (app, passport, client) => {
           break;
         case '產品有瑕疵':
           client.sendText(userId, '將會有專人為您服務');
+          data.push(userId);
           break;
         case '使用上問題':
           client.sendText(userId, '將會有專人為您服務');
+          data.push(userId);
           break;
         case '其他問題':
           client.sendText(userId, '將會有專人為您服務');
