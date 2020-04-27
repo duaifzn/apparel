@@ -26,6 +26,7 @@ passport.use(new LocalStrategy(
 // serialize and deserialize user
 passport.serializeUser((user, cb) => {
   cb(null, user.id)
+
 })
 passport.deserializeUser((id, cb) => {
   User.findByPk(id, { include: [CartProduct, Order] }).then(user => {

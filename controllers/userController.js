@@ -158,6 +158,7 @@ const userController = {
   itemPage: (req, res) => {
     Product.findByPk(req.params.item_id, { include: Catogory })
       .then(product => {
+        console.log(product)
         res.render('itemPage', JSON.parse(JSON.stringify({ product: product, catogory: product.Catogory })))
       })
   },
