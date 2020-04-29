@@ -5,7 +5,7 @@ const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash')
-const redis = require('redis')
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -35,6 +35,15 @@ app.use(session({
   saveUninitialized: false
 }
 ))
+const redis = require("redis");
+const redisClient = redis.createClient();
+
+redisClient.on("error", function (error) {
+  console.error(error);
+});
+//redisClient.hmset(777, ["foo", "barss",])
+//redisClient.set('nodejs', "123", redis.print);
+//redisClient.get("nodejs", redis.print);
 
 
 app.use(passport.initialize())
@@ -53,4 +62,4 @@ app.listen(port, () => {
   console.log(`Enter http://localhost:${port}/ if you run this app on your local computer.`)
 })
 
-module.exports = app
+module.exports = { app, redisClient }

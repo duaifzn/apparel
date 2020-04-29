@@ -1,5 +1,6 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs')
+const { redisClient } = require('../app')
 const Product = db.Product
 const Cart = db.Cart
 const Catogory = db.Catogory
@@ -152,7 +153,10 @@ const userController = {
   },
   catogoryitems: (req, res) => {
     Product.findAll({ where: { CatogoryId: req.params.catogory_id } }).then(products => {
-      res.render('itemsPage', JSON.parse(JSON.stringify({ products: products })))
+      Catogory.findByPk(req.params.catogory_id)
+        .then(catogory => {
+          return res.render('itemsPage', JSON.parse(JSON.stringify({ products: products, catogory: catogory })))
+        })
     })
   },
   itemPage: (req, res) => {
@@ -174,6 +178,7 @@ const userController = {
   },
   addCart: (req, res) => {
     //console.log(req.body)
+    //redisClient.hmset(req.user.id, [req.body.productId, req.body.amount,])
     CartProduct.findOrCreate({
       where: { UserId: req.user.id, ProductId: req.body.productId },
       defaults: {

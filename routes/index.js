@@ -6,7 +6,7 @@ const adminController = require('../controllers/adminController')
 // const app_secret = process.env.APP_SECRET
 
 let data = []
-module.exports = (app, passport, client) => {
+module.exports = (app, passport, client, redisClient) => {
 
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -100,18 +100,23 @@ module.exports = (app, passport, client) => {
           break;
         case '產品有瑕疵':
           client.sendText(userId, '將會有專人為您服務');
+          if (data.length > 50) data = []
           data.push(userId);
           break;
         case '使用上問題':
           client.sendText(userId, '將會有專人為您服務');
+          if (data.length > 50) data = []
           data.push(userId);
           break;
         case '其他問題':
           client.sendText(userId, '將會有專人為您服務');
+          if (data.length > 50) data = []
           data.push(userId);
           break;
         case '如何購買':
           client.sendText(userId, '申請會員，進入網站下單購買');
+          if (data.length > 50) data = []
+          data.push(userId);
           break;
         default:
           client.sendText(userId, '需要幫忙嗎?', {
