@@ -18,7 +18,7 @@
           <div class="input-group-prepend">
             <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a>
           </div>
-          <input type="text" class="" id="amount" name="amount" value={{this.amount}}>
+          <input type="text" class="w-25" id="amount" name="amount" value={{this.amount}}>
           <div class="input-group-append">
             <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a>
           </div>
@@ -32,7 +32,7 @@
 </table>
 <form action="/checkorder" method="POST">
   <div class="row">
-    <div class="col border">
+    <div class="col-12 col-md border">
       <h4>顧客資訊</h4>
 
       <div class="form-group">
@@ -53,7 +53,7 @@
       </div>
 
     </div>
-    <div class="col border">
+    <div class="col-12 col-md border">
       <h4>配送資訊</h4>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="transport" id="transport" value="1" checked>
@@ -82,7 +82,7 @@
     </div>
   </div>
   <div class="row">
-    <strong>總額: {{totalPrice}} 元</strong>
+    <strong class="m-auto">總額: {{totalPrice}} 元</strong>
   </div>
   <input type="text" name="totalPrice" value="{{totalPrice}}" hidden>
   <button type="submit" class="btn btn-success btn-block btn-lg">確認訂單</button>

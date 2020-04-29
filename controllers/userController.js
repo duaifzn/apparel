@@ -1,6 +1,5 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs')
-const { redisClient } = require('../app')
 const Product = db.Product
 const Cart = db.Cart
 const Catogory = db.Catogory
@@ -297,6 +296,12 @@ const userController = {
       return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order[0], tradeInfo: tradeInfo })))
     })
   },
+  // lookOrder: (req, res) => {
+  //   Order.findByPk(req.params.order_id, { include: Product })
+  //     .then(order => {
+  //       res.render('lookOrder', JSON.parse(JSON.stringify({ order: order })))
+  //     })
+  // },
   pay: (req, res) => {
     console.log(req.method)
     console.log(req.query)

@@ -11,44 +11,53 @@
 <body>
   <header class="fixed-top">
     {{!-- Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex ">
       <a class="navbar-brand font-weight-bold ml-1" href="/">
         <h3>LOGO</h3>
       </a>
-      <div class="navbar-collapse offcanvas-collapse col-12 col-sm-5 col-md-3 d-flex justify-content-end"
-        id="navbarsExampleDefault">
-        <div class="buttons col-8 mx-1 px-1 d-flex justify-content-end">
-          {{!-- {{#ifRole user.role }}
-          <a href="/admin" class="text-light btn btn-warning font-weight-bold mx-1">
-            <i class="fas fa-users-cog"></i>
-          </a>
-          {{/ifRole}} --}}
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <ul class="navbar-nav">
           {{#if user}}
-          <div class="dropdown">
-            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="far fa-user text-white"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               {{#if user.Orders}}
               {{#each user.Orders}}
-              <a class="dropdown-item">訂單{{this.dataValues.id}}</a>
+              <a href="/checkorder/{{this.dataValues.id}}" class="dropdown-item">訂單{{this.dataValues.id}}</a>
               {{/each}}
               {{else}}
               <a class="dropdown-item">無訂單</a>
               {{/if}}
             </div>
-          </div>
-          <a class="btn" href="/cart"><i class="fas fa-shopping-cart text-white"></i> <span
-              class="badge badge-light">{{user.CartProducts.length}}</span></a>
-          <a href="/logout" class="font-weight-bold ml-2 mt-1 text-white">LogOut</a>
+          </li>
+          <li class="nav-item ">
+            <a class="btn mt-1" href="/cart"><i class="fas fa-shopping-cart text-white"></i> <span
+                class="badge badge-light">{{user.CartProducts.length}}</span></a>
+          </li>
+          <li class="nav-item">
+            <a href="/logout" class="btn font-weight-bold text-white">LogOut</a>
+          </li>
           {{else}}
-          <a class="btn" href="/signin"><i class="far fa-user text-white"></i></a>
-          <a class="btn" href="/signin"><i class="fas fa-shopping-cart text-white"></i> <span
-              class="badge badge-light">{{user.CartProducts.length}}</span></a>
-          <a href="/signin" class="font-weight-bold ml-2 mt-1 text-white">LogIn</a>
+          <li class="nav-item">
+            <a class="btn" href="/signin"><i class="far fa-user text-white"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" href="/signin"><i class="fas fa-shopping-cart text-white"></i> <span
+                class="badge badge-light">{{user.CartProducts.length}}</span></a>
+          </li>
+          <li class="nav-item">
+            <a href="/signin" class="btn font-weight-bold text-white">LogIn</a>
+          </li>
           {{/if}}
-        </div>
+
+        </ul>
       </div>
     </nav>
     {{#if success_messages}}

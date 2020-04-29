@@ -19,7 +19,7 @@
           <div class="input-group-prepend">
             <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a>
           </div>
-          <input type="text" class="" id="amount" name="amount" value={{this.amount}}>
+          <input type="text" class="w-25" id="amount" name="amount" value={{this.amount}}>
           <div class="input-group-append">
             <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a>
           </div>
@@ -36,18 +36,17 @@
     <tr>
       <th scope="col"></th>
       <th scope="col"></th>
+      <th scope="col" class="text-center">合計</th>
       <th scope="col"></th>
-      <th scope="col">合計</th>
       <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-
     <tr>
       <th scope="row"></th>
       <td></td>
+      <td class="text-center">${{totalPrice}}</td>
       <td></td>
-      <td>${{totalPrice}}</td>
       <td></td>
     </tr>
   </tbody>

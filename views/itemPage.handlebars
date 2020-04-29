@@ -7,7 +7,7 @@
   </ol>
 </nav>
 <div class="row">
-  <div id="carouselExampleIndicators" class="carousel slide col-6" data-ride="carousel">
+  <div id="carouselExampleIndicators" class="carousel slide col-12 col-md-6" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -30,7 +30,7 @@
     </a>
   </div>
 
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <h2>{{product.name}}</h2>
     <h4>${{product.price}}</h4>
     <p>{{product.introduction}}</p>
@@ -39,7 +39,7 @@
         <div class="input-group-prepend">
           <button class="btn btn-outline-dark" type="button" onclick="reduce()">-</button>
         </div>
-        <input type="text" class="" id="amount" name="amount" value="1">
+        <input type="text" class="w-25" id="amount" name="amount" value="1">
         <div class="input-group-append">
           <button class="btn btn-outline-dark" type="button" onclick="add()">+</button>
         </div>

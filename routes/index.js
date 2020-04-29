@@ -6,7 +6,7 @@ const adminController = require('../controllers/adminController')
 // const app_secret = process.env.APP_SECRET
 
 let data = []
-module.exports = (app, passport, client, redisClient) => {
+module.exports = (app, passport, client) => {
 
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -57,6 +57,8 @@ module.exports = (app, passport, client, redisClient) => {
   //將購買資訊寫入訂單資料庫，顯示訂單資訊成功刪除購物車內容
   app.post('/checkorder', authenticated, userController.checkOrder)
   app.get('/checkorder', authenticated, userController.getOrder)
+  //查看訂單
+  //app.get('/checkorder/:order_id', authenticated, userController.lookOrder)
   //藍金callback
   app.post('/pay/callback', authenticated, userController.pay)
   app.get('/admin/pay/callback', authenticated, userController.adminPay)
