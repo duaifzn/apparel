@@ -30,7 +30,7 @@
     {{/each}}
   </tbody>
 </table>
-<form action="/checkorder" method="POST">
+<form action="/checkorder" method="POST" onsubmit="preventDouble()">
   <div class="row">
     <div class="col-12 col-md border">
       <h4>顧客資訊</h4>
@@ -85,7 +85,7 @@
     <strong class="m-auto">總額: {{totalPrice}} 元</strong>
   </div>
   <input type="text" name="totalPrice" value="{{totalPrice}}" hidden>
-  <button type="submit" class="btn btn-success btn-block btn-lg">確認訂單</button>
+  <button type="submit" class="dd btn btn-success btn-block btn-lg">確認訂單</button>
 </form>
 <script>
   function Equal() {

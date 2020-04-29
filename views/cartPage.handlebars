@@ -17,11 +17,17 @@
       <td>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a>
+            <form action="/cart/reduce/{{this.ProductId}}" onsubmit="preventDouble()">
+              <button type="submit" class="dd btn btn-outline-dark">-</button>
+            </form>
+            {{!-- <a href="/cart/reduce/{{this.ProductId}}" class="btn btn-outline-dark">-</a> --}}
           </div>
           <input type="text" class="w-25" id="amount" name="amount" value={{this.amount}}>
           <div class="input-group-append">
-            <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a>
+            <form action="/cart/add/{{this.ProductId}}" onsubmit="preventDouble()">
+              <button type="submit" class="dd btn btn-outline-dark">+</button>
+            </form>
+            {{!-- <a href="/cart/add/{{this.ProductId}}" class="btn btn-outline-dark">+</a> --}}
           </div>
         </div>
       </td>

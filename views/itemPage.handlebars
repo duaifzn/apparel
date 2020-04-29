@@ -34,7 +34,7 @@
     <h2>{{product.name}}</h2>
     <h4>${{product.price}}</h4>
     <p>{{product.introduction}}</p>
-    <form action="/cart" method="POST">
+    <form action="/cart" method="POST" onsubmit="preventDouble()">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <button class="btn btn-outline-dark" type="button" onclick="reduce()">-</button>
@@ -44,7 +44,7 @@
           <button class="btn btn-outline-dark" type="button" onclick="add()">+</button>
         </div>
       </div>
-      <button class="btn btn-outline-primary" type="submit">加入購物車</button>
+      <button class="dd btn btn-outline-primary" type="submit">加入購物車</button>
       <input type="text" class="invisible" id="productId" name="productId" value="{{product.id}}">
       <input type="text" class="invisible" id="productPrice" name="productPrice" value="{{product.price}}">
 
@@ -62,4 +62,5 @@
     if (amount > 1) { amount-- }
     document.getElementById("amount").value = amount
   }
+
 </script>

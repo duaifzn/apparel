@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class="card-footer">
-    <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST">
-      <button type="submit" class="btn btn-success btn-lg btn-block">付款</button>
+    <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST" onsubmit="preventDouble()">
+      <button type="submit" class="dd btn btn-success btn-lg btn-block">付款</button>
       <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden>
 
       <input type="text" name="TradeInfo" value="{{tradeInfo.TradeInfo}} " hidden>

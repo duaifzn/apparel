@@ -113,7 +113,15 @@
   <div class="fb-customerchat" page_id="107752854246986" greeting_dialog_display="hide" logged_in_greeting="您好~"
     logged_out_greeting="您好~">
   </div>
-
+  <script>
+    function preventDouble() {
+      let x = document.getElementsByClassName("dd")
+      for (let i = 0; i < x.length; i++) {
+        x[i].disabled = true
+      }
+      return true
+    }
+  </script>
 
 </body>
 
