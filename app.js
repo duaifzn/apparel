@@ -19,7 +19,12 @@ const client = MessengerClient.connect({
   appSecret: process.env.APP_SECRET,
   version: '6.0',
 });
-
+client.setGreeting([
+  {
+    locale: 'default',
+    text: 'Hello!',
+  },
+]);
 
 
 

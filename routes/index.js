@@ -75,7 +75,6 @@ module.exports = (app, passport, client) => {
     //console.log(event)
     const userId = event.sender.id; // 傳話給你的使用者 id
     const text = event.message.text; // 使用者講的話
-
     //console.log(data)
     if (!data.includes(userId)) {
       switch (text) {
