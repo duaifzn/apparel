@@ -22,6 +22,8 @@ module.exports = {
       price: 360,
       cost: 200,
       catogoryId: 2,
+      new: false,
+      popular: true,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -34,6 +36,8 @@ module.exports = {
       price: 880,
       cost: 600,
       catogoryId: 1,
+      new: true,
+      popular: false,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -46,6 +50,8 @@ module.exports = {
       price: 580,
       cost: 400,
       catogoryId: 1,
+      new: true,
+      popular: true,
       createdAt: new Date(),
       updatedAt: new Date()
     }]);

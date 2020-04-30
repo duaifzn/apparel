@@ -32,6 +32,12 @@ module.exports = {
       CatogoryId: {
         type: Sequelize.INTEGER
       },
+      new: {
+        type: Sequelize.INTEGER
+      },
+      popular: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

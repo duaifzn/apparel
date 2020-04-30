@@ -12,13 +12,13 @@ if (process.env.NODE_ENV !== 'production') {
 const passport = require('./config/passport')
 const app = express()
 const port = process.env.PORT || 3000
-const { MessengerClient } = require('messaging-api-messenger');
-const client = MessengerClient.connect({
-  accessToken: process.env.ACCESS_TOKEN,
-  appId: process.env.APP_ID,
-  appSecret: process.env.APP_SECRET,
-  version: '6.0',
-});
+// const { MessengerClient } = require('messaging-api-messenger');
+// const client = MessengerClient.connect({
+//   accessToken: process.env.ACCESS_TOKEN,
+//   appId: process.env.APP_ID,
+//   appSecret: process.env.APP_SECRET,
+//   version: '6.0',
+// });
 
 
 
@@ -47,10 +47,10 @@ app.use((req, res, next) => {
   next()
 })
 
-require('./routes')(app, passport, client)
+require('./routes')(app, passport)
 
 app.listen(port, () => {
   console.log(`Enter http://localhost:${port}/ if you run this app on your local computer.`)
 })
 
-module.exports = app
+module.exports = app 
