@@ -69,79 +69,150 @@ module.exports = (app, passport, client) => {
   })
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', (req, res) => {
-    //console.log('app.post /webhook')
-    //console.log(req.body)
+    console.log('app.post /webhook')
+    console.log(req.body)
     const event = req.body.entry[0].messaging[0];
-    //console.log(event)
+    //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
-    const text = event.message.text; // 使用者講的話
-    //console.log(data)
-    if (!data.includes(userId)) {
-      switch (text) {
-        case '產品問題':
-          client.sendText(userId, '問題種類?', {
-            quick_replies: [
-              {
-                content_type: 'text',
-                title: '產品有瑕疵',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-              {
-                content_type: 'text',
-                title: '使用上問題',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-              {
-                content_type: 'text',
-                title: '其他問題',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-            ],
-          });
-          break;
-        case '產品有瑕疵':
-          client.sendText(userId, '將會有專人為您服務');
-          if (data.length > 50) data = []
-          data.push(userId);
-          break;
-        case '使用上問題':
-          client.sendText(userId, '將會有專人為您服務');
-          if (data.length > 50) data = []
-          data.push(userId);
-          break;
-        case '其他問題':
-          client.sendText(userId, '將會有專人為您服務');
-          if (data.length > 50) data = []
-          data.push(userId);
-          break;
-        case '如何購買':
-          client.sendText(userId, '申請會員，進入網站下單購買');
-          if (data.length > 50) data = []
-          data.push(userId);
-          break;
-        default:
-          client.sendText(userId, '需要幫忙嗎?', {
-            quick_replies: [
-              {
-                content_type: 'text',
-                title: '產品問題',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
-              },
-              {
-                content_type: 'text',
-                title: '如何購買',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-              {
-                content_type: 'text',
-                title: '其他問題',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-            ],
-          });
-          break;
+    if (event.message) {
+      const text = event.message.text; // 使用者講的話
+      if (!data.includes(userId)) {
+        switch (text) {
+          case '產品問題':
+            client.sendText(userId, '問題種類?', {
+              quick_replies: [
+                {
+                  content_type: 'text',
+                  title: '產品有瑕疵',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+                },
+                {
+                  content_type: 'text',
+                  title: '使用上問題',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+                },
+                {
+                  content_type: 'text',
+                  title: '其他問題',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+                },
+              ],
+            });
+            break;
+          case '產品有瑕疵':
+            client.sendText(userId, '將會有專人為您服務');
+            if (data.length > 50) data = []
+            data.push(userId);
+            break;
+          case '使用上問題':
+            client.sendText(userId, '將會有專人為您服務');
+            if (data.length > 50) data = []
+            data.push(userId);
+            break;
+          case '其他問題':
+            client.sendText(userId, '將會有專人為您服務');
+            if (data.length > 50) data = []
+            data.push(userId);
+            break;
+          case '如何購買':
+            client.sendText(userId, '申請會員，進入網站下單購買');
+            if (data.length > 50) data = []
+            data.push(userId);
+            break;
+          default:
+            client.sendText(userId, '需要幫忙嗎?', {
+              quick_replies: [
+                {
+                  content_type: 'text',
+                  title: '產品問題',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
+                },
+                {
+                  content_type: 'text',
+                  title: '如何購買',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+                },
+                {
+                  content_type: 'text',
+                  title: '其他問題',
+                  payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+                },
+              ],
+            });
+            break;
+        }
       }
     }
+    if (event.referral) {
+      console.log('event.referral: ', event.referral)
+      client.sendMessage(userId, {
+        text: '帥哥美女好!!為您推薦熱銷商品',
+      });
+      client.sendGenericTemplate(
+        userId,
+        [
+          {
+            title: "True麵",
+            image_url: 'https://i.imgur.com/qNlOYjl.png',
+            subtitle: "巷口小吃裡，最令人懷念的熟悉滋味，甜辣口...",
+            default_action: {
+              type: 'web_url',
+              url: 'https://fecd3db3.ngrok.io',
+              messenger_extensions: true,
+              webview_height_ratio: 'tall',
+              fallback_url: 'https://fecd3db3.ngrok.io/items/1',
+            },
+            buttons: [
+              {
+                type: 'postback',
+                title: '獲取折扣碼',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD',
+              },
+            ],
+          },
+          {
+            title: "男士商務襯衫",
+            image_url: 'https://i.imgur.com/GXZW9Ly.png',
+            subtitle: "流線型剪裁，簡單俐落，採用富有彈性的科技...",
+            default_action: {
+              type: 'web_url',
+              url: 'https://fecd3db3.ngrok.io',
+              messenger_extensions: true,
+              webview_height_ratio: 'tall',
+              fallback_url: 'https://fecd3db3.ngrok.io/items/2',
+            },
+            buttons: [
+              {
+                type: 'postback',
+                title: '獲取折扣碼',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD',
+              },
+            ],
+          },
+          {
+            title: "涼感衣 (V領Skull)",
+            image_url: 'https://i.imgur.com/kTCoKDr.png',
+            subtitle: "惡名昭彰的全新《IcedLite™ 冰涼...",
+            default_action: {
+              type: 'web_url',
+              url: 'https://fecd3db3.ngrok.io',
+              messenger_extensions: true,
+              webview_height_ratio: 'tall',
+              fallback_url: 'https://fecd3db3.ngrok.io/items/3',
+            },
+            buttons: [
+              {
+                type: 'postback',
+                title: '獲取折扣碼',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD',
+              },
+            ],
+          },
+        ],
+        { image_aspect_ratio: 'square' }
+      );
+    }
+
 
 
     res.sendStatus(200);

@@ -80,8 +80,11 @@
   <footer class="mt-5 pt-5">
 
     <p class="d-flex justify-content-center">Copyright 2020 by author</p>
-
   </footer>
+  <div class="fb-customerchat" page_id="107752854246986" ref="messaging_postbacks" logged_in_greeting="你好~~"
+    logged_out_greeting="你好~~" greeting_dialog_display="hide">
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
@@ -109,11 +112,10 @@
       js.src = "https://connect.facebook.net/zh_TW/sdk/xfbml.customerchat.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
   </script>
-  <div class="fb-customerchat" page_id="107752854246986" greeting_dialog_display="hide" logged_in_greeting="您好~"
-    logged_out_greeting="您好~">
-  </div>
   <script>
+
     function preventDouble() {
       let x = document.getElementsByClassName("dd")
       for (let i = 0; i < x.length; i++) {
