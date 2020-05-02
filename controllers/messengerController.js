@@ -94,7 +94,12 @@ const messengerController = {
               .then((order) => {
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
                 //end_date.diff(start_date, 'days')
-                let time = moment().diff(order.updatedAt, 'days')
+                let time
+                if (order) {
+                  time = moment().diff(order.updatedAt, 'days')
+                }
+
+
                 if (time > 7 && order) {
                   ReturnUser.splice(ReturnUser.indexOf(userId), 1)
                   client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
