@@ -87,7 +87,7 @@ const messengerController = {
       const text = event.message.text; // 使用者講的話
       console.log(event.message)
       console.log('@@@@ReturnUser[userId]: ', ReturnUser[userId])
-      if (ReturnUser[userId]) {
+      if (ReturnUser[userId] && !isNaN(text)) {
         switch (ReturnUser[userId].status) {
           case 1:
             Order.findOne({ where: { id: Number(text) } })
@@ -189,6 +189,10 @@ const messengerController = {
         }
 
 
+      }
+      else if (ReturnUser[userId] && isNaN(text)) {
+        ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+        client.sendText(userId, '查無此訂單');
       }
       else {
         switch (text) {
