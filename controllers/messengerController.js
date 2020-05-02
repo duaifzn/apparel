@@ -101,19 +101,20 @@ const messengerController = {
 
 
                 if (time > 7 && order) {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+
+                  delete ReturnUser[userId]
                   client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
                 }
                 else if (order && order.payment === '未付款') {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
                 }
                 else if (order && order.orderStatus === '退貨申請中') {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單退貨申請中');
                 }
                 else if (order && order.orderStatus === '退貨中') {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單退貨中，並進行退款。請備妥發票，將會派人到府收件')
                   client.sendTemplate(userId, {
                     template_type: 'button',
@@ -128,7 +129,7 @@ const messengerController = {
                   });
                 }
                 else if (order && order.orderStatus === '已退貨') {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單已退貨完成');
                 }
                 else if (time < 7 && order && order.payment === '已付款') {
@@ -139,12 +140,12 @@ const messengerController = {
                   // order.update({
                   //   orderStatus: "退貨申請中"
                   // }).then(() => {
-                  //   ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  //   delete ReturnUser[userId]
                   //   client.sendText(userId, '您的訂單退貨申請中');
                   // })
                 }
                 else {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '查無此訂單');
                 }
               })
@@ -158,12 +159,12 @@ const messengerController = {
                   client.sendText(userId, '請輸入電話:');
                 }
                 else {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '姓名與訂單不符');
                 }
               }
               else {
-                ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                delete ReturnUser[userId]
                 client.sendText(userId, '查無此人');
               }
             })
@@ -176,12 +177,12 @@ const messengerController = {
                   client.sendText(userId, '您的訂單退貨申請中');
                 }
                 else {
-                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  delete ReturnUser[userId]
                   client.sendText(userId, '電話與姓名不符');
                 }
               }
               else {
-                ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                delete ReturnUser[userId]
                 client.sendText(userId, '查無此電話');
               }
             })
@@ -191,7 +192,8 @@ const messengerController = {
 
       }
       else if (ReturnUser[userId] && isNaN(text)) {
-        ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+        delete ReturnUser[userId]
+
         client.sendText(userId, '查無此訂單');
       }
       else {
