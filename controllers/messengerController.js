@@ -87,9 +87,10 @@ const messengerController = {
       const text = event.message.text; // 使用者講的話
       console.log(event.message)
       console.log('@@@@ReturnUser[userId]: ', ReturnUser[userId])
-      if (ReturnUser[userId] && !isNaN(text)) {
+      if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
           case 1:
+            if (isNaN(Number(text))) break;
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
@@ -190,11 +191,6 @@ const messengerController = {
         }
 
 
-      }
-      else if (ReturnUser[userId] && isNaN(text)) {
-        delete ReturnUser[userId]
-
-        client.sendText(userId, '查無此訂單');
       }
       else {
         switch (text) {
