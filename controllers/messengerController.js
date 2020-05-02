@@ -90,7 +90,11 @@ const messengerController = {
       if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
           case 1:
-            if (isNaN(Number(text))) break;
+            if (isNaN(Number(text))) {
+              delete ReturnUser[userId]
+              client.sendText(userId, '查無此訂單');
+              break;
+            }
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
