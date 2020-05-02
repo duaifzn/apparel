@@ -15,7 +15,7 @@ const Order = db.Order
 const OrderProduct = db.OrderProduct
 const User = db.User
 const Transport = db.Transport
-let URL = 'https://00ec8a93.ngrok.io'
+let URL = 'https://hidden-cliffs-50028.herokuapp.com/'
 let data = []
 let ReturnUser = []
 let newProduct = []
@@ -226,33 +226,27 @@ const messengerController = {
     }
     if (event.referral) {
       console.log('event.referral: ', event.referral)
-      client.sendMessage(userId, {
-        text: '帥哥美女好!!為您推薦新商品',
-      }).then(() => {
-        client.sendGenericTemplate(
-          userId, newProduct, { image_aspect_ratio: 'square' }
-        ).then(() => {
-          client.sendText(userId, '需要任何幫助嗎?', {
-            quick_replies: [
-              {
-                content_type: 'text',
-                title: '熱銷產品',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
-              },
-              {
-                content_type: 'text',
-                title: '退貨',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-              {
-                content_type: 'text',
-                title: '其他問題',
-                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-              },
-            ],
-          });
-        })
-      })
+      client.sendMessage(userId, { text: '帥哥美女好!!為您推薦新商品' })
+      client.sendGenericTemplate(userId, newProduct, { image_aspect_ratio: 'square' })
+      client.sendText(userId, '需要任何幫助嗎?', {
+        quick_replies: [
+          {
+            content_type: 'text',
+            title: '熱銷產品',
+            payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
+          },
+          {
+            content_type: 'text',
+            title: '退貨',
+            payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+          },
+          {
+            content_type: 'text',
+            title: '其他問題',
+            payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+          },
+        ],
+      });
 
     }
 
