@@ -99,7 +99,7 @@ const messengerController = {
               .then((order) => {
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
                 //end_date.diff(start_date, 'days')
-                let time
+                let time = 0
                 if (order) {
                   time = moment().diff(order.updatedAt, 'days')
                 }
