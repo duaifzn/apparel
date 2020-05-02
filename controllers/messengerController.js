@@ -90,11 +90,11 @@ const messengerController = {
       if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
           case 1:
-            // if (isNaN(text)) {
-            //   delete ReturnUser[userId]
-            //   client.sendText(userId, '查無此訂單');
-            //   break;
-            // }
+            if (isNaN(Number(text))) {
+              delete ReturnUser[userId]
+              client.sendText(userId, '查無此訂單');
+              break;
+            }
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
                 console.log('orrrrrrrrrr', order)
@@ -111,7 +111,7 @@ const messengerController = {
                   delete ReturnUser[userId]
                   client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
                 }
-                else if (order && order.payment === '未付款') {
+                else if (order && order.orderStatus === '未付款') {
                   delete ReturnUser[userId]
                   client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
                 }
@@ -138,7 +138,7 @@ const messengerController = {
                   delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單已退貨完成');
                 }
-                else if (time < 7 && order && order.payment === '已付款') {
+                else if (time < 7 && order && order.orderStatus === '已付款') {
                   ReturnUser[userId].status = 2
                   ReturnUser[userId].order = order.id
                   ReturnUser[userId].orderUserId = order.UserId
