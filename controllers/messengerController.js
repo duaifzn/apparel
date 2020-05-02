@@ -86,56 +86,104 @@ const messengerController = {
     if (event.message) {
       const text = event.message.text; // 使用者講的話
       console.log(event.message)
-      if (ReturnUser.includes(userId) && req.user) {
-        Order.findOne({ where: { id: Number(text), UserId: req.user.id } })
-          .then((order) => {
-            //如果時間大於七天顯示已過七天鑑賞期無法退貨
-            //end_date.diff(start_date, 'days')
-            let time = moment().diff(order.updatedAt, 'days')
-            if (time > 7 && order) {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
-            }
-            else if (order && order.payment === '未付款') {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
-            }
-            else if (order && order.orderStatus === '退貨申請中') {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '您的訂單退貨申請中');
-            }
-            else if (order && order.orderStatus === '退貨中') {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '您的訂單退貨中，並進行退款。請備妥發票，將會派人到府收件')
-              client.sendTemplate(userId, {
-                template_type: 'button',
-                text: '商品不符合期待非常抱歉，這裡提供九折優惠碼，歡迎再度光臨',
-                buttons: [
-                  {
-                    type: 'postback',
-                    title: '獲取折扣碼',
-                    payload: 'USER_DEFINED_PAYLOAD',
-                  },
-                ],
-              });
-            }
-            else if (order && order.orderStatus === '已退貨') {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '您的訂單已退貨完成');
-            }
-            else if (time < 7 && order && order.payment === '已付款') {
-              order.update({
-                orderStatus: "退貨申請中"
-              }).then(() => {
-                ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-                client.sendText(userId, '您的訂單退貨申請中');
+      console.log('@@@@ReturnUser[userId]: ', ReturnUser[userId])
+      if (ReturnUser[userId]) {
+        switch (ReturnUser[userId].status) {
+          case 1:
+            Order.findOne({ where: { id: Number(text) } })
+              .then((order) => {
+                //如果時間大於七天顯示已過七天鑑賞期無法退貨
+                //end_date.diff(start_date, 'days')
+                let time = moment().diff(order.updatedAt, 'days')
+                if (time > 7 && order) {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
+                }
+                else if (order && order.payment === '未付款') {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
+                }
+                else if (order && order.orderStatus === '退貨申請中') {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '您的訂單退貨申請中');
+                }
+                else if (order && order.orderStatus === '退貨中') {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '您的訂單退貨中，並進行退款。請備妥發票，將會派人到府收件')
+                  client.sendTemplate(userId, {
+                    template_type: 'button',
+                    text: '商品不符合期待非常抱歉，這裡提供九折優惠碼，歡迎再度光臨',
+                    buttons: [
+                      {
+                        type: 'postback',
+                        title: '獲取折扣碼',
+                        payload: 'USER_DEFINED_PAYLOAD',
+                      },
+                    ],
+                  });
+                }
+                else if (order && order.orderStatus === '已退貨') {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '您的訂單已退貨完成');
+                }
+                else if (time < 7 && order && order.payment === '已付款') {
+                  ReturnUser[userId].status = 2
+                  ReturnUser[userId].order = order.id
+                  ReturnUser[userId].orderUserId = order.UserId
+                  client.sendText(userId, '請輸入姓名:');
+                  // order.update({
+                  //   orderStatus: "退貨申請中"
+                  // }).then(() => {
+                  //   ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  //   client.sendText(userId, '您的訂單退貨申請中');
+                  // })
+                }
+                else {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '查無此訂單');
+                }
               })
-            }
-            else {
-              ReturnUser.splice(ReturnUser.indexOf(userId), 1)
-              client.sendText(userId, '查無此訂單');
-            }
-          })
+            break;
+          case 2:
+            User.findOne({ where: { name: text } }).then((user) => {
+              if (user) {
+                if (user.id === order.UserId) {
+                  ReturnUser[userId].name = text
+                  ReturnUser[userId].status = 3
+                  client.sendText(userId, '請輸入電話:');
+                }
+                else {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '姓名與訂單不符');
+                }
+              }
+              else {
+                ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                client.sendText(userId, '查無此人');
+              }
+            })
+            break;
+          case 3:
+            User.findOne({ where: { telephone: text } }).then((user) => {
+              if (user) {
+                if (user.id === ReturnUser[userId].orderUserId) {
+                  ReturnUser[userId].phone = text
+                  client.sendText(userId, '您的訂單退貨申請中');
+                }
+                else {
+                  ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                  client.sendText(userId, '電話與姓名不符');
+                }
+              }
+              else {
+                ReturnUser.splice(ReturnUser.indexOf(userId), 1)
+                client.sendText(userId, '查無此電話');
+              }
+            })
+            break;
+        }
+
+
       }
       else {
         switch (text) {
@@ -164,7 +212,14 @@ const messengerController = {
               })
             break;
           case '退貨':
-            ReturnUser[userId] = 1
+            let data = {
+              status: 1,
+              order: '',
+              orderUserId: '',
+              name: '',
+              phone: ''
+            }
+            ReturnUser[userId] = data
             console.log(ReturnUser)
             client.sendText(userId, '請輸入訂單編號為您退貨');
             break;
