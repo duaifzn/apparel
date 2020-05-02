@@ -126,8 +126,9 @@ const userController = {
           name: req.body.name,
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, 10),
-          role: 'user',
-          avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/512px-User_font_awesome.svg.png'
+          address: req.body.address,
+          telephone: req.body.telephone,
+          role: 'user'
         }).then(user => {
           req.flash('success_messages', '成功註冊')
           return res.redirect('/signin')

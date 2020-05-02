@@ -275,25 +275,6 @@ const messengerController = {
       console.log('event.referral: ', event.referral)
       client.sendMessage(userId, { text: '帥哥美女好!!為您推薦新商品' })
       client.sendGenericTemplate(userId, newProduct, { image_aspect_ratio: 'square' })
-      // client.sendText(userId, '需要任何幫助嗎?', {
-      //   quick_replies: [
-      //     {
-      //       content_type: 'text',
-      //       title: '熱銷產品',
-      //       payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
-      //     },
-      //     {
-      //       content_type: 'text',
-      //       title: '退貨',
-      //       payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-      //     },
-      //     {
-      //       content_type: 'text',
-      //       title: '其他問題',
-      //       payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-      //     },
-      //   ],
-      // });
 
     }
 
