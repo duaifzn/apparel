@@ -90,7 +90,7 @@ const messengerController = {
       if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
           case 1:
-            if (isNaN(Number(text))) {
+            if (isNaN(text)) {
               delete ReturnUser[userId]
               client.sendText(userId, '查無此訂單');
               break;
