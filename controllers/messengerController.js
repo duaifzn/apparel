@@ -97,6 +97,7 @@ const messengerController = {
             // }
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
+                console.log('orrrrrrrrrr', order)
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
                 //end_date.diff(start_date, 'days')
                 let time = 0
