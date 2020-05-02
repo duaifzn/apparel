@@ -97,7 +97,6 @@ const messengerController = {
             }
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
-                console.log('orrrrrrrrrr', order)
                 //如果時間大於七天顯示已過七天鑑賞期無法退貨
                 //end_date.diff(start_date, 'days')
                 let time = 0
@@ -179,8 +178,11 @@ const messengerController = {
             User.findOne({ where: { telephone: text } }).then((user) => {
               if (user) {
                 if (user.id === ReturnUser[userId].orderUserId) {
-                  delete ReturnUser[userId]
-                  client.sendText(userId, '您的訂單退貨申請中');
+                  Order.update({ orderStatus: '退貨中' }, { where: { id: ReturnUser[userId].order } })
+                    .then(() => {
+                      delete ReturnUser[userId]
+                      client.sendText(userId, '您的訂單退貨申請中');
+                    })
                 }
                 else {
                   delete ReturnUser[userId]
