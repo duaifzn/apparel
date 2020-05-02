@@ -179,7 +179,7 @@ const messengerController = {
             User.findOne({ where: { telephone: text } }).then((user) => {
               if (user) {
                 if (user.id === ReturnUser[userId].orderUserId) {
-                  ReturnUser[userId].phone = text
+                  delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單退貨申請中');
                 }
                 else {
