@@ -33,6 +33,7 @@
     </div>
   </div>
   <div class="card-footer">
+    {{#if tradeInfo}}
     <form name='Spgateway' action='{{tradeInfo.PayGateWay}}' method="POST" onsubmit="preventDouble()">
       <button type="submit" class="dd btn btn-success btn-lg btn-block">付款</button>
       <input type="text" name="MerchantID" value="{{tradeInfo.MerchantID}}" hidden>
@@ -44,6 +45,9 @@
       <input type="text" name="Version" value="{{tradeInfo.Version}}" hidden>
 
     </form>
+    {{else}}
+    <button type="submit" class="dd btn btn-success btn-lg btn-block" disabled>{{order.orderStatus}}</button>
+    {{/if}}
 
   </div>
 </div>

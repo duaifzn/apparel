@@ -57,6 +57,7 @@ module.exports = (app, passport) => {
   //將購買資訊寫入訂單資料庫，顯示訂單資訊成功刪除購物車內容
   app.post('/checkorder', authenticated, userController.checkOrder)
   app.get('/checkorder', authenticated, userController.getOrder)
+  app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
   //查看訂單
   //app.get('/checkorder/:order_id', authenticated, userController.lookOrder)
   //藍金callback
@@ -72,7 +73,9 @@ module.exports = (app, passport) => {
   // Accepts GET requests at the /webhook endpoint
   app.get('/webhook', messengerController.getWebhook)
 
-
+  app.get('*', (req, res) => {
+    res.redirect('/')
+  })
   // //轉跳至 /admin/items
   // app.get('/admin', authenticated, (req, res) => {
   //   res.redirect('/admin/items')

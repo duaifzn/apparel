@@ -19,6 +19,13 @@ const ReturnURL = URL + "/pay/callback?from=ReturnURL"
 const NotifyURL = URL + "/admin/pay/callback?from=NotifyURL"
 const ClientBackURL = URL + "/checkorder"
 
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
 function genDataChain(TradeInfo) {
   let results = [];
   for (let kv of Object.entries(TradeInfo)) {
@@ -252,7 +259,7 @@ const userController = {
     }).then((order) => {
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          cartProducts.forEach(cartProduct => {
+          asyncForEach(cartProducts, cartProduct => {
             OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.productId,
@@ -261,27 +268,27 @@ const userController = {
             }).then(() => {
               cartProduct.destroy()
             })
+          }).then(() => {
+            Order.findAll({
+              where: { UserId: req.user.id },
+              limit: 1,
+              order: [['updatedAt', 'DESC']],
+              include: [Transport]
+            }).then((order) => {
+              //console.log(order)
+              const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+              //console.log(tradeInfo.MerchantOrderNo)
+              order[0].update({
+                sn: tradeInfo.MerchantOrderNo
+              }).then((o) => {
+                //console.log(o)
+                return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
+              })
+
+            })
+
           })
         })
-    }).then(() => {
-      Order.findAll({
-        where: { UserId: req.user.id },
-        limit: 1,
-        order: [['updatedAt', 'DESC']],
-        include: [Transport]
-      }).then((order) => {
-        //console.log(order)
-        const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
-        //console.log(tradeInfo.MerchantOrderNo)
-        order[0].update({
-          sn: tradeInfo.MerchantOrderNo
-        }).then((o) => {
-          //console.log(o)
-          return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
-        })
-
-      })
-
     })
 
   },
@@ -293,16 +300,25 @@ const userController = {
       include: [Transport]
     }).then((order) => {
       //console.log(order)
-      const tradeInfo = getTradeInfo(order[0].totalPrice, '產品名稱', req.user.email)
+      const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
       return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order[0], tradeInfo: tradeInfo })))
     })
   },
-  // lookOrder: (req, res) => {
-  //   Order.findByPk(req.params.order_id, { include: Product })
-  //     .then(order => {
-  //       res.render('lookOrder', JSON.parse(JSON.stringify({ order: order })))
-  //     })
-  // },
+  getAOrder: (req, res) => {
+    Order.findOne({ where: { id: req.params.order_id, UserId: req.user.id } })
+      .then((order) => {
+        if (order && order.orderStatus === '未付款') {
+          const tradeInfo = getTradeInfo(order.totalPrice, 'LOGO產品', req.user.email)
+          return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, tradeInfo: tradeInfo })))
+        }
+        else if (order) {
+          return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order })))
+        }
+        else {
+          return res.redirect('back')
+        }
+      })
+  },
   pay: (req, res) => {
     console.log(req.method)
     console.log(req.query)
