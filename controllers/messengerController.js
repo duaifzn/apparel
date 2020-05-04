@@ -261,11 +261,16 @@ const messengerController = {
 
     }
     if (waitUser.includes(userId)) {
-      client.sendImage(userId, 'https://i.imgur.com/GXZW9Ly.png', {
+      if (event.message) {
+        if (event.message.text === '機器人') {
+          console.log('###################')
+        }
+      }
+      client.sendText(userId, '', {
         quick_replies: [
           {
             content_type: 'text',
-            title: 'Red',
+            title: '機器人',
             payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
           },
         ],
