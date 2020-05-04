@@ -223,7 +223,7 @@ const messengerController = {
           case '其他問題':
             if (waitUser.length > 50) waitUser = []
             waitUser.push(userId);
-            client.sendText(userId, '將會有專人為您服務，輸入');
+            client.sendText(userId, '將會有專人為您服務');
             break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
@@ -261,7 +261,12 @@ const messengerController = {
 
     }
     if (waitUser.includes(userId)) {
-      client.setGetStarted('GET_STARTED')
+
+      if (event.message) {
+        if (event.message.text === 'BOT') {
+          waitUser.splice(waitUser.indexOf(userId), 1)
+        }
+      }
     }
 
     res.sendStatus(200);
