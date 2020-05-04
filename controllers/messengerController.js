@@ -66,6 +66,59 @@ async function asyncForEach(array, callback) {
 const messengerController = {
   postWebhook: (req, res) => {
     console.log('app.post /webhook')
+    client.setGetStarted('GET_STARTED')
+    client.setPersistentMenu([
+      {
+        locale: 'default',
+        call_to_actions: [
+          {
+            title: 'Play Again',
+            type: 'postback',
+            payload: 'RESTART',
+          },
+          {
+            title: 'Language Setting',
+            type: 'nested',
+            call_to_actions: [
+              {
+                title: '中文',
+                type: 'postback',
+                payload: 'CHINESE',
+              },
+              {
+                title: 'English',
+                type: 'postback',
+                payload: 'ENGLISH',
+              },
+            ],
+          },
+          {
+            title: 'Explore D',
+            type: 'nested',
+            call_to_actions: [
+              {
+                title: 'Explore',
+                type: 'web_url',
+                url: 'https://www.youtube.com/watch?v=v',
+                webview_height_ratio: 'tall',
+              },
+              {
+                title: 'W',
+                type: 'web_url',
+                url: 'https://www.facebook.com/w',
+                webview_height_ratio: 'tall',
+              },
+              {
+                title: 'Powered by YOCTOL',
+                type: 'web_url',
+                url: 'https://www.yoctol.com/',
+                webview_height_ratio: 'tall',
+              },
+            ],
+          },
+        ],
+      },
+    ]);
     console.log(req.body)
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
