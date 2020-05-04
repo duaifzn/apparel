@@ -225,6 +225,9 @@ const messengerController = {
             waitUser.push(userId);
             client.sendText(userId, '將會有專人為您服務，輸入"BOT"開啟機器人服務');
             break;
+          case '獲取折扣碼':
+            client.sendText(userId, 'ABCD');
+            break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
             // if (data.length > 50) data = []
