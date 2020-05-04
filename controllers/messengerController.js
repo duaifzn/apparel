@@ -16,7 +16,7 @@ const OrderProduct = db.OrderProduct
 const User = db.User
 const Transport = db.Transport
 let URL = 'https://hidden-cliffs-50028.herokuapp.com/'
-let data = []
+let waitUser = []
 let ReturnUser = []
 let newProduct = []
 let popularProduct = []
@@ -83,7 +83,7 @@ const messengerController = {
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
-    console.log(data)
+    console.log('@@@@@', waitUser)
     if (event.message && !data.includes(userId)) {
       const text = event.message.text; // 使用者講的話
       if (ReturnUser[userId]) {
@@ -221,8 +221,8 @@ const messengerController = {
             client.sendText(userId, '請輸入訂單編號為您退貨');
             break;
           case '其他問題':
-            if (data.length > 50) data = []
-            data.push(userId);
+            if (data.length > 50) waitUser = []
+            waitUser.push(userId);
             client.sendText(userId, '將會有專人為您服務');
             break;
           case '如何購買':
