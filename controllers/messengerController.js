@@ -221,9 +221,9 @@ const messengerController = {
             client.sendText(userId, '請輸入訂單編號為您退貨');
             break;
           case '其他問題':
-            client.sendText(userId, '將會有專人為您服務');
             if (data.length > 50) data = []
             data.push(userId);
+            client.sendText(userId, '將會有專人為您服務');
             break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
