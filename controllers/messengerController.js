@@ -78,64 +78,12 @@ async function asyncForEach(array, callback) {
 
 const messengerController = {
   postWebhook: (req, res) => {
-    client.setPersistentMenu([
-      {
-        locale: 'default',
-        call_to_actions: [
-          {
-            title: 'Play Again',
-            type: 'postback',
-            payload: 'RESTART',
-          },
-          {
-            title: 'Language Setting',
-            type: 'nested',
-            call_to_actions: [
-              {
-                title: '中文',
-                type: 'postback',
-                payload: 'CHINESE',
-              },
-              {
-                title: 'English',
-                type: 'postback',
-                payload: 'ENGLISH',
-              },
-            ],
-          },
-          {
-            title: 'Explore D',
-            type: 'nested',
-            call_to_actions: [
-              {
-                title: 'Explore',
-                type: 'web_url',
-                url: 'https://www.youtube.com/watch?v=v',
-                webview_height_ratio: 'tall',
-              },
-              {
-                title: 'W',
-                type: 'web_url',
-                url: 'https://www.facebook.com/w',
-                webview_height_ratio: 'tall',
-              },
-              {
-                title: 'Powered by YOCTOL',
-                type: 'web_url',
-                url: 'https://www.yoctol.com/',
-                webview_height_ratio: 'tall',
-              },
-            ],
-          },
-        ],
-      },
-    ]);
     console.log('app.post /webhook')
     console.log(req.body)
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
-    if (event.message) {
+    if (event.message && !data.includes(userId)) {
       const text = event.message.text; // 使用者講的話
       console.log(event.message)
       console.log('@@@@ReturnUser[userId]: ', ReturnUser[userId])
@@ -238,58 +186,6 @@ const messengerController = {
       else {
         switch (text) {
           case '熱銷產品':
-            client.setPersistentMenu([
-              {
-                locale: 'default',
-                call_to_actions: [
-                  {
-                    title: 'Play Again',
-                    type: 'postback',
-                    payload: 'RESTART',
-                  },
-                  {
-                    title: 'Language Setting',
-                    type: 'nested',
-                    call_to_actions: [
-                      {
-                        title: '中文',
-                        type: 'postback',
-                        payload: 'CHINESE',
-                      },
-                      {
-                        title: 'English',
-                        type: 'postback',
-                        payload: 'ENGLISH',
-                      },
-                    ],
-                  },
-                  {
-                    title: 'Explore D',
-                    type: 'nested',
-                    call_to_actions: [
-                      {
-                        title: 'Explore',
-                        type: 'web_url',
-                        url: 'https://www.youtube.com/watch?v=v',
-                        webview_height_ratio: 'tall',
-                      },
-                      {
-                        title: 'W',
-                        type: 'web_url',
-                        url: 'https://www.facebook.com/w',
-                        webview_height_ratio: 'tall',
-                      },
-                      {
-                        title: 'Powered by YOCTOL',
-                        type: 'web_url',
-                        url: 'https://www.yoctol.com/',
-                        webview_height_ratio: 'tall',
-                      },
-                    ],
-                  },
-                ],
-              },
-            ]);
             client.sendGenericTemplate(userId, popularProduct, { image_aspect_ratio: 'square' })
               .then(() => {
                 client.sendText(userId, '需要任何幫助嗎?', {
@@ -327,8 +223,8 @@ const messengerController = {
             break;
           case '其他問題':
             client.sendText(userId, '將會有專人為您服務');
-            // if (data.length > 50) data = []
-            // data.push(userId);
+            if (data.length > 50) data = []
+            data.push(userId);
             break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
@@ -359,11 +255,22 @@ const messengerController = {
         }
       }
     }
-    if (event.referral) {
+    if (event.referral && !data.includes(userId)) {
       console.log('event.referral: ', event.referral)
       client.sendMessage(userId, { text: '帥哥美女好!!為您推薦新商品' })
       client.sendGenericTemplate(userId, newProduct, { image_aspect_ratio: 'square' })
 
+    }
+    if (data.includes(userId)) {
+      client.sendImage(userId, 'https://example.com/vr.jpg', {
+        quick_replies: [
+          {
+            content_type: 'text',
+            title: 'Red',
+            payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+          },
+        ],
+      });
     }
 
     res.sendStatus(200);
