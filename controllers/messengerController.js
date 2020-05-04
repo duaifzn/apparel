@@ -263,24 +263,24 @@ const messengerController = {
     if (waitUser.includes(userId)) {
       client.getPersistentMenu().then(menu => {
         console.log("#####################", menu);
-        // [
-        //   {
-        //     locale: 'default',
-        //     composer_input_disabled: true,
-        //     call_to_actions: [
-        //       {
-        //         type: 'postback',
-        //         title: 'Restart Conversation',
-        //         payload: 'RESTART',
-        //       },
-        //       {
-        //         type: 'web_url',
-        //         title: 'Powered by ALOHA.AI, Yoctol',
-        //         url: 'https://www.yoctol.com/',
-        //       },
-        //     ],
-        //   },
-        // ]
+        [
+          {
+            locale: 'default',
+            composer_input_disabled: true,
+            call_to_actions: [
+              {
+                type: 'postback',
+                title: 'Restart Conversation',
+                payload: 'RESTART',
+              },
+              {
+                type: 'web_url',
+                title: 'Powered by ALOHA.AI, Yoctol',
+                url: 'https://www.yoctol.com/',
+              },
+            ],
+          },
+        ]
       });
       // if (event.message) {
       //   if (event.message.text === '機器人') {
