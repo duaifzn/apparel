@@ -281,7 +281,7 @@ const userController = {
               order[0].update({
                 sn: tradeInfo.MerchantOrderNo
               }).then((o) => {
-                //console.log(o)
+                console.log(o)
                 return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
               })
 
