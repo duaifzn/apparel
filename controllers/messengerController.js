@@ -72,9 +72,9 @@ const messengerController = {
         locale: 'default',
         call_to_actions: [
           {
-            title: 'Play Again',
+            title: '機器人服務',
             type: 'postback',
-            payload: 'RESTART',
+            payload: 'BOTRESTART',
           },
           {
             title: 'Language Setting',
