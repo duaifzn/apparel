@@ -308,9 +308,12 @@ const userController = {
     Order.findOne({ where: { id: req.params.order_id, UserId: req.user.id } })
       .then((order) => {
         if (order && order.orderStatus === '未付款') {
-          console.log('@@@@@@@@@@@@', order)
           const tradeInfo = getTradeInfo(order.totalPrice, 'LOGO產品', req.user.email)
-          return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, tradeInfo: tradeInfo })))
+          order.update({
+            sn: tradeInfo.MerchantOrderNo
+          }).then(o => {
+            return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
+          })
         }
         else if (order) {
           return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order })))
