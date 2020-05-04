@@ -275,7 +275,7 @@ const userController = {
               order: [['updatedAt', 'DESC']],
               include: [Transport]
             }).then((order) => {
-              //console.log(order)
+              console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", order)
               const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
               //console.log(tradeInfo.MerchantOrderNo)
               order[0].update({
