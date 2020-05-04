@@ -142,12 +142,6 @@ const messengerController = {
                   ReturnUser[userId].order = order.id
                   ReturnUser[userId].orderUserId = order.UserId
                   client.sendText(userId, '請輸入姓名:');
-                  // order.update({
-                  //   orderStatus: "退貨申請中"
-                  // }).then(() => {
-                  //   delete ReturnUser[userId]
-                  //   client.sendText(userId, '您的訂單退貨申請中');
-                  // })
                 }
                 else {
                   delete ReturnUser[userId]
@@ -156,7 +150,7 @@ const messengerController = {
               })
             break;
           case 2:
-            User.findOne({ where: { id: ReturnUser[userId].order, name: text } }).then((user) => {
+            User.findOne({ where: { id: ReturnUser[userId].orderUserId, name: text } }).then((user) => {
               if (user) {
                 if (user) {
                   ReturnUser[userId].name = text
