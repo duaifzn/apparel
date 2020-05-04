@@ -337,11 +337,11 @@ const userController = {
             orderStatus: '已付款',
             payment: info.Result.PaymentType
           }).then((o) => {
-            res.render('paydone', JSON.parse(JSON.stringify({ order: o })))
+            res.render('paydone', JSON.parse(JSON.stringify({ order: o, orderStatus: true })))
           })
         }
         else {
-          res.render('paydone', JSON.parse(JSON.stringify({ order: order })))
+          res.render('paydone', JSON.parse(JSON.stringify({ order: order, orderStatus: false })))
         }
       })
 

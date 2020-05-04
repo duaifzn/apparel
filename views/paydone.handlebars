@@ -1,5 +1,9 @@
 <div class="card">
+  {{#if orderStatus}}
   <h2 class="card-header text-success"><i class="fas fa-check-circle"></i>付款成功</h2>
+  {{else}}
+  <h2 class="card-header text-danger"><i class="far fa-times-circle"></i>付款失敗</h2>
+  {{/if}}
   <div class="card-body">
     <div class="row">
       <div class="col-12 col-md border-left mt-3">
