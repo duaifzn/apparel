@@ -84,7 +84,7 @@ const messengerController = {
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
     console.log('@@@@@', waitUser)
-    if (event.message && !data.includes(userId)) {
+    if (event.message && !waitUser.includes(userId)) {
       const text = event.message.text; // 使用者講的話
       if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
@@ -254,7 +254,7 @@ const messengerController = {
         }
       }
     }
-    if (event.referral && !data.includes(userId)) {
+    if (event.referral && !waitUser.includes(userId)) {
       console.log('event.referral: ', event.referral)
       client.sendMessage(userId, { text: '帥哥美女好!!為您推薦新商品' })
       client.sendGenericTemplate(userId, newProduct, { image_aspect_ratio: 'square' })
