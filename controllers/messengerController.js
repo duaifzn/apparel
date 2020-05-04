@@ -83,7 +83,7 @@ const messengerController = {
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
-    console.log('@@@@@', waitUser)
+    console.log('@@@@@', event)
     if (event.message && !waitUser.includes(userId)) {
       const text = event.message.text; // 使用者講的話
       if (ReturnUser[userId]) {
@@ -227,11 +227,6 @@ const messengerController = {
             break;
           case '獲取折扣碼':
             client.sendText(userId, 'ABCD');
-            break;
-          case '如何購買':
-            client.sendText(userId, '申請會員，進入網站下單購買');
-            // if (data.length > 50) data = []
-            // data.push(userId);
             break;
           default:
             client.sendText(userId, '需要任何幫助嗎?', {
