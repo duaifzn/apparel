@@ -83,10 +83,9 @@ const messengerController = {
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
+    console.log(data)
     if (event.message && !data.includes(userId)) {
       const text = event.message.text; // 使用者講的話
-      console.log(event.message)
-      console.log('@@@@ReturnUser[userId]: ', ReturnUser[userId])
       if (ReturnUser[userId]) {
         switch (ReturnUser[userId].status) {
           case 1:
@@ -262,7 +261,7 @@ const messengerController = {
 
     }
     if (data.includes(userId)) {
-      client.sendImage(userId, 'https://example.com/vr.jpg', {
+      client.sendImage(userId, 'https://i.imgur.com/GXZW9Ly.png', {
         quick_replies: [
           {
             content_type: 'text',
