@@ -221,7 +221,7 @@ const messengerController = {
             client.sendText(userId, '請輸入訂單編號為您退貨');
             break;
           case '其他問題':
-            if (data.length > 50) waitUser = []
+            if (waitUser.length > 50) waitUser = []
             waitUser.push(userId);
             client.sendText(userId, '將會有專人為您服務');
             break;
@@ -260,7 +260,7 @@ const messengerController = {
       client.sendGenericTemplate(userId, newProduct, { image_aspect_ratio: 'square' })
 
     }
-    if (data.includes(userId)) {
+    if (waitUser.includes(userId)) {
       client.sendImage(userId, 'https://i.imgur.com/GXZW9Ly.png', {
         quick_replies: [
           {
