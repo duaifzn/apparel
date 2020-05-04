@@ -223,7 +223,7 @@ const messengerController = {
           case '其他問題':
             if (waitUser.length > 50) waitUser = []
             waitUser.push(userId);
-            client.sendText(userId, '將會有專人為您服務');
+            client.sendText(userId, '將會有專人為您服務，輸入"BOT"開啟機器人服務');
             break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
@@ -265,6 +265,25 @@ const messengerController = {
       if (event.message) {
         if (event.message.text === 'BOT') {
           waitUser.splice(waitUser.indexOf(userId), 1)
+          client.sendText(userId, '需要任何幫助嗎?', {
+            quick_replies: [
+              {
+                content_type: 'text',
+                title: '熱銷產品',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PRODUCTION_PROBLEM',
+              },
+              {
+                content_type: 'text',
+                title: '退貨',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+              {
+                content_type: 'text',
+                title: '其他問題',
+                payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
+              },
+            ],
+          });
         }
       }
     }
