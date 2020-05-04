@@ -156,9 +156,9 @@ const messengerController = {
               })
             break;
           case 2:
-            User.findOne({ where: { name: text } }).then((user) => {
+            User.findOne({ where: { id: ReturnUser[userId].order, name: text } }).then((user) => {
               if (user) {
-                if (user.id === ReturnUser[userId].order) {
+                if (user) {
                   ReturnUser[userId].name = text
                   ReturnUser[userId].status = 3
                   client.sendText(userId, '請輸入電話:');

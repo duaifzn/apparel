@@ -12,7 +12,7 @@
     {{#each cartProducts}}
     <tr>
       <th scope="row">{{this.Product.name}}</th>
-      <td>{{this.Product.price}}</td>
+      <td>NT$ {{this.Product.price}}</td>
       <td>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -24,7 +24,7 @@
           </div>
         </div>
       </td>
-      <td>{{this.price}}</td>
+      <td>NT$ {{this.price}}</td>
       <td><a href="/cart/delete/{{this.ProductId}}" class="btn btn-outline-danger">刪除</a></td>
     </tr>
     {{/each}}
@@ -82,7 +82,9 @@
     </div>
   </div>
   <div class="row">
-    <strong class="m-auto">總額: {{totalPrice}} 元</strong>
+    <strong class="m-auto">
+      <h3>總額:NT$ {{totalPrice}} 元</h3>
+    </strong>
   </div>
   <input type="text" name="totalPrice" value="{{totalPrice}}" hidden>
   <button type="submit" class="dd btn btn-success btn-block btn-lg">確認訂單</button>

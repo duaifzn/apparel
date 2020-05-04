@@ -13,7 +13,7 @@
     {{#each cartProducts}}
     <tr>
       <th scope="row">{{this.Product.name}}</th>
-      <td>${{this.Product.price}}</td>
+      <td>NT$ {{this.Product.price}}</td>
       <td>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -31,7 +31,7 @@
           </div>
         </div>
       </td>
-      <td>${{this.price}}</td>
+      <td>NT$ {{this.price}}</td>
       <td><a href="/cart/delete/{{this.ProductId}}" class="btn btn-outline-danger">刪除</a></td>
     </tr>
     {{/each}}
@@ -51,7 +51,7 @@
     <tr>
       <th scope="row"></th>
       <td></td>
-      <td class="text-center">${{totalPrice}}</td>
+      <td class="text-center">NT$ {{totalPrice}}</td>
       <td></td>
       <td></td>
     </tr>
