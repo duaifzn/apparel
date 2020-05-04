@@ -223,7 +223,7 @@ const messengerController = {
           case '其他問題':
             if (waitUser.length > 50) waitUser = []
             waitUser.push(userId);
-            client.sendText(userId, '將會有專人為您服務');
+            client.sendText(userId, '將會有專人為您服務，輸入');
             break;
           case '如何購買':
             client.sendText(userId, '申請會員，進入網站下單購買');
@@ -261,41 +261,7 @@ const messengerController = {
 
     }
     if (waitUser.includes(userId)) {
-      client.getPersistentMenu().then(menu => {
-        console.log("#####################", menu);
-        [
-          {
-            locale: 'default',
-            composer_input_disabled: true,
-            call_to_actions: [
-              {
-                type: 'postback',
-                title: 'Restart Conversation',
-                payload: 'RESTART',
-              },
-              {
-                type: 'web_url',
-                title: 'Powered by ALOHA.AI, Yoctol',
-                url: 'https://www.yoctol.com/',
-              },
-            ],
-          },
-        ]
-      });
-      // if (event.message) {
-      //   if (event.message.text === '機器人') {
-      //     console.log('###################')
-      //   }
-      // }
-      // client.sendText(userId, '', {
-      //   quick_replies: [
-      //     {
-      //       content_type: 'text',
-      //       title: '機器人',
-      //       payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
-      //     },
-      //   ],
-      // });
+      client.setGetStarted('GET_STARTED')
     }
 
     res.sendStatus(200);
