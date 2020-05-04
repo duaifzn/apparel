@@ -78,6 +78,58 @@ async function asyncForEach(array, callback) {
 
 const messengerController = {
   postWebhook: (req, res) => {
+    client.setPersistentMenu([
+      {
+        locale: 'default',
+        call_to_actions: [
+          {
+            title: 'Play Again',
+            type: 'postback',
+            payload: 'RESTART',
+          },
+          {
+            title: 'Language Setting',
+            type: 'nested',
+            call_to_actions: [
+              {
+                title: '中文',
+                type: 'postback',
+                payload: 'CHINESE',
+              },
+              {
+                title: 'English',
+                type: 'postback',
+                payload: 'ENGLISH',
+              },
+            ],
+          },
+          {
+            title: 'Explore D',
+            type: 'nested',
+            call_to_actions: [
+              {
+                title: 'Explore',
+                type: 'web_url',
+                url: 'https://www.youtube.com/watch?v=v',
+                webview_height_ratio: 'tall',
+              },
+              {
+                title: 'W',
+                type: 'web_url',
+                url: 'https://www.facebook.com/w',
+                webview_height_ratio: 'tall',
+              },
+              {
+                title: 'Powered by YOCTOL',
+                type: 'web_url',
+                url: 'https://www.yoctol.com/',
+                webview_height_ratio: 'tall',
+              },
+            ],
+          },
+        ],
+      },
+    ]);
     console.log('app.post /webhook')
     console.log(req.body)
     const event = req.body.entry[0].messaging[0];
@@ -186,6 +238,58 @@ const messengerController = {
       else {
         switch (text) {
           case '熱銷產品':
+            client.setPersistentMenu([
+              {
+                locale: 'default',
+                call_to_actions: [
+                  {
+                    title: 'Play Again',
+                    type: 'postback',
+                    payload: 'RESTART',
+                  },
+                  {
+                    title: 'Language Setting',
+                    type: 'nested',
+                    call_to_actions: [
+                      {
+                        title: '中文',
+                        type: 'postback',
+                        payload: 'CHINESE',
+                      },
+                      {
+                        title: 'English',
+                        type: 'postback',
+                        payload: 'ENGLISH',
+                      },
+                    ],
+                  },
+                  {
+                    title: 'Explore D',
+                    type: 'nested',
+                    call_to_actions: [
+                      {
+                        title: 'Explore',
+                        type: 'web_url',
+                        url: 'https://www.youtube.com/watch?v=v',
+                        webview_height_ratio: 'tall',
+                      },
+                      {
+                        title: 'W',
+                        type: 'web_url',
+                        url: 'https://www.facebook.com/w',
+                        webview_height_ratio: 'tall',
+                      },
+                      {
+                        title: 'Powered by YOCTOL',
+                        type: 'web_url',
+                        url: 'https://www.yoctol.com/',
+                        webview_height_ratio: 'tall',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]);
             client.sendGenericTemplate(userId, popularProduct, { image_aspect_ratio: 'square' })
               .then(() => {
                 client.sendText(userId, '需要任何幫助嗎?', {
