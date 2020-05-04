@@ -32,14 +32,7 @@ Product.findAll({ where: { new: true } }).then(products => {
         messenger_extensions: true,
         webview_height_ratio: 'tall',
         fallback_url: `${URL}/items/${product.id}`,
-      },
-      buttons: [
-        {
-          type: 'postback',
-          title: '獲取折扣碼',
-          payload: 'DEVELOPER_DEFINED_PAYLOAD',
-        },
-      ],
+      }
     }
     newProduct.push(reply)
   })
@@ -58,13 +51,7 @@ Product.findAll({ where: { popular: true } }).then(products => {
         webview_height_ratio: 'tall',
         fallback_url: `${URL}/items/${product.id}`,
       },
-      buttons: [
-        {
-          type: 'postback',
-          title: '獲取折扣碼',
-          payload: 'DEVELOPER_DEFINED_PAYLOAD',
-        },
-      ],
+
     }
     popularProduct.push(reply)
   })
@@ -120,17 +107,7 @@ const messengerController = {
                 else if (order && order.orderStatus === '退貨中') {
                   delete ReturnUser[userId]
                   client.sendText(userId, '您的訂單退貨中，並進行退款。請備妥發票，將會派人到府收件')
-                  client.sendTemplate(userId, {
-                    template_type: 'button',
-                    text: '商品不符合期待非常抱歉，這裡提供九折優惠碼，歡迎再度光臨',
-                    buttons: [
-                      {
-                        type: 'postback',
-                        title: '獲取折扣碼',
-                        payload: 'USER_DEFINED_PAYLOAD',
-                      },
-                    ],
-                  });
+
                 }
                 else if (order && order.orderStatus === '已退貨') {
                   delete ReturnUser[userId]
@@ -224,9 +201,6 @@ const messengerController = {
             if (waitUser.length > 50) waitUser = []
             waitUser.push(userId);
             client.sendText(userId, '將會有專人為您服務，輸入"BOT"開啟機器人服務');
-            break;
-          case '獲取折扣碼':
-            client.sendText(userId, 'ABCD');
             break;
           default:
             client.sendText(userId, '需要任何幫助嗎?', {
