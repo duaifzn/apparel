@@ -28,7 +28,7 @@ Product.findAll({ where: { new: true } }).then(products => {
       subtitle: product.introduction.substring(0, 20) + '...',
       default_action: {
         type: 'web_url',
-        url: URL,
+        url: `${URL}/items/${product.id}`,
         messenger_extensions: true,
         webview_height_ratio: 'tall',
         fallback_url: `${URL}/items/${product.id}`,
@@ -46,7 +46,7 @@ Product.findAll({ where: { popular: true } }).then(products => {
       subtitle: product.introduction.substring(0, 20) + '...',
       default_action: {
         type: 'web_url',
-        url: URL,
+        url: `${URL}/items/${product.id}`,
         messenger_extensions: true,
         webview_height_ratio: 'tall',
         fallback_url: `${URL}/items/${product.id}`,
