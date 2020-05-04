@@ -150,28 +150,23 @@ const messengerController = {
               })
             break;
           case 2:
-            User.findOne({ where: { id: ReturnUser[userId].orderUserId, name: text } }).then((user) => {
-              if (user) {
+            User.findOne({ where: { id: ReturnUser[userId].orderUserId, name: text } })
+              .then((user) => {
                 if (user) {
                   ReturnUser[userId].name = text
                   ReturnUser[userId].status = 3
-                  client.sendText(userId, '請輸入電話:');
+                  client.sendText(userId, '請輸入電話:')
                 }
                 else {
                   delete ReturnUser[userId]
                   client.sendText(userId, '姓名與訂單不符');
                 }
-              }
-              else {
-                delete ReturnUser[userId]
-                client.sendText(userId, '查無此人');
-              }
-            })
+              })
             break;
           case 3:
-            User.findOne({ where: { telephone: text } }).then((user) => {
-              if (user) {
-                if (user.id === ReturnUser[userId].orderUserId) {
+            User.findOne({ where: { id: ReturnUser[userId].orderUserId, name: ReturnUser[userId].name, telephone: text } })
+              .then((user) => {
+                if (user) {
                   Order.update({ orderStatus: '退貨中' }, { where: { id: ReturnUser[userId].order } })
                     .then(() => {
                       delete ReturnUser[userId]
@@ -182,12 +177,7 @@ const messengerController = {
                   delete ReturnUser[userId]
                   client.sendText(userId, '電話與姓名不符');
                 }
-              }
-              else {
-                delete ReturnUser[userId]
-                client.sendText(userId, '查無此電話');
-              }
-            })
+              })
             break;
         }
 
