@@ -29,6 +29,10 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 - 採用 bcrypt 處理使用者密碼
 - 使用 dotenv 設定環境變數
 
+## Features - 專案特色
+- FB messenger BOT
+<iframe width="560" height="315" src="https://www.youtube.com/embed/GwZbTqTsjyc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## DB Structure - 資料庫架構規劃
 
 - [關聯式資料庫](https://drive.google.com/file/d/14l0dbmis8QK5ZiWyS7K7Axd9MsZIB47Q/view?usp=sharing)
