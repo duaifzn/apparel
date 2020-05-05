@@ -31,9 +31,10 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 
 ## Features - 專案特色
 - FB messenger BOT
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=https://www.youtube.com/embed/GwZbTqTsjyc
-" target="_blank"><img src="http://img.youtube.com/vi/https://www.youtube.com/embed/GwZbTqTsjyc/0.jpg" 
-alt="圖片 ALT 文字放在這裡" width="240" height="180" border="10" /></a>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=GwZbTqTsjyc
+" target="_blank"><img src="http://img.youtube.com/vi/GwZbTqTsjyc/0.jpg" 
+alt="圖片 ALT 文字放在這裡" width="360" height="200" border="10" /></a>
 
 
 ## DB Structure - 資料庫架構規劃
