@@ -19,9 +19,7 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 - 使用 messaging-api-messenger來串接FB messenger，並實作機器人回復功能
 - 採用 bcrypt 處理使用者密碼
 - 使用 dotenv 設定環境變數
-
-## Features - 專案特色
-- FB messenger BOT
+- FB messenger BOT展示
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=GwZbTqTsjyc
 " target="_blank"><img src="http://img.youtube.com/vi/GwZbTqTsjyc/0.jpg" 
