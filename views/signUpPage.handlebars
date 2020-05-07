@@ -2,32 +2,50 @@
   <div class="card col-10 col-sm-8 col-md-5 mx-auto my-5">
     <div class="card-body">
       <h1 class="text-center">SIGNUP</h1>
-      <form action="/signup" method="POST">
+      <form action="/signup" method="POST" class="needs-validation" onsubmit="return inputCheck()" novalidate>
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" class='form-control' id="name" name="name" required>
+          <input type="text" class='form-control' id="name" name="name" oninput="nameCheck()">
+          <div class="invalid-feedback">
+            Please provide a valid name.
+          </div>
         </div>
         <div class="form-group">
           <label for="name">telephone:</label>
-          <input type="text" class='form-control' id="telephone" name="telephone" required>
+          <input type="text" class='form-control' id="telephone" name="telephone" oninput="telephoneCheck()">
+          <div class="invalid-feedback">
+            Please provide a valid telephone.
+          </div>
         </div>
         <div class="form-group">
           <label for="name">address:</label>
-          <input type="text" class='form-control' id="address" name="address" required>
+          <input type="text" class='form-control' id="address" name="address" oninput="addressCheck()">
+          <div class="invalid-feedback">
+            Please provide a valid address.
+          </div>
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" class='form-control' id="email" name="email" required>
+          <input type="email" class='form-control' id="email" name="email" oninput="emailCheck()">
+          <div class="invalid-feedback">
+            Please provide a valid email.
+          </div>
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
-          <input type="password" class='form-control' id="password" name="password" required>
+          <input type="password" class='form-control' id="password" name="password" oninput="passwordCheck()">
+          <div class="invalid-feedback">
+            Please provide a valid password.
+          </div>
         </div>
         <div class="form-group">
           <label for="password2">Confirm Password:</label>
-          <input type="password" class='form-control' id="password2" name="password2" required>
+          <input type="password" class='form-control' id="password2" name="password2" oninput="password2Check()">
+          <div class="invalid-feedback">
+            Please provide a valid password.
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary form-control">submit</button>
+        <button type="submit" class="btn btn-primary btn-block">submit</button>
       </form>
 
 
@@ -39,3 +57,122 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+
+
+  let emailOK = false
+  let telephoneOK = false
+  let addressOK = false
+  let nameOK = false
+  let passwordOK = false
+  let password2OK = false
+  let form = document.getElementsByTagName("FORM")[0]
+  let email = document.getElementById("email");
+  let telephone = document.getElementById("telephone");
+  let address = document.getElementById("address")
+  let name = document.getElementById("name")
+  let password = document.getElementById("password")
+  let password2 = document.getElementById("password2")
+
+
+  function inputCheck() {
+    if (emailOK && telephoneOK && addressOK && nameOK && passwordOK && password2OK) {
+      console.log('OK')
+      return true
+    }
+
+    else {
+      emailCheck()
+      telephoneCheck()
+      addressCheck()
+      nameCheck()
+      passwordCheck()
+      password2Check()
+      console.log('NO')
+      return false
+    }
+
+  }
+
+  function emailCheck() {
+    let emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+    if (email.value.search(emailRule) != -1 && email.value.length != 0) {
+      email.classList.remove("is-invalid")
+      email.classList.add("is-valid")
+      emailOK = true
+    }
+    else {
+      email.classList.remove("is-valid")
+      email.classList.add("is-invalid")
+      emailOK = false
+    }
+
+  }
+  function telephoneCheck() {
+    let telephoneRule = /\d{10}/;
+    if (telephone.value.search(telephoneRule) != -1 && telephone.value.length != 0) {
+      telephone.classList.remove("is-invalid")
+      telephone.classList.add("is-valid")
+      telephoneOK = true
+    }
+    else {
+      telephone.classList.remove("is-valid")
+      telephone.classList.add("is-invalid")
+      telephoneOK = false
+    }
+  }
+  function addressCheck() {
+
+    if (address.value.length != 0) {
+      address.classList.remove("is-invalid")
+      address.classList.add("is-valid")
+      addressOK = true
+    }
+    else {
+      address.classList.remove("is-valid")
+      address.classList.add("is-invalid")
+      addressOK = false
+    }
+  }
+  function nameCheck() {
+
+    if (name.value.length != 0) {
+      name.classList.remove("is-invalid")
+      name.classList.add("is-valid")
+      nameOK = true
+    }
+    else {
+      name.classList.remove("is-valid")
+      name.classList.add("is-invalid")
+      nameOK = false
+    }
+  }
+  function passwordCheck() {
+
+    if (password.value.length != 0) {
+      password.classList.remove("is-invalid")
+      password.classList.add("is-valid")
+      passwordOK = true
+    }
+    else {
+      password.classList.remove("is-valid")
+      password.classList.add("is-invalid")
+      passwordOK = false
+    }
+  }
+  function password2Check() {
+
+    if (password2.value.length != 0 && password.value == password2.value) {
+      password2.classList.remove("is-invalid")
+      password2.classList.add("is-valid")
+      password2OK = true
+    }
+    else {
+      password2.classList.remove("is-valid")
+      password2.classList.add("is-invalid")
+      password2OK = false
+    }
+  }
+</script>
