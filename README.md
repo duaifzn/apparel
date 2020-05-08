@@ -2,7 +2,7 @@
 
 # LOGO電商網
 
-LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 Heroku，以 RESTFul API 滿足電商網站不同資料的互動需求，並串接 fb messenger與使用者互動。
+LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 Heroku，以 RESTFul API 滿足電商網站不同資料的互動需求，大部分商家的客服都已經流程化，但都還是人工服務，因此突發奇想串接 fb messenger BOT與使用者互動。
 
 ## Initial - 專案緣起
 
@@ -10,7 +10,8 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 
 專案特點：
 
-1. 網路購物平台提供一個產品資訊清楚，購物/付費流程簡單，並可用FB messenger BOT進行退貨。
+1. 網路購物平台提供產品資訊、購物及付費流程。
+2. 並可用FB messenger BOT進行退貨。
 
 ## Features - 專案功能
 
