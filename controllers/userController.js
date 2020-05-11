@@ -22,7 +22,7 @@ const ClientBackURL = URL + "/checkorder"
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
+    await callback(array[index]);
   }
 }
 
@@ -259,8 +259,8 @@ const userController = {
     }).then((order) => {
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          asyncForEach(cartProducts, cartProduct => {
-            OrderProduct.create({
+          asyncForEach(cartProducts, async cartProduct => {
+            await OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.productId,
               amount: cartProduct.amount,
@@ -268,6 +268,7 @@ const userController = {
             }).then(() => {
               cartProduct.destroy()
             })
+
           }).then(() => {
             Order.findAll({
               where: { UserId: req.user.id },
@@ -286,8 +287,8 @@ const userController = {
               })
 
             })
-
           })
+
         })
     })
 
