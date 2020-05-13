@@ -17,3 +17,15 @@
     "use_env_variable": "CLEARDB_DATABASE_URL"
   }
 }
+
+"production": {
+    "username": "postgres",
+    "password": "password",
+    "database": "finalpg1",
+    "dialect": "postgres",
+    "host": "/cloudsql/final-276802:asia-east1:finalpg1",
+    "timestamps": false,
+    "dialectOptions": {
+      "socketPath": "/cloudsql/final-276802:asia-east1:finalpg1"
+    }
+  }

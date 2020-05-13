@@ -33,10 +33,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       new: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN
       },
       popular: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

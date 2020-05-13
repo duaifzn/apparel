@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     cost: DataTypes.INTEGER,
     CatogoryId: DataTypes.INTEGER,
-    new: DataTypes.INTEGER,
-    popular: DataTypes.INTEGER
+    new: DataTypes.BOOLEAN,
+    popular: DataTypes.BOOLEAN
   }, {});
   Product.associate = function (models) {
     Product.belongsTo(models.Catogory)
