@@ -13,6 +13,6 @@ steps:
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 - name: node:10.15.1
-  entrypoint: npx
-  args: ["sequelize", "db:migrate"]
+  entrypoint: sequelize
+  args: ["db:migrate"]
 timeout: "1600s"
