@@ -10,4 +10,6 @@ steps:
     - 'PASSWORD=${_PASSWORD}'
     - 'DATABASE=${_DATABASE}'
     - 'INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION_NAME}'
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
 timeout: "1600s"
