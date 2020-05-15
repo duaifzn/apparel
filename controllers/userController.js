@@ -169,7 +169,7 @@ const userController = {
   itemPage: (req, res) => {
     Product.findByPk(req.params.item_id, { include: Catogory })
       .then(product => {
-        console.log(product)
+        //console.log(product)
         res.render('itemPage', JSON.parse(JSON.stringify({ product: product, catogory: product.Catogory })))
       })
   },
@@ -259,9 +259,9 @@ const userController = {
     }).then((order) => {
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          asyncForEach(cartProducts, async cartProduct => {
+          asyncForEach(cartProducts, cartProduct => {
             console.log("!!!!!!!!!!!!!!!!!!!!!")
-            await OrderProduct.create({
+            OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
