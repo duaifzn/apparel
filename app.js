@@ -8,18 +8,13 @@ const flash = require('connect-flash')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
+
 }
 
 const passport = require('./config/passport')
 const app = express()
 const port = process.env.PORT || 3000
-// const { MessengerClient } = require('messaging-api-messenger');
-// const client = MessengerClient.connect({
-//   accessToken: process.env.ACCESS_TOKEN,
-//   appId: process.env.APP_ID,
-//   appSecret: process.env.APP_SECRET,
-//   version: '6.0',
-// });
+
 
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main', helpers: require('./config/handlebars-helper') }))

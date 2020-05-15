@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm install && sequelize db:migrate && sequelize db:seed:all && NODE_ENV=production node app.js",
+    "create-env": "printenv > .env",
+    "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
@@ -11,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google-cloud/firestore": "^3.8.0",
     "@google-cloud/storage": "^4.7.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
