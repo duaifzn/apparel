@@ -262,7 +262,7 @@ const userController = {
           asyncForEach(cartProducts, async cartProduct => {
             await OrderProduct.create({
               OrderId: order.id,
-              ProductId: cartProduct.productId,
+              ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
               price: cartProduct.price
             }).then(() => {
