@@ -12,7 +12,4 @@ steps:
     - 'INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION_NAME}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
-- name: node:10.15.1
-  entrypoint: sequelize
-  args: ["db:migrate"]
 timeout: "1600s"
