@@ -14,6 +14,9 @@ steps:
     - 'APP_ID=${_APP_ID}'
     - 'APP_SECRET=${_APP_SECRET}'
     - 'VERIFY_TOKEN=${_VERIFY_TOKEN}'
+    - 'HASH_IV=${_HASH_IV}'
+    - 'HASH_KEY=${_HASH_KEY}'
+    - 'MERCHANT_ID=${_MERCHANT_ID}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"
