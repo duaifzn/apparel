@@ -1,4 +1,4 @@
-runtime: nodejs
+runtime: nodejs10
 
 beta_settings:
   cloud_sql_instances: final-276802:asia-east1:finalpg1
