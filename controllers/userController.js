@@ -260,6 +260,7 @@ const userController = {
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
           asyncForEach(cartProducts, async cartProduct => {
+            console.log("!!!!!!!!!!!!!!!!!!!!!")
             await OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
@@ -270,6 +271,7 @@ const userController = {
             })
 
           }).then(() => {
+            console.log("@@@@@@@@@@@@@@@@@@@@@@")
             Order.findAll({
               where: { UserId: req.user.id },
               limit: 1,
