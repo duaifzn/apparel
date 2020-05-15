@@ -10,6 +10,10 @@ steps:
     - 'PASSWORD=${_PASSWORD}'
     - 'DATABASE=${_DATABASE}'
     - 'INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION_NAME}'
+    - 'ACCESS_TOKEN=${_ACCESS_TOKEN}'
+    - 'APP_ID=${_APP_ID}'
+    - 'APP_SECRET=${_APP_SECRET}'
+    - 'VERIFY_TOKEN=${_VERIFY_TOKEN}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"
