@@ -10,7 +10,7 @@ const User = db.User
 const Transport = db.Transport
 const crypto = require('crypto')
 
-const URL = 'https://hidden-cliffs-50028.herokuapp.com'
+const URL = 'https://final-276802.df.r.appspot.com/'
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
