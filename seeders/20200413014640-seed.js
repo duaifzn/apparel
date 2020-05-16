@@ -68,7 +68,7 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }]);
-    queryInterface.bulkInsert('Transports', [{
+    return queryInterface.bulkInsert('Transports', [{
       id: 1,
       name: '未出貨',
       createdAt: new Date(),
@@ -86,27 +86,27 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date()
     }]);
-    return queryInterface.bulkInsert('Orders', [{
-      id: 1,
-      receiver: '大名',
-      telephone: '0988765433',
-      address: '台北市',
-      UserId: 1,
-      orderStatus: '未付款',
-      TransportId: 1,
-      totalPrice: 1223,
-      sn: '',
-      payment: '未付款',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }])
+    // queryInterface.bulkInsert('Orders', [{
+    //   id: 1,
+    //   receiver: '大名',
+    //   telephone: '0988765433',
+    //   address: '台北市',
+    //   UserId: 1,
+    //   orderStatus: '未付款',
+    //   TransportId: 1,
+    //   totalPrice: 1223,
+    //   sn: '',
+    //   payment: '未付款',
+    //   createdAt: new Date(),
+    //   updatedAt: new Date()
+    // }])
   },
 
   down: (queryInterface, Sequelize) => {
     queryInterface.bulkDelete('Users', null, {});
     queryInterface.bulkDelete('Products', null, {});
     queryInterface.bulkDelete('Transports', null, {});
-    queryInterface.bulkDelete('Catogories', null, {});
-    return queryInterface.bulkDelete('Orders', null, {});
+    return queryInterface.bulkDelete('Catogories', null, {});
+    //queryInterface.bulkDelete('Orders', null, {});
   }
 };
