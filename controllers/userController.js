@@ -280,14 +280,12 @@ const userController = {
               order: [['updatedAt', 'DESC']],
               include: [Transport]
             }).then((order) => {
-
-              const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
               //console.log(tradeInfo.MerchantOrderNo)
               order[0].update({
                 sn: tradeInfo.MerchantOrderNo,
                 totalPrice: total
               }).then((o) => {
-
+                const tradeInfo = getTradeInfo(o.totalPrice, 'LOGO產品', req.user.email)
                 return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
               })
 
