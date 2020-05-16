@@ -19,4 +19,13 @@ steps:
     - 'MERCHANT_ID=${_MERCHANT_ID}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
+- name: node:10.15.1
+  entrypoint: npx
+  args: ["sequelize", "db:migrate:undo:all"]
+- name: node:10.15.1
+  entrypoint: npx
+  args: ["sequelize", "db:migrate"]
+- name: node:10.15.1
+  entrypoint: npx
+  args: ["sequelize", "db:seed:all"]
 timeout: "1600s"
