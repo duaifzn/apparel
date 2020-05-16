@@ -19,7 +19,4 @@ steps:
     - 'MERCHANT_ID=${_MERCHANT_ID}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
-- name: node:10.15.1
-  entrypoint: npm
-  args: ["run", "create-db"]
 timeout: "1600s"

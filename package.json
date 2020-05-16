@@ -4,8 +4,7 @@
   "main": "index.js",
   "scripts": {
     "create-env": "printenv > .env",
-    "create-db": "NODE_ENV=production sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
-    "start": "node app.js",
+    "start": "npm install && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && NODE_ENV=production node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
