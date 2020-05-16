@@ -247,7 +247,6 @@ const userController = {
 
   },
   checkOrder: (req, res) => {
-    console.log("####################")
     Order.create({
       receiver: req.body.receiver,
       telephone: req.body.receiver_telephone,
@@ -261,9 +260,8 @@ const userController = {
       console.log("order: ", order)
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          asyncForEach(cartProducts, cartProduct => {
-            console.log("!!!!!!!!!!!!!!!!!!!!!")
-            OrderProduct.create({
+          asyncForEach(cartProducts, async cartProduct => {
+            await OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
@@ -273,7 +271,6 @@ const userController = {
             })
 
           }).then(() => {
-            console.log("@@@@@@@@@@@@@@@@@@@@@@")
             Order.findAll({
               where: { UserId: req.user.id },
               limit: 1,
