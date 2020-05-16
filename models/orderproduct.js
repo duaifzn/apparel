@@ -1,8 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const OrderProduct = sequelize.define('OrderProduct', {
-    OrderID: DataTypes.INTEGER,
-    ProductID: DataTypes.INTEGER,
+    OrderId: DataTypes.INTEGER,
+    ProductId: DataTypes.INTEGER,
     amount: DataTypes.INTEGER,
     price: DataTypes.INTEGER
   }, {});
