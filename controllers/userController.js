@@ -247,6 +247,7 @@ const userController = {
 
   },
   checkOrder: (req, res) => {
+    console.log("####################")
     Order.create({
       receiver: req.body.receiver,
       telephone: req.body.receiver_telephone,
