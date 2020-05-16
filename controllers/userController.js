@@ -294,7 +294,9 @@ const userController = {
           })
 
         })
-    })
+    }).catch(function (err) {
+      console.error(err)
+    });
 
   },
   getOrder: (req, res) => {
