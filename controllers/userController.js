@@ -260,8 +260,8 @@ const userController = {
       console.log("order: ", order)
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          asyncForEach(cartProducts, async cartProduct => {
-            await OrderProduct.create({
+          asyncForEach(cartProducts, cartProduct => {
+            OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
