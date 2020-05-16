@@ -255,12 +255,14 @@ const userController = {
       orderStatus: '未付款',
       payment: '未付款',
       TransportId: req.body.transport,
-      totalPrice: req.body.totalPrice
+      totalPrice: 0
     }).then((order) => {
+      let total = 0
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
-          asyncForEach(cartProducts, cartProduct => {
-            OrderProduct.create({
+          asyncForEach(cartProducts, async cartProduct => {
+            total += cartProduct.price
+            await OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
@@ -282,7 +284,8 @@ const userController = {
               const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
               //console.log(tradeInfo.MerchantOrderNo)
               order[0].update({
-                sn: tradeInfo.MerchantOrderNo
+                sn: tradeInfo.MerchantOrderNo,
+                totalPrice: total
               }).then((o) => {
 
                 return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
