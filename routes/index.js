@@ -57,9 +57,11 @@ module.exports = (app, passport) => {
   //將購買資訊寫入訂單資料庫，顯示訂單資訊成功刪除購物車內容
   app.post('/checkorder', authenticated, userController.checkOrder)
   app.get('/checkorder', authenticated, userController.getOrder)
-  app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
   //查看訂單
-  //app.get('/checkorder/:order_id', authenticated, userController.lookOrder)
+  app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
+
+  //取消訂單
+  app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder)
   //藍金callback
   app.post('/pay/callback', authenticated, userController.pay)
   app.get('/admin/pay/callback', authenticated, userController.adminPay)

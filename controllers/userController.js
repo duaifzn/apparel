@@ -18,7 +18,7 @@ const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
 const ReturnURL = URL + "/pay/callback?from=ReturnURL"
 const NotifyURL = URL + "/admin/pay/callback?from=NotifyURL"
 const ClientBackURL = URL + "/checkorder"
-
+const cancelGateWay = "https://ccore.newebpay.com/API/CreditCard/Cancel"
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -103,6 +103,56 @@ function getTradeInfo(Amt, Desc, email) {
   console.log(tradeInfo)
 
   return tradeInfo
+}
+
+function getCancelTradeInfo(Amt, sn) {
+
+  console.log('===== getCancelTradeInfo =====')
+  console.log(Amt, sn)
+  console.log('==========')
+
+  data = {
+    'MerchantID': MerchantID, // 商店代號
+    'RespondType': 'JSON', // 回傳格式
+    'TimeStamp': Date.now(), // 時間戳記
+    'Version': 1.0, // 串接程式版本
+    'Amt': Amt, // 訂單金額
+    'MerchantOrderNo': sn, // 商店訂單編號
+    //'LoginType': 0, // 智付通會員
+    //'TradeNo': sn,
+    //'OrderComment': 'OrderComment', // 商店備註
+    'IndexType': 1,
+    //'ItemDesc': Desc, // 產品名稱
+    //'Email': email, // 付款人電子信箱
+    //'ReturnURL': ReturnURL, // 支付完成返回商店網址
+    //'NotifyURL': NotifyURL, // 支付通知網址/每期授權結果通知
+    //'ClientBackURL': ClientBackURL, // 支付取消返回商店網址
+  }
+
+  console.log('===== getCancelTradeInfo: data =====')
+  console.log(data)
+
+
+  mpg_aes_encrypt = create_mpg_aes_encrypt(data)
+  //mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
+
+  console.log('===== getCancelTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt =====')
+  console.log(mpg_aes_encrypt)
+  //console.log(mpg_sha_encrypt)
+
+  cancelTradeInfo = {
+    'MerchantID_': MerchantID, // 商店代號
+    'PostData_': mpg_aes_encrypt, // 加密後參數
+    //'TradeSha': mpg_sha_encrypt,
+    //'Version': 1.0, // 串接程式版本
+    'cancelGateWay': cancelGateWay,
+    //'MerchantOrderNo': data.MerchantOrderNo,
+  }
+
+  console.log('===== getCancelTradeInfo: cancelTradeInfo =====')
+  console.log(cancelTradeInfo)
+
+  return cancelTradeInfo
 }
 
 const userController = {
@@ -328,6 +378,10 @@ const userController = {
             return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
           })
         }
+        else if (order && order.orderStatus === '已取消訂單') {
+          let cancel = true
+          return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancel: cancel })))
+        }
         else if (order) {
           return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order })))
         }
@@ -362,8 +416,26 @@ const userController = {
   },
   adminPay: (req, res) => {
     return
-  }
+  },
+  cancelOrder: (req, res) => {
+    Order.findOne({ where: { id: req.params.order_id } })
+      .then(order => {
+        if (order.orderStatus === "未付款") {
+          order.update({
+            orderStatus: "已取消訂單"
+          }).then(o => {
+            let cancel = true
+            res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: cancel })))
+          })
+        }
+        else {
+          const cancelTradeInfo = getCancelTradeInfo(order.totalPrice, order.sn)
+          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelTradeInfo: cancelTradeInfo })))
+        }
 
+      })
+
+  }
 
 }
 
