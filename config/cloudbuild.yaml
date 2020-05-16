@@ -17,15 +17,10 @@ steps:
     - 'HASH_IV=${_HASH_IV}'
     - 'HASH_KEY=${_HASH_KEY}'
     - 'MERCHANT_ID=${_MERCHANT_ID}'
+- name: node:10.15.1
+  entrypoint: npm
+  args: ["run", "create-db"]
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
-- name: node:10.15.1
-  entrypoint: npx
-  args: ["sequelize", "db:migrate:undo:all"]
-- name: node:10.15.1
-  entrypoint: npx
-  args: ["sequelize", "db:migrate"]
-- name: node:10.15.1
-  entrypoint: npx
-  args: ["sequelize", "db:seed:all"]
+
 timeout: "1600s"
