@@ -257,6 +257,7 @@ const userController = {
       TransportId: req.body.transport,
       totalPrice: req.body.totalPrice
     }).then((order) => {
+      console.log("order: ", order)
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
           asyncForEach(cartProducts, cartProduct => {
