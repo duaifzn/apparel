@@ -247,55 +247,62 @@ const userController = {
 
   },
   checkOrder: (req, res) => {
-    Order.create({
-      receiver: req.body.receiver,
-      telephone: req.body.receiver_telephone,
-      address: req.body.receiver_address,
-      UserId: req.user.id,
-      orderStatus: '未付款',
-      payment: '未付款',
-      TransportId: req.body.transport,
-      totalPrice: 0
-    }).then((order) => {
-      let total = 0
-      CartProduct.findAll({ where: { UserId: req.user.id } })
-        .then(cartProducts => {
-          asyncForEach(cartProducts, async cartProduct => {
-            total += cartProduct.price
-            await OrderProduct.create({
-              OrderId: order.id,
-              ProductId: cartProduct.ProductId,
-              amount: cartProduct.amount,
-              price: cartProduct.price
-            }).catch(err => {
-              console.error(err)
-            }).then(() => {
-              cartProduct.destroy()
-            })
+    let total = 0
+    CartProduct.findAll({ where: { UserId: req.user.id } })
+      .then(async cartProducts => {
+        for await (let cartProduct of cartProducts) {
+          total += cartProduct.price
+        }
+      }).then(() => {
+        Order.create({
+          receiver: req.body.receiver,
+          telephone: req.body.receiver_telephone,
+          address: req.body.receiver_address,
+          UserId: req.user.id,
+          orderStatus: '未付款',
+          payment: '未付款',
+          TransportId: req.body.transport,
+          totalPrice: total
+        }).then((order) => {
+          CartProduct.findAll({ where: { UserId: req.user.id } })
+            .then(cartProducts => {
+              asyncForEach(cartProducts, async cartProduct => {
+                await OrderProduct.create({
+                  OrderId: order.id,
+                  ProductId: cartProduct.ProductId,
+                  amount: cartProduct.amount,
+                  price: cartProduct.price
+                }).catch(err => {
+                  console.error(err)
+                }).then(() => {
+                  cartProduct.destroy()
+                })
+              }).then(() => {
+                Order.findAll({
+                  where: { UserId: req.user.id },
+                  limit: 1,
+                  order: [['updatedAt', 'DESC']],
+                  include: [Transport]
+                }).then((order) => {
 
-          }).then(() => {
-            Order.findAll({
-              where: { UserId: req.user.id },
-              limit: 1,
-              order: [['updatedAt', 'DESC']],
-              include: [Transport]
-            }).then((order) => {
-              //console.log(tradeInfo.MerchantOrderNo)
-              order[0].update({
-                sn: tradeInfo.MerchantOrderNo,
-                totalPrice: total
-              }).then((o) => {
-                const tradeInfo = getTradeInfo(o.totalPrice, 'LOGO產品', req.user.email)
-                return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
+                  const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+                  //console.log(tradeInfo.MerchantOrderNo)
+                  order[0].update({
+                    sn: tradeInfo.MerchantOrderNo,
+                  }).then((o) => {
+
+                    return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
+                  })
+
+                })
               })
 
             })
-          })
+        }).catch(function (err) {
+          console.error(err)
+        });
+      })
 
-        })
-    }).catch(function (err) {
-      console.error(err)
-    });
 
   },
   getOrder: (req, res) => {
