@@ -260,12 +260,13 @@ const userController = {
       CartProduct.findAll({ where: { UserId: req.user.id } })
         .then(cartProducts => {
           asyncForEach(cartProducts, cartProduct => {
-            console.log('cartProduct.ProductId', cartProduct.ProductId)
             OrderProduct.create({
               OrderId: order.id,
               ProductId: cartProduct.ProductId,
               amount: cartProduct.amount,
               price: cartProduct.price
+            }).catch(err => {
+              console.error(err)
             }).then(() => {
               cartProduct.destroy()
             })
