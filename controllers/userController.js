@@ -115,7 +115,7 @@ function getCancelTradeInfo(Amt, sn) {
 
   data = {
     'RespondType': 'JSON', // 回傳格式
-    'Version': 1.0, // 串接程式版本
+    'Version': '1.0', // 串接程式版本
     'Amt': Amt, // 訂單金額
     'MerchantOrderNo': sn, // 商店訂單編號
     'IndexType': 1,
