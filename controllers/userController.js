@@ -35,7 +35,7 @@ function genDataChain(TradeInfo) {
 }
 
 function create_mpg_aes_encrypt(TradeInfo) {
-  console.log(TradeInfo)
+  console.log(genDataChain(TradeInfo))
   let encrypt = crypto.createCipheriv("aes256", HashKey, HashIV);
   let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
   return enc + encrypt.final("hex");
