@@ -58,7 +58,7 @@
     <a href="/cancelorder/{{order.id}}" class="btn btn-danger btn-lg btn-block mt-1">取消訂單</a>
     {{else}}
     {{#if cancelTradeInfo}}
-    <form name='Spgateway' action='{{cancelTradeInfo.cancelGateWay}}' method="POST" onsubmit="preventDouble()">
+    <form name='Cancel' action='{{cancelTradeInfo.cancelGateWay}}' method="POST" onsubmit="preventDouble()">
       <button type="submit" class="dd btn btn-danger btn-lg btn-block">確認退款</button>
       <input type="text" name="MerchantID_" value="{{cancelTradeInfo.MerchantID_}}" hidden>
       <input type="text" name="PostData_" value="{{cancelTradeInfo.PostData_}} " hidden>
