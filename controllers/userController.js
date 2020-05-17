@@ -52,7 +52,7 @@ function create_mpg_aes_decrypt(TradeInfo) {
 function create_cancel_aes_encrypt(TradeInfo) {
   let encrypt = crypto.createCipheriv("aes256", HashKey, HashIV);
   let enc = encrypt.update(genDataChain(TradeInfo));
-  return enc;
+  return enc + encrypt.final("hex");
 }
 
 function create_mpg_sha_encrypt(TradeInfo) {
