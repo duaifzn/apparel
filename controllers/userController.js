@@ -130,7 +130,7 @@ function getCancelTradeInfo(Amt, sn) {
   console.log(data)
 
 
-  cancel_aes_encrypt = create_mpg_aes_encrypt(data)
+  cancel_aes_encrypt = create_cancel_aes_encrypt(data)
   //mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
 
   console.log('===== getCancelTradeInfo: cancel_aes_encrypt=====')
