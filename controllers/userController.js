@@ -50,7 +50,7 @@ function create_mpg_aes_decrypt(TradeInfo) {
 }
 
 function create_cancel_aes_encrypt(TradeInfo) {
-  let encrypt = crypto.createDecipheriv("aes256", "", "");
+  let encrypt = crypto.createDecipheriv("aes256", "12345678901234567890123456789012", "1234567890123456");
   let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
   return enc + encrypt.final("hex");
 }
