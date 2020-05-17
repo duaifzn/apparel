@@ -35,6 +35,7 @@ function genDataChain(TradeInfo) {
 }
 
 function create_mpg_aes_encrypt(TradeInfo) {
+  console.log(TradeInfo)
   let encrypt = crypto.createCipheriv("aes256", HashKey, HashIV);
   let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
   return enc + encrypt.final("hex");
@@ -126,7 +127,6 @@ function getCancelTradeInfo(Amt, sn) {
 
 
   cancel_aes_encrypt = create_mpg_aes_encrypt(data)
-  //mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
 
   console.log('===== getCancelTradeInfo: cancel_aes_encrypt=====')
   console.log(cancel_aes_encrypt)
