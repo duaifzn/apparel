@@ -124,6 +124,7 @@ function getCancelTradeInfo(Amt, sn) {
     'MerchantOrderNo': sn, // 商店訂單編號
     'IndexType': 1,
     'TimeStamp': Date.now(), // 時間戳記
+    'ReturnURL': URL + "/cancel/callback?from=ReturnURL"
   }
 
   console.log('===== getCancelTradeInfo: data =====')
