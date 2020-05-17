@@ -133,8 +133,8 @@ function getCancelTradeInfo(Amt, sn) {
   //console.log(mpg_sha_encrypt)
 
   cancelTradeInfo = {
-    'MerchantID_': MerchantID, // 商店代號
-    'PostData_': cancel_aes_encrypt, // 加密後參數
+    'MerchantID': MerchantID, // 商店代號
+    'PostData': cancel_aes_encrypt, // 加密後參數
     //'TradeSha': mpg_sha_encrypt,
     //'Version': 1.0, // 串接程式版本
     'cancelGateWay': cancelGateWay,
