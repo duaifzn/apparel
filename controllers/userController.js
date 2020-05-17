@@ -51,8 +51,8 @@ function create_mpg_aes_decrypt(TradeInfo) {
 
 function create_cancel_aes_encrypt(TradeInfo) {
   let encrypt = crypto.createCipheriv("aes256", HashKey, HashIV);
-  let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
-  return enc + encrypt.final("hex");
+  //let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
+  return encrypt;
 }
 
 function create_mpg_sha_encrypt(TradeInfo) {
@@ -124,7 +124,6 @@ function getCancelTradeInfo(Amt, sn) {
     'MerchantOrderNo': sn, // 商店訂單編號
     'IndexType': 1,
     'TimeStamp': Date.now(), // 時間戳記
-    'ReturnURL': URL + "/cancel/callback?from=ReturnURL"
   }
 
   console.log('===== getCancelTradeInfo: data =====')
