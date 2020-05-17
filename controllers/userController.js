@@ -49,6 +49,12 @@ function create_mpg_aes_decrypt(TradeInfo) {
   return result;
 }
 
+function create_cancel_aes_encrypt(TradeInfo) {
+  let encrypt = crypto.createCipher("aes256");
+  let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
+  return enc + encrypt.final("hex");
+}
+
 function create_mpg_sha_encrypt(TradeInfo) {
 
   let sha = crypto.createHash("sha256");
@@ -133,16 +139,16 @@ function getCancelTradeInfo(Amt, sn) {
   console.log(data)
 
 
-  mpg_aes_encrypt = create_mpg_aes_encrypt(data)
+  cancel_aes_encrypt = create_cancel_aes_encrypt(data)
   //mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
 
   console.log('===== getCancelTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt =====')
-  console.log(mpg_aes_encrypt)
+  console.log(mpg_cancel_encrypt)
   //console.log(mpg_sha_encrypt)
 
   cancelTradeInfo = {
     'MerchantID_': MerchantID, // 商店代號
-    'PostData_': mpg_aes_encrypt, // 加密後參數
+    'PostData_': mpg_cancel_encrypt, // 加密後參數
     //'TradeSha': mpg_sha_encrypt,
     //'Version': 1.0, // 串接程式版本
     'cancelGateWay': cancelGateWay,
