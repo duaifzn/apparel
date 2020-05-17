@@ -118,31 +118,22 @@ function getCancelTradeInfo(Amt, sn) {
   console.log('==========')
 
   data = {
-    'MerchantID': MerchantID, // 商店代號
     'RespondType': 'JSON', // 回傳格式
-    'TimeStamp': Date.now(), // 時間戳記
     'Version': 1.0, // 串接程式版本
     'Amt': Amt, // 訂單金額
     'MerchantOrderNo': sn, // 商店訂單編號
-    //'LoginType': 0, // 智付通會員
-    //'TradeNo': sn,
-    //'OrderComment': 'OrderComment', // 商店備註
     'IndexType': 1,
-    //'ItemDesc': Desc, // 產品名稱
-    //'Email': email, // 付款人電子信箱
-    //'ReturnURL': ReturnURL, // 支付完成返回商店網址
-    //'NotifyURL': NotifyURL, // 支付通知網址/每期授權結果通知
-    //'ClientBackURL': ClientBackURL, // 支付取消返回商店網址
+    'TimeStamp': Date.now(), // 時間戳記
   }
 
   console.log('===== getCancelTradeInfo: data =====')
   console.log(data)
 
 
-  cancel_aes_encrypt = create_cancel_aes_encrypt(data)
+  cancel_aes_encrypt = create_mpg_aes_encrypt(data)
   //mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
 
-  console.log('===== getCancelTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt =====')
+  console.log('===== getCancelTradeInfo: cancel_aes_encrypt=====')
   console.log(cancel_aes_encrypt)
   //console.log(mpg_sha_encrypt)
 
