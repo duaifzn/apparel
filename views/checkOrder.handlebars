@@ -61,7 +61,7 @@
     <a href="/cancelorder/check/{{order.id}}" class="dd btn btn-danger btn-lg btn-block">確認退款</a>
     {{else}}
     {{#if cancel}}
-    <a class="btn btn-danger btn-lg btn-block" disabled>已取消訂單</a>
+    <a class="btn btn-danger btn-lg btn-block" disabled>{{orderStatus}}</a>
     {{else}}
     <a href="/cancelorder/{{order.id}}" class="btn btn-danger btn-lg btn-block">取消訂單</a>
     {{/if}}
