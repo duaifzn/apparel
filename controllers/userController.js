@@ -107,6 +107,45 @@ function getTradeInfo(Amt, Desc, email) {
   return tradeInfo
 }
 
+function getCancelTradeInfo(Amt, sn) {
+
+  console.log('===== getCancelTradeInfo =====')
+  console.log(Amt, sn)
+  console.log('==========')
+
+  data = {
+    'RespondType': 'JSON', // 回傳格式
+    'Version': 1.0, // 串接程式版本
+    'Amt': Amt, // 訂單金額
+    'MerchantOrderNo': sn, // 商店訂單編號
+    'IndexType': 1,
+    'TimeStamp': Date.now(), // 時間戳記
+  }
+
+  console.log('===== getCancelTradeInfo: data =====')
+  console.log(data)
+
+
+  cancel_aes_encrypt = create_mpg_aes_encrypt(data)
+
+  console.log('===== getCancelTradeInfo: cancel_aes_encrypt=====')
+  console.log(cancel_aes_encrypt)
+  //console.log(mpg_sha_encrypt)
+
+  cancelTradeInfo = {
+    'MerchantID': MerchantID, // 商店代號
+    'PostData': cancel_aes_encrypt, // 加密後參數
+    //'TradeSha': mpg_sha_encrypt,
+    //'Version': 1.0, // 串接程式版本
+    'cancelGateWay': cancelGateWay,
+    //'MerchantOrderNo': data.MerchantOrderNo,
+  }
+
+  console.log('===== getCancelTradeInfo: cancelTradeInfo =====')
+  console.log(cancelTradeInfo)
+
+  return cancelTradeInfo
+}
 
 const userController = {
   signInPage: (req, res) => {
@@ -370,7 +409,25 @@ const userController = {
   adminPay: (req, res) => {
     return
   },
+  cancelOrder: (req, res) => {
+    Order.findOne({ where: { id: req.params.order_id } })
+      .then(order => {
+        if (order.orderStatus === "未付款") {
+          order.update({
+            orderStatus: "已取消訂單"
+          }).then(o => {
+            let cancel = true
+            res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: cancel })))
+          })
+        }
+        else {
+          const cancelTradeInfo = getCancelTradeInfo(order.totalPrice, order.sn)
+          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelTradeInfo: cancelTradeInfo })))
+        }
 
+      })
+
+  }
 }
 
 module.exports = userController
