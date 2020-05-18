@@ -57,12 +57,8 @@
     </form>
     <a href="/cancelorder/{{order.id}}" class="btn btn-danger btn-lg btn-block mt-1">取消訂單</a>
     {{else}}
-    {{#if cancelTradeInfo}}
-    <form name='Cancel' action='{{cancelTradeInfo.cancelGateWay}}' method="POST" onsubmit="preventDouble()">
-      <button type="submit" class="dd btn btn-danger btn-lg btn-block">確認退款</button>
-      <input type="text" name="MerchantID_" value="{{cancelTradeInfo.MerchantID}}" hidden>
-      <input type="text" name="PostData_" value="{{cancelTradeInfo.PostData}} " hidden>
-    </form>
+    {{#if cancelCheck}}
+    <a href="/cancelorder/check/{{order.id}}" class="dd btn btn-danger btn-lg btn-block">確認退款</a>
     {{else}}
     {{#if cancel}}
     <a class="btn btn-danger btn-lg btn-block" disabled>已取消訂單</a>

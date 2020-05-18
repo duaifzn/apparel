@@ -9,6 +9,8 @@ const OrderProduct = db.OrderProduct
 const User = db.User
 const Transport = db.Transport
 const crypto = require('crypto')
+const axios = require('axios')
+
 
 const URL = 'https://final-276802.df.r.appspot.com/'
 const MerchantID = process.env.MERCHANT_ID
@@ -421,9 +423,27 @@ const userController = {
           })
         }
         else {
-          const cancelTradeInfo = getCancelTradeInfo(order.totalPrice, order.sn)
-          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelTradeInfo: cancelTradeInfo })))
+          let cancelCheck = true
+          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelCheck: cancelCheck })))
         }
+
+      })
+
+  },
+  cancelOrderCheck: (req, res) => {
+    Order.findOne({ where: { id: req.params.order_id } })
+      .then(order => {
+        const cancelTradeInfo = getCancelTradeInfo(order.totalPrice, order.sn)
+        axios.post(cancelTradeInfo.cancelGateWay, {
+          MerchantID_: cancelTradeInfo.MerchantID,
+          PostData_: cancelTradeInfo.PostData
+        }).then((response) => {
+          console.log('response: ', response)
+        })
+          .catch((error) => {
+            console.error(error)
+          })
+
 
       })
 

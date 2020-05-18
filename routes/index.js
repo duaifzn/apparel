@@ -62,6 +62,8 @@ module.exports = (app, passport) => {
 
   //取消訂單
   app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder)
+  app.get('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck)
+
   //藍金callback
   app.post('/pay/callback', authenticated, userController.pay)
   app.get('/admin/pay/callback', authenticated, userController.adminPay)
@@ -75,21 +77,18 @@ module.exports = (app, passport) => {
   // Accepts GET requests at the /webhook endpoint
   app.get('/webhook', messengerController.getWebhook)
 
-  app.get('*', (req, res) => {
-    res.redirect('/')
+  //轉跳至 /admin/items
+  app.get('/admin', authenticated, (req, res) => {
+    res.redirect('/admin/items')
   })
-  // //轉跳至 /admin/items
-  // app.get('/admin', authenticated, (req, res) => {
-  //   res.redirect('/admin/items')
-  // })
-  // //看見站內所有商品(設為後台首頁)
-  // app.get('/admin/items', authenticated, adminController.itemsPage)
+  //看見站內所有商品(設為後台首頁)
+  app.get('/admin/items', authenticated, adminController.itemsPage)
   // //新增商品頁面
   // app.get('/admin/items/create', authenticated, adminController.createItemPage)
   // //新增商品
   // app.post('/admin/items/create', authenticated, adminController.createItem)
-  // //單項商品詳細頁面
-  // app.get('/admin/items/:item_id', authenticated, adminController.itemDetailPage)
+  //單項商品詳細頁面
+  app.get('/admin/items/:item_id', authenticated, adminController.itemDetailPage)
   // //編輯單項商品頁面
   // app.get('/admin/items/:item_id/edit', authenticated, adminController.editItemPage)
   // //編輯單項商品
@@ -118,4 +117,7 @@ module.exports = (app, passport) => {
   // app.post('/admin/members', authenticated, adminController.createAdmin)
   // //編輯會員權限
   // app.post('/admin/members/:user_id', authenticated, adminController.aditUser)
+  app.get('*', (req, res) => {
+    res.redirect('/')
+  })
 }
