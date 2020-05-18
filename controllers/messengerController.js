@@ -21,45 +21,45 @@ let ReturnUser = []
 let newProduct = []
 let popularProduct = []
 
-function newProduct() {
-  Product.findAll({ where: { new: true } }).then(products => {
-    asyncForEach(products, (product) => {
-      let reply = {
-        title: product.name,
-        image_url: product.image1,
-        subtitle: product.introduction.substring(0, 20) + '...',
-        default_action: {
-          type: 'web_url',
-          url: `${URL}/items/${product.id}`,
-          messenger_extensions: true,
-          webview_height_ratio: 'tall',
-          fallback_url: `${URL}/items/${product.id}`,
-        }
-      }
-      newProduct.push(reply)
-    })
-  })
-}
 
-function popularProduct() {
-  Product.findAll({ where: { popular: true } }).then(products => {
-    asyncForEach(products, (product) => {
-      let reply = {
-        title: product.name,
-        image_url: product.image1,
-        subtitle: product.introduction.substring(0, 20) + '...',
-        default_action: {
-          type: 'web_url',
-          url: `${URL}/items/${product.id}`,
-          messenger_extensions: true,
-          webview_height_ratio: 'tall',
-          fallback_url: `${URL}/items/${product.id}`,
-        },
+Product.findAll({ where: { new: true } }).then(products => {
+  asyncForEach(products, (product) => {
+    let reply = {
+      title: product.name,
+      image_url: product.image1,
+      subtitle: product.introduction.substring(0, 20) + '...',
+      default_action: {
+        type: 'web_url',
+        url: `${URL}/items/${product.id}`,
+        messenger_extensions: true,
+        webview_height_ratio: 'tall',
+        fallback_url: `${URL}/items/${product.id}`,
       }
-      popularProduct.push(reply)
-    })
+    }
+    newProduct.push(reply)
   })
-}
+})
+
+
+
+Product.findAll({ where: { popular: true } }).then(products => {
+  asyncForEach(products, (product) => {
+    let reply = {
+      title: product.name,
+      image_url: product.image1,
+      subtitle: product.introduction.substring(0, 20) + '...',
+      default_action: {
+        type: 'web_url',
+        url: `${URL}/items/${product.id}`,
+        messenger_extensions: true,
+        webview_height_ratio: 'tall',
+        fallback_url: `${URL}/items/${product.id}`,
+      },
+    }
+    popularProduct.push(reply)
+  })
+})
+
 
 
 async function asyncForEach(array, callback) {
@@ -71,8 +71,6 @@ async function asyncForEach(array, callback) {
 const messengerController = {
   postWebhook: (req, res) => {
     console.log('app.post /webhook')
-    popularProduct()
-    newProduct()
     client.setGetStarted('GET_STARTED')
     client.setPersistentMenu([
       {
