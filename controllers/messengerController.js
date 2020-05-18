@@ -15,47 +15,52 @@ const Order = db.Order
 const OrderProduct = db.OrderProduct
 const User = db.User
 const Transport = db.Transport
-let URL = 'https://hidden-cliffs-50028.herokuapp.com/'
+let URL = 'https://final-276802.df.r.appspot.com/'
 let waitUser = []
 let ReturnUser = []
 let newProduct = []
 let popularProduct = []
-Product.findAll({ where: { new: true } }).then(products => {
-  asyncForEach(products, (product) => {
-    let reply = {
-      title: product.name,
-      image_url: product.image1,
-      subtitle: product.introduction.substring(0, 20) + '...',
-      default_action: {
-        type: 'web_url',
-        url: `${URL}/items/${product.id}`,
-        messenger_extensions: true,
-        webview_height_ratio: 'tall',
-        fallback_url: `${URL}/items/${product.id}`,
+
+function newProduct() {
+  Product.findAll({ where: { new: true } }).then(products => {
+    asyncForEach(products, (product) => {
+      let reply = {
+        title: product.name,
+        image_url: product.image1,
+        subtitle: product.introduction.substring(0, 20) + '...',
+        default_action: {
+          type: 'web_url',
+          url: `${URL}/items/${product.id}`,
+          messenger_extensions: true,
+          webview_height_ratio: 'tall',
+          fallback_url: `${URL}/items/${product.id}`,
+        }
       }
-    }
-    newProduct.push(reply)
+      newProduct.push(reply)
+    })
   })
-})
+}
 
-Product.findAll({ where: { popular: true } }).then(products => {
-  asyncForEach(products, (product) => {
-    let reply = {
-      title: product.name,
-      image_url: product.image1,
-      subtitle: product.introduction.substring(0, 20) + '...',
-      default_action: {
-        type: 'web_url',
-        url: `${URL}/items/${product.id}`,
-        messenger_extensions: true,
-        webview_height_ratio: 'tall',
-        fallback_url: `${URL}/items/${product.id}`,
-      },
-
-    }
-    popularProduct.push(reply)
+function popularProduct() {
+  Product.findAll({ where: { popular: true } }).then(products => {
+    asyncForEach(products, (product) => {
+      let reply = {
+        title: product.name,
+        image_url: product.image1,
+        subtitle: product.introduction.substring(0, 20) + '...',
+        default_action: {
+          type: 'web_url',
+          url: `${URL}/items/${product.id}`,
+          messenger_extensions: true,
+          webview_height_ratio: 'tall',
+          fallback_url: `${URL}/items/${product.id}`,
+        },
+      }
+      popularProduct.push(reply)
+    })
   })
-})
+}
+
 
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
@@ -66,6 +71,8 @@ async function asyncForEach(array, callback) {
 const messengerController = {
   postWebhook: (req, res) => {
     console.log('app.post /webhook')
+    popularProduct()
+    newProduct()
     client.setGetStarted('GET_STARTED')
     client.setPersistentMenu([
       {
@@ -83,7 +90,6 @@ const messengerController = {
     const event = req.body.entry[0].messaging[0];
     //console.log(req.body.entry[0].messaging)
     const userId = event.sender.id; // 傳話給你的使用者 id
-    console.log('@@@@@', event)
     if (event.message && !waitUser.includes(userId)) {
       const text = event.message.text; // 使用者講的話
       if (ReturnUser[userId]) {
