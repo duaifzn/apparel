@@ -2,7 +2,7 @@ const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
 const multer = require('multer')
-const upload = multer({ dest: 'temp/' })
+const upload = multer({ dest: 'upload/' })
 
 
 module.exports = (app, passport) => {
