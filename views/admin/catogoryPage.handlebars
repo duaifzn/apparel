@@ -20,7 +20,7 @@
     {{#each catogories}}
     <div class="row">
       <div class="col-10">
-        <li class="list-group-item">類別: {{this.name}}</li>
+        <li class="list-group-item">#{{this.id}} 類別: {{this.name}}</li>
       </div>
       <div class="col-2 ">
         <form action="/admin/catogories/{{this.id}}?_method=DELETE" method="POST">
