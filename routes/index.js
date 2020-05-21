@@ -1,8 +1,8 @@
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
-const multer = require('multer')
-const upload = multer({ dest: 'upload/' })
+//const multer = require('multer')
+//const upload = multer({ dest: 'upload/' })
 
 
 module.exports = (app, passport) => {
@@ -84,13 +84,15 @@ module.exports = (app, passport) => {
   //新增商品頁面
   app.get('/admin/items/create', authenticated, adminController.createItemPage)
   //新增商品
-  app.post('/admin/items/create', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.createItem)
+  //app.post('/admin/items/create', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.createItem)
+  app.post('/admin/items/create', authenticated, adminController.createItem)
   //單項商品詳細頁面
   app.get('/admin/items/:item_id', authenticated, adminController.itemDetailPage)
   //編輯單項商品頁面
   app.get('/admin/items/:item_id/edit', authenticated, adminController.editItemPage)
   //編輯單項商品
-  app.post('/admin/items/:item_id/edit', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.editItem)
+  //app.post('/admin/items/:item_id/edit', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.editItem)
+  app.post('/admin/items/:item_id/edit', authenticated, adminController.editItem)
   //刪除單項商品
   app.delete('/admin/items/:item_id', authenticated, adminController.deleteItem)
   //看見站內所有訂單

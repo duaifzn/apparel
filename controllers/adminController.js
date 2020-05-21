@@ -123,11 +123,11 @@ const adminController = {
     })
   },
   orderDetail: (req, res) => {
-    Order.findOne({ where: { id: req.params.order_id } })
+    Order.findOne({ where: { id: req.params.order_id }, include: User })
       .then(order => {
         let applyCancel = false
         if (order.orderStatus === '取消訂單申請中') { applyCancel = true }
-        res.render('admin/adminOrder', JSON.parse(JSON.stringify({ order: order, applyCancel: applyCancel })))
+        res.render('admin/adminOrder', JSON.parse(JSON.stringify({ USER: order.User, order: order, applyCancel: applyCancel })))
       })
   },
   catogoryPage: (req, res) => {
