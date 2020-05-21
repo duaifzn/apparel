@@ -138,6 +138,8 @@ const adminController = {
   createCatogory: (req, res) => {
     Catogory.create({
       name: req.body.catogory
+    }).catch(err => {
+      console.error(err)
     }).then(() => {
       res.redirect('back')
     })
