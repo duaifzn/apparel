@@ -1,0 +1,19 @@
+<h1>訂單管理</h1>
+<div class="row">
+  <div class="col-3">
+    <div class="list-group">
+      <a href="/admin/items" class="list-group-item list-group-item-action">商品管理</a>
+      <a href="/admin/orders" class="list-group-item list-group-item-action">訂單管理</a>
+      <a href="/admin/catogories" class="list-group-item list-group-item-action">類別管理</a>
+
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="list-group">
+      {{#each orders}}
+      <a href="/admin/orders/{{this.id}}" class="list-group-item list-group-item-action">訂單編號 : {{this.id}} 付款狀態:
+        {{this.orderStatus}}</a>
+      {{/each}}
+    </div>
+  </div>
+</div>

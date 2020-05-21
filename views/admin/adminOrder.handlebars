@@ -1,0 +1,47 @@
+<div class="card">
+  <h2 class="card-header text-success"><i class="fas fa-check-circle"></i> 訂單{{order.id}}</h2>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 col-md border-left mt-3">
+        <strong>
+          <h5>訂單資訊</h5>
+        </strong>
+        訂單編號:{{order.id}}<br>
+        訂單日期:{{order.createdAt}}
+      </div>
+      <div class="col-12 col-md border-left mt-3">
+        <h5>顧客資訊</h5>
+        姓名:{{user.name}}<br>
+        電話:{{user.telephone}}
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12 col-md border-left mt-3">
+        <h5>送貨資訊</h5>
+        收件人姓名:{{order.receiver}}<br>
+        收件人電話:{{order.telephone}}<br>
+        收件人地址:{{order.address}}<br>
+        送貨方式: 宅配到府<br>
+        送貨狀態:{{order.Transport.name}}
+      </div>
+      <div class="col-12 col-md border-left mt-3">
+        <h5>付款資訊</h5>
+        付款金額:NT$ {{order.totalPrice}}<br>
+        付款方式:{{order.payment}}<br>
+        付款狀態:{{order.orderStatus}}<br>
+        {{#if order.reason}}
+        取消理由:{{order.reason}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    {{#if applyCancel}}
+    <a href="/admin/orders/cancel/{{order.id}}" class="dd btn btn-danger btn-lg btn-block">確認取消訂單</a>
+    <a href="/admin/orders/refuse/{{order.id}}" class="dd btn btn-danger btn-lg btn-block mt-1">拒絕取消訂單</a>
+    {{else}}
+    <a class="dd btn btn-success btn-lg btn-block">{{order.orderStatus}}</a>
+    {{/if}}
+
+  </div>
+</div>

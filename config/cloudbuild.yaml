@@ -17,6 +17,7 @@ steps:
     - 'HASH_IV=${_HASH_IV}'
     - 'HASH_KEY=${_HASH_KEY}'
     - 'MERCHANT_ID=${_MERCHANT_ID}'
+    - 'IMGUR_CLIENT_ID=&{_IMGUR_CLIENT_ID}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"

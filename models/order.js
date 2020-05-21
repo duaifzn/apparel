@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     TransportId: DataTypes.INTEGER,
     totalPrice: DataTypes.INTEGER,
     sn: DataTypes.STRING,
-    payment: DataTypes.STRING
+    payment: DataTypes.STRING,
+    reason: DataTypes.STRING,
   }, {});
   Order.associate = function (models) {
     Order.belongsTo(models.User)

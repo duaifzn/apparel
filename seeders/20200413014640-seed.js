@@ -106,7 +106,6 @@ module.exports = {
     queryInterface.bulkDelete('Users', null, {});
     queryInterface.bulkDelete('Products', null, {});
     queryInterface.bulkDelete('Transports', null, {});
-    queryInterface.bulkDelete('Catogories', null, {});
-    return queryInterface.bulkDelete('Orders', null, {});
+    return queryInterface.bulkDelete('Catogories', null, {});
   }
 };

@@ -38,7 +38,10 @@
         <h5>付款資訊</h5>
         付款金額:NT$ {{order.totalPrice}}<br>
         付款方式:{{order.payment}}<br>
-        付款狀態:{{order.orderStatus}}
+        付款狀態:{{order.orderStatus}}<br>
+        {{#if order.reason}}
+        取消理由:{{order.reason}}
+        {{/if}}
       </div>
     </div>
   </div>
@@ -58,14 +61,19 @@
     <a href="/cancelorder/{{order.id}}" class="btn btn-danger btn-lg btn-block mt-1">取消訂單</a>
     {{else}}
     {{#if cancelCheck}}
-    <a href="/cancelorder/check/{{order.id}}" class="dd btn btn-danger btn-lg btn-block">確認退款</a>
+    <form action="/cancelorder/check/{{order.id}}" method="POST">
+      <div class="form-group">
+        <label for="reason">輸入原因:</label>
+        <input type="text" class="form-control" id="reason" name="reason" required>
+      </div>
+      <button type="submit" class="dd btn btn-danger btn-lg btn-block">確認取消訂單</button>
+    </form>
     {{else}}
     {{#if cancel}}
-    <a class="btn btn-danger btn-lg btn-block" disabled>{{orderStatus}}</a>
+    <button class="btn btn-danger btn-lg btn-block" disabled>{{order.orderStatus}}</button>
     {{else}}
     <a href="/cancelorder/{{order.id}}" class="btn btn-danger btn-lg btn-block">取消訂單</a>
     {{/if}}
-
     {{/if}}
     {{/if}}
 

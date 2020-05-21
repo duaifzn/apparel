@@ -1,10 +1,10 @@
 {
   "name": "final",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "create-env": "printenv > .env",
-    "start": "node app.js",
+    "start": "npm install && sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all && NODE_ENV=production node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],

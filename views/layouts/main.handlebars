@@ -15,6 +15,11 @@
       <a class="navbar-brand font-weight-bold ml-1" href="/">
         <h3>LOGO</h3>
       </a>
+      {{#ifRole user.role}}
+      <a class="navbar-brand font-weight-bold ml-1" href="/admin">
+        <h4>Manage-platform</h4>
+      </a>
+      {{/ifRole}}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

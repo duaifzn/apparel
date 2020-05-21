@@ -1,24 +1,16 @@
-<h1>admin</h1>
+<h1>商品管理</h1>
 <div class="row">
   <div class="col-3">
-    <div class="list-group" id="list-tab" role="tablist">
-      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home"
-        role="tab" aria-controls="home">Home</a>
-      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile"
-        role="tab" aria-controls="profile">Profile</a>
-      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages"
-        role="tab" aria-controls="messages">Messages</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings"
-        role="tab" aria-controls="settings">Settings</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings"
-        role="tab" aria-controls="settings">Settings</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings"
-        role="tab" aria-controls="settings">Settings</a>
+    <div class="list-group">
+      <a href="/admin/items" class="list-group-item list-group-item-action">商品管理</a>
+      <a href="/admin/orders" class="list-group-item list-group-item-action">訂單管理</a>
+      <a href="/admin/catogories" class="list-group-item list-group-item-action">類別管理</a>
+
     </div>
   </div>
   <div class="col-9">
     <div>
-      <a class="btn btn-danger mb-3" href="/admin/restaurant/create">新增商品</a>
+      <a class="btn btn-success mb-3" href="/admin/items/create">新增商品</a>
     </div>
     <div class="list-group">
       {{#each products }}
@@ -27,13 +19,11 @@
           <h5>{{this.name}}</h5>
           <h4>{{this.Category.name}}</h4>
         </a>
-        <div class="col-1 ">
-          <a class="btn btn-info" href="/admin/restaurant/{{this.id}}/edit">編輯</a>
+        <div class="col-2 ">
+          <form action="/admin/items/{{this.id}}?_method=DELETE" method="post">
+            <button type="submit" class="btn btn-danger">刪除</button>
+          </form>
         </div>
-        <div class="col-1 ">
-          <a id="delete" class="btn btn-danger" href="{{this.id}}">刪除</a>
-        </div>
-
       </div>
       {{/each}}
       {{!-- <nav aria-label="Page navigation example">

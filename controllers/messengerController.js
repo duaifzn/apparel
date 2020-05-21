@@ -117,18 +117,13 @@ const messengerController = {
                   delete ReturnUser[userId]
                   client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
                 }
-                else if (order && order.orderStatus === '退貨申請中') {
+                else if (order && order.orderStatus === '取消訂單申請中') {
                   delete ReturnUser[userId]
-                  client.sendText(userId, '您的訂單退貨申請中');
+                  client.sendText(userId, '您的訂單取消訂單申請中');
                 }
-                else if (order && order.orderStatus === '退貨中') {
+                else if (order && order.orderStatus === '已取消訂單') {
                   delete ReturnUser[userId]
-                  client.sendText(userId, '您的訂單退貨中，並進行退款。請備妥發票，將會派人到府收件')
-
-                }
-                else if (order && order.orderStatus === '已退貨') {
-                  delete ReturnUser[userId]
-                  client.sendText(userId, '您的訂單已退貨完成');
+                  client.sendText(userId, '您的訂單已取消訂單');
                 }
                 else if (time < 7 && order && order.orderStatus === '已付款') {
                   ReturnUser[userId].status = 2
@@ -160,10 +155,10 @@ const messengerController = {
             User.findOne({ where: { id: ReturnUser[userId].orderUserId, name: ReturnUser[userId].name, telephone: text } })
               .then((user) => {
                 if (user) {
-                  Order.update({ orderStatus: '退貨中' }, { where: { id: ReturnUser[userId].order } })
+                  Order.update({ orderStatus: '取消訂單申請中' }, { where: { id: ReturnUser[userId].order } })
                     .then(() => {
                       delete ReturnUser[userId]
-                      client.sendText(userId, '您的訂單退貨申請中');
+                      client.sendText(userId, '您的訂單取消訂單申請中');
                     })
                 }
                 else {
@@ -202,7 +197,7 @@ const messengerController = {
                 });
               })
             break;
-          case '退貨':
+          case '取消訂單':
             let data = {
               status: 1,
               order: '',
@@ -212,7 +207,7 @@ const messengerController = {
             }
             ReturnUser[userId] = data
             console.log(ReturnUser)
-            client.sendText(userId, '請輸入訂單編號為您退貨');
+            client.sendText(userId, '請輸入訂單編號為您取消訂單');
             break;
           case '其他問題':
             if (waitUser.length > 50) waitUser = []
@@ -263,7 +258,7 @@ const messengerController = {
             },
             {
               content_type: 'text',
-              title: '退貨',
+              title: '取消訂單',
               payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
             },
             {

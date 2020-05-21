@@ -10,144 +10,7 @@ const User = db.User
 const Transport = db.Transport
 const crypto = require('crypto')
 const axios = require('axios')
-const request = require('request')
-
-const URL = 'https://final-276802.df.r.appspot.com/'
-const MerchantID = process.env.MERCHANT_ID
-const HashKey = process.env.HASH_KEY
-const HashIV = process.env.HASH_IV
-const PayGateWay = "https://ccore.spgateway.com/MPG/mpg_gateway"
-const ReturnURL = URL + "/pay/callback?from=ReturnURL"
-const NotifyURL = URL + "/admin/pay/callback?from=NotifyURL"
-const ClientBackURL = URL + "/checkorder"
-const cancelGateWay = "https://ccore.newebpay.com/API/CreditCard/Cancel"
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index]);
-  }
-}
-
-function genDataChain(TradeInfo) {
-  let results = [];
-  for (let kv of Object.entries(TradeInfo)) {
-    results.push(`${kv[0]}=${kv[1]}`);
-  }
-  return results.join("&");
-}
-
-function create_mpg_aes_encrypt(TradeInfo) {
-  console.log(genDataChain(TradeInfo))
-  let encrypt = crypto.createCipheriv("aes256", HashKey, HashIV);
-  let enc = encrypt.update(genDataChain(TradeInfo), "utf8", "hex");
-  return enc + encrypt.final("hex");
-}
-
-function create_mpg_aes_decrypt(TradeInfo) {
-  let decrypt = crypto.createDecipheriv("aes256", HashKey, HashIV);
-  decrypt.setAutoPadding(false);
-  let text = decrypt.update(TradeInfo, "hex", "utf8");
-  let plainText = text + decrypt.final("utf8");
-  let result = plainText.replace(/[\x00-\x20]+/g, "");
-  return result;
-}
-
-
-function create_mpg_sha_encrypt(TradeInfo) {
-
-  let sha = crypto.createHash("sha256");
-  let plainText = `HashKey=${HashKey}&${TradeInfo}&HashIV=${HashIV}`
-
-  return sha.update(plainText).digest("hex").toUpperCase();
-}
-
-function getTradeInfo(Amt, Desc, email) {
-
-  console.log('===== getTradeInfo =====')
-  console.log(Amt, Desc, email)
-  console.log('==========')
-
-  data = {
-    'MerchantID': MerchantID, // 商店代號
-    'RespondType': 'JSON', // 回傳格式
-    'TimeStamp': Date.now(), // 時間戳記
-    'Version': 1.5, // 串接程式版本
-    'MerchantOrderNo': Date.now(), // 商店訂單編號
-    'LoginType': 0, // 智付通會員
-    'OrderComment': 'OrderComment', // 商店備註
-    'Amt': Amt, // 訂單金額
-    'ItemDesc': Desc, // 產品名稱
-    'Email': email, // 付款人電子信箱
-    'ReturnURL': ReturnURL, // 支付完成返回商店網址
-    'NotifyURL': NotifyURL, // 支付通知網址/每期授權結果通知
-    'ClientBackURL': ClientBackURL, // 支付取消返回商店網址
-  }
-
-  console.log('===== getTradeInfo: data =====')
-  console.log(data)
-
-
-  mpg_aes_encrypt = create_mpg_aes_encrypt(data)
-  mpg_sha_encrypt = create_mpg_sha_encrypt(mpg_aes_encrypt)
-
-  console.log('===== getTradeInfo: mpg_aes_encrypt, mpg_sha_encrypt =====')
-  console.log(mpg_aes_encrypt)
-  console.log(mpg_sha_encrypt)
-
-  tradeInfo = {
-    'MerchantID': MerchantID, // 商店代號
-    'TradeInfo': mpg_aes_encrypt, // 加密後參數
-    'TradeSha': mpg_sha_encrypt,
-    'Version': 1.5, // 串接程式版本
-    'PayGateWay': PayGateWay,
-    'MerchantOrderNo': data.MerchantOrderNo,
-  }
-
-  console.log('===== getTradeInfo: tradeInfo =====')
-  console.log(tradeInfo)
-
-  return tradeInfo
-}
-
-function getCancelTradeInfo(Amt, sn) {
-
-  console.log('===== getCancelTradeInfo =====')
-  console.log(Amt, sn)
-  console.log('==========')
-
-  data = {
-    'RespondType': 'JSON', // 回傳格式
-    'Version': 1.0, // 串接程式版本
-    'Amt': Amt, // 訂單金額
-    'MerchantOrderNo': sn, // 商店訂單編號
-    'IndexType': 1,
-    'TimeStamp': Date.now(), // 時間戳記
-  }
-
-  console.log('===== getCancelTradeInfo: data =====')
-  console.log(data)
-
-
-  cancel_aes_encrypt = create_mpg_aes_encrypt(data)
-
-  console.log('===== getCancelTradeInfo: cancel_aes_encrypt=====')
-  console.log(cancel_aes_encrypt)
-  //console.log(mpg_sha_encrypt)
-
-  cancelTradeInfo = {
-    'MerchantID': MerchantID, // 商店代號
-    'PostData': cancel_aes_encrypt, // 加密後參數
-    //'TradeSha': mpg_sha_encrypt,
-    //'Version': 1.0, // 串接程式版本
-    'cancelGateWay': cancelGateWay,
-    //'MerchantOrderNo': data.MerchantOrderNo,
-  }
-
-  console.log('===== getCancelTradeInfo: cancelTradeInfo =====')
-  console.log(cancelTradeInfo)
-
-  return cancelTradeInfo
-}
+const blue = require('./blue')
 
 const userController = {
   signInPage: (req, res) => {
@@ -310,7 +173,7 @@ const userController = {
         }).then((order) => {
           CartProduct.findAll({ where: { UserId: req.user.id } })
             .then(cartProducts => {
-              asyncForEach(cartProducts, async cartProduct => {
+              blue.asyncForEach(cartProducts, async cartProduct => {
                 await OrderProduct.create({
                   OrderId: order.id,
                   ProductId: cartProduct.ProductId,
@@ -329,7 +192,7 @@ const userController = {
                   include: [Transport]
                 }).then((order) => {
 
-                  const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+                  const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
                   //console.log(tradeInfo.MerchantOrderNo)
                   order[0].update({
                     sn: tradeInfo.MerchantOrderNo,
@@ -357,7 +220,7 @@ const userController = {
       include: [Transport]
     }).then((order) => {
       //console.log(order)
-      const tradeInfo = getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+      const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
       return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order[0], tradeInfo: tradeInfo })))
     })
   },
@@ -365,14 +228,14 @@ const userController = {
     Order.findOne({ where: { id: req.params.order_id, UserId: req.user.id } })
       .then((order) => {
         if (order && order.orderStatus === '未付款') {
-          const tradeInfo = getTradeInfo(order.totalPrice, 'LOGO產品', req.user.email)
+          const tradeInfo = blue.getTradeInfo(order.totalPrice, 'LOGO產品', req.user.email)
           order.update({
             sn: tradeInfo.MerchantOrderNo
           }).then(o => {
             return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
           })
         }
-        else if (order && order.orderStatus === '已取消訂單') {
+        else if (order && (order.orderStatus === '已取消訂單' || order.orderStatus === '取消訂單申請中' || order.orderStatus === '原因不符合規定，無法取消訂單')) {
           let cancel = true
           return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancel: cancel })))
         }
@@ -388,7 +251,7 @@ const userController = {
     console.log(req.method)
     console.log(req.query)
     console.log(req.body)
-    let info = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+    let info = JSON.parse(blue.create_mpg_aes_decrypt(req.body.TradeInfo))
     console.log(info)
 
     Order.findOne({ where: { sn: info.Result.MerchantOrderNo }, include: [Transport] })
@@ -418,13 +281,11 @@ const userController = {
           order.update({
             orderStatus: "已取消訂單"
           }).then(o => {
-            let cancel = true
-            res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: cancel })))
+            res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
           })
         }
         else {
-          let cancelCheck = true
-          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelCheck: cancelCheck })))
+          res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancelCheck: true })))
         }
 
       })
@@ -433,27 +294,13 @@ const userController = {
   cancelOrderCheck: (req, res) => {
     Order.findOne({ where: { id: req.params.order_id } })
       .then(order => {
-        const cancelTradeInfo = getCancelTradeInfo(order.totalPrice, order.sn)
-        const params = new URLSearchParams();
-        params.append('MerchantID_', cancelTradeInfo.MerchantID);
-        params.append('PostData_', cancelTradeInfo.PostData);
-        axios.post(cancelTradeInfo.cancelGateWay, params)
-          .then((response) => {
-            console.log('@@response: ', response)
-            if (response.data.Status === "SUCCESS") {
-              order.update({
-                orderStatus: "已取消訂單"
-              }).then(o => {
-                res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
-              })
-            }
-            else {
-              res.render('checkOrder', JSON.parse(JSON.stringify({ order: order, cancel: true })))
-            }
-          })
-
-
-
+        order.update({
+          reason: req.body.reason,
+          orderStatus: "取消訂單申請中"
+        }).then(o => {
+          console.log(o)
+          res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
+        })
       })
 
   }

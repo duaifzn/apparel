@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-3">
+    <div class="list-group">
+      <a href="/admin/items" class="list-group-item list-group-item-action">商品管理</a>
+      <a href="/admin/orders" class="list-group-item list-group-item-action">訂單管理</a>
+      <a href="/admin/catogories" class="list-group-item list-group-item-action">類別管理</a>
+    </div>
+  </div>
+  <div class="col-9">
+
+    <form action="/admin/items/create" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="name">產品名稱 :</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="name">庫存數量 :</label>
+        <input type="text" class="form-control" id="amount" name="amount" required>
+      </div>
+      <div class="form-group">
+        <label for="catogory">產品類別 :</label>
+        <select class="form-control" id="catogory" name="catogory">
+          {{#each catogories}}
+          <option value="{{this.id}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="price">產品價格 :</label>
+        <input type="text" class="form-control" id="price" name="price" required>
+      </div>
+      <div class="form-group">
+        <label for="cost">產品成本 :</label>
+        <input type="text" class="form-control" id="cost" name="cost" required>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="true" id="popular" name="popular">
+        <label class="form-check-label" for="defaultCheck1">
+          熱銷商品
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="true" id="new" name="new">
+        <label class="form-check-label" for="defaultCheck1">
+          最新商品
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="introduction">產品介紹 :</label>
+        <textarea class="form-control" id="introduction" name="introduction" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="image1">圖片1</label>
+        <input type="file" class="form-control-file" id="image1" name="image1">
+      </div>
+      <div class="form-group">
+        <label for="image2">圖片2</label>
+        <input type="file" class="form-control-file" id="image2" name="image2">
+      </div>
+      <button type="submit" class="btn btn-success">確認編輯</button>
+      <a href="/admin/items" class="btn btn-danger">取消</a>
+    </form>
+
+  </div>
+</div>
+
+</div>
+</div>

@@ -1,10 +1,9 @@
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
-// const access_token = process.env.ACCESS_TOKEN
-// const verify_token = process.env.VERIFY_TOKEN
-// const app_id = process.env.APP_ID
-// const app_secret = process.env.APP_SECRET
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
+
 
 module.exports = (app, passport) => {
 
@@ -59,14 +58,11 @@ module.exports = (app, passport) => {
   app.get('/checkorder', authenticated, userController.getOrder)
   //查看訂單
   app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
-
   //取消訂單
   app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder)
-  app.get('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck)
-
+  app.post('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck)
   //藍金callback
   app.post('/pay/callback', authenticated, userController.pay)
-  app.get('/admin/pay/callback', authenticated, userController.adminPay)
 
   app.get('/done', authenticatedAdmin, (req, res) => {
     //data = []
@@ -77,46 +73,40 @@ module.exports = (app, passport) => {
   // Accepts GET requests at the /webhook endpoint
   app.get('/webhook', messengerController.getWebhook)
 
+
+  app.get('/admin/pay/callback', authenticated, userController.adminPay)
   //轉跳至 /admin/items
   app.get('/admin', authenticated, (req, res) => {
     res.redirect('/admin/items')
   })
   //看見站內所有商品(設為後台首頁)
   app.get('/admin/items', authenticated, adminController.itemsPage)
-  // //新增商品頁面
-  // app.get('/admin/items/create', authenticated, adminController.createItemPage)
-  // //新增商品
-  // app.post('/admin/items/create', authenticated, adminController.createItem)
+  //新增商品頁面
+  app.get('/admin/items/create', authenticated, adminController.createItemPage)
+  //新增商品
+  app.post('/admin/items/create', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.createItem)
   //單項商品詳細頁面
   app.get('/admin/items/:item_id', authenticated, adminController.itemDetailPage)
-  // //編輯單項商品頁面
-  // app.get('/admin/items/:item_id/edit', authenticated, adminController.editItemPage)
-  // //編輯單項商品
-  // app.post('/admin/items/:item_id/edit', authenticated, adminController.editItem)
-  // //刪除單項商品
-  // app.delete('/admin/items/:item_id/delete', authenticated, adminController.deleteItem)
-  // //看見站內所有訂單
-  // app.get('/admin/orders', authenticated, adminController.orderPage)
-  // //更改訂單狀態
-  // app.post('/admin/orders/:order_id', authenticated, adminController.editOrder)
-  // //查看訂單詳細資訊頁面
-  // app.get('/admin/orders/:order_id', authenticated, adminController.orderDetail)
-  // //查看所有類別
-  // app.get('/admin/catogories', authenticated, adminController.catogoryPage)
-  // //新增類別
-  // app.post('/admin/catogories', authenticated, adminController.createCatogory)
-  // //刪除類別
-  // app.delete('/admin/catogories/:catogory_id', authenticated, adminController.deleteCatogory)
-  // //銷售報表頁面
-  // app.get('/admin/sales', authenticated, adminController.salePage)
-  // //計算銷售報表
-  // app.post('/admin/sales', authenticated, adminController.calculateSale)
-  // //查看所有會員頁面
-  // app.get('/admin/members', authenticated, adminController.memberPage)
-  // //新增管理員
-  // app.post('/admin/members', authenticated, adminController.createAdmin)
-  // //編輯會員權限
-  // app.post('/admin/members/:user_id', authenticated, adminController.aditUser)
+  //編輯單項商品頁面
+  app.get('/admin/items/:item_id/edit', authenticated, adminController.editItemPage)
+  //編輯單項商品
+  app.post('/admin/items/:item_id/edit', authenticated, upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]), adminController.editItem)
+  //刪除單項商品
+  app.delete('/admin/items/:item_id', authenticated, adminController.deleteItem)
+  //看見站內所有訂單
+  app.get('/admin/orders', authenticated, adminController.orderPage)
+  //確認取消訂單
+  app.get('/admin/orders/cancel/:order_id', authenticated, adminController.cancelOrder)
+  //拒絕取消訂單
+  app.get('/admin/orders/refuse/:order_id', authenticated, adminController.refuseCancelOrder)
+  //查看訂單詳細資訊頁面
+  app.get('/admin/orders/:order_id', authenticated, adminController.orderDetail)
+  //查看所有類別
+  app.get('/admin/catogories', authenticated, adminController.catogoryPage)
+  //新增類別
+  app.post('/admin/catogories', authenticated, adminController.createCatogory)
+  //刪除類別
+  app.delete('/admin/catogories/:catogory_id', authenticated, adminController.deleteCatogory)
   app.get('*', (req, res) => {
     res.redirect('/')
   })
