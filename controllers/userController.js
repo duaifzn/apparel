@@ -144,11 +144,11 @@ const userController = {
   },
   order: (req, res) => {
     CartProduct.findAll({ where: { UserId: req.user.id }, include: Product })
-      .then(cartProducts => {
+      .then(async cartProducts => {
         let totalPrice = 0
-        cartProducts.forEach(cartProduct => {
+        for await (let cartProduct of cartProducts) {
           totalPrice += cartProduct.price
-        })
+        }
         res.render('order', JSON.parse(JSON.stringify({ cartProducts: cartProducts, totalPrice: totalPrice })))
       })
 
