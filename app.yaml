@@ -1,8 +1,8 @@
 runtime: nodejs10
 
 env_variables:
-  GCS_BUCKET=final27-bucket
-  GCLOUD_PROJECT=final-276802
+  GCS_BUCKET: 'final27-bucket'
+  GCLOUD_PROJECT: 'final-276802'
 
 beta_settings:
   cloud_sql_instances: final-276802:asia-east1:finalpg1
