@@ -6,7 +6,7 @@ const multer = require('multer')
 // const uploadHandler = multer({
 //   storage: multerGoogleStorage.storageEngine()
 // });
-//const upload = multer({ dest: 'upload/' })
+const upload = multer({ dest: 'upload/' })
 
 
 module.exports = (app, passport) => {
