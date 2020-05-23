@@ -46,7 +46,7 @@ const adminController = {
           await Product.update({ image1: files['image1'][0].URL }, { where: { id: p.id } })
         }
         if (files['image2']) {
-          await Product.update({ image2: files['image1'][0].URL }, { where: { id: p.id } })
+          await Product.update({ image2: files['image2'][0].URL }, { where: { id: p.id } })
         }
         res.redirect(`/admin/items/${p.id}`)
       }

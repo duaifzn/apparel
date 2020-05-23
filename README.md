@@ -2,7 +2,7 @@
 
 # LOGO電商網
 
-LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 GCP，以 RESTFul API 滿足電商網站不同資料的互動需求，大部分商家的客服都已經流程化，但都還是人工服務，因此突發奇想串接 fb messenger 與使用者互動，並可用FB messenger BOT進行退貨，達到節省人力效果。
+LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 google cloud platform，以 RESTFul API 滿足電商網站不同資料的互動需求，大部分商家的客服都已經流程化，但都還是人工服務，因此突發奇想串接 fb messenger 與使用者互動，並可用FB messenger BOT進行退貨，達到節省人力效果。
 
 ## Initial - 專案緣起
 
@@ -20,6 +20,7 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 - 使用 messaging-api-messenger來串接FB messenger，並實作機器人回復功能
 - 採用 bcrypt 處理使用者密碼
 - 使用 dotenv 設定環境變數
+- 使用 google cloud platform，bucket、cloud storage
 - FB messenger BOT展示
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=apfYOkF8-6Q
