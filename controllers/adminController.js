@@ -2,8 +2,8 @@ const db = require('../models')
 const bcrypt = require('bcryptjs')
 const axios = require('axios')
 const blue = require('./blue')
-const imgur = require('imgur-node-api')
-const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+//const imgur = require('imgur-node-api')
+//const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Product = db.Product
 const Cart = db.Cart
 const Catogory = db.Catogory
@@ -40,18 +40,13 @@ const adminController = {
       cost: Number(req.body.cost),
       new: req.body.new ? true : false,
       popular: req.body.popular ? true : false,
-    }).then(p => {
+    }).then(async p => {
       if (files) {
-        imgur.setClientID(IMGUR_CLIENT_ID)
         if (files['image1']) {
-          imgur.upload(files['image1'][0].path, (err, img) => {
-            Product.update({ image1: img.data.link }, { where: { id: p.id } })
-          })
+          await Product.update({ image1: files['image1'][0].URL }, { where: { id: p.id } })
         }
         if (files['image2']) {
-          imgur.upload(files['image2'][0].path, (err, img) => {
-            Product.update({ image2: img.data.link }, { where: { id: p.id } })
-          })
+          await Product.update({ image2: files['image1'][0].URL }, { where: { id: p.id } })
         }
         res.redirect(`/admin/items/${p.id}`)
       }
@@ -88,19 +83,13 @@ const adminController = {
       new: req.body.new ? true : false,
       popular: req.body.popular ? true : false,
     }, { where: { id: req.params.item_id } })
-      .then(p => {
-
+      .then(async p => {
         if (files) {
-          imgur.setClientID(IMGUR_CLIENT_ID)
           if (files['image1']) {
-            imgur.upload(files['image1'][0].path, (err, img) => {
-              Product.update({ image1: img.data.link }, { where: { id: req.params.item_id } })
-            })
+            await Product.update({ image1: files['image1'][0].URL }, { where: { id: req.params.item_id } })
           }
           if (files['image2']) {
-            imgur.upload(files['image2'][0].path, (err, img) => {
-              Product.update({ image2: img.data.link }, { where: { id: req.params.item_id } })
-            })
+            await Product.update({ image2: files['image2'][0].URL }, { where: { id: req.params.item_id } })
           }
           res.redirect(`/admin/items/${req.params.item_id}`)
         }

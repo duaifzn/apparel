@@ -42,14 +42,10 @@ app.use((req, res, next) => {
   next()
 })
 
-const { Storage } = require('@google-cloud/storage');
-const projectId = 'final-276802'
-const keyFilename = './final-276802-c400fc5d9236.json'
-const storage = new Storage({ projectId, keyFilename });
 
 
 
-require('./routes')(app, passport, storage)
+require('./routes')(app, passport)
 
 app.listen(port, () => {
   console.log(`Enter http://localhost:${port}/ if you run this app on your local computer.`)

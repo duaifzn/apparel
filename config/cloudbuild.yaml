@@ -18,6 +18,9 @@ steps:
     - 'HASH_KEY=${_HASH_KEY}'
     - 'MERCHANT_ID=${_MERCHANT_ID}'
     - 'IMGUR_CLIENT_ID=&{_IMGUR_CLIENT_ID}'
+    - 'PROJECT_ID=&{_PROJECT_ID}'
+    - 'KEY_FILE_NAME=&{_KEY_FILE_NAME}'
+    - 'BUCKET_NAME=&{_BUCKET_NAME}'
 - name: "gcr.io/cloud-builders/gcloud"
   args: ["app", "deploy"]
 timeout: "1600s"
