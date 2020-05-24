@@ -1,8 +1,7 @@
 
 
-# LOGO電商網
-
-- [網站連結](https://final-276802.df.r.appspot.com/)
+# LOGO電商網 
+[網站連結](https://final-276802.df.r.appspot.com/)
 
 |(name) | email              | password | 帳戶類別     |
 | ------| -------------------| ---------| --------------------|
