@@ -3,7 +3,12 @@
 # LOGO電商網
 
 - [網站連結](https://final-276802.df.r.appspot.com/)
-LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 google cloud platform，以 RESTFul API 滿足電商網站不同資料的互動需求，大部分商家的客服都已經流程化，但都還是人工服務，因此突發奇想串接 fb messenger 與使用者互動，並可用FB messenger BOT進行退貨，達到節省人力效果。
+|(name) | email              | password | 帳戶類別     |
+| ------| -------------------| ---------| --------------------|
+| John | example@example.com  | 12345678 | 管理員 |
+| test | test@test.com  | 12345678 | 使用者 |
+
+- LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 google cloud platform，以 RESTFul API 滿足電商網站不同資料的互動需求，大部分商家的客服都已經流程化，但都還是人工服務，因此突發奇想串接 fb messenger 與使用者互動，並可用FB messenger BOT進行退貨，達到節省人力效果。
 
 ## Initial - 專案緣起
 
