@@ -7,8 +7,7 @@ const projectId = process.env.PROJECT_ID
 const keyFilename = path.join(__dirname, process.env.KEY_FILE_NAME)
 const storage = new Storage({ projectId, keyFilename });
 const bucket = storage.bucket(process.env.BUCKET_NAME);
-//console.log(bucket)
-//
+
 const Multer = require('multer');
 const { format } = require('util');
 // Multer is required to process file uploads and make them available via
