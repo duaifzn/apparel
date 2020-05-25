@@ -2,5 +2,10 @@ runtime: nodejs10
 
 env_variables:
   
+
+handlers:
+  - url: /signin
+  static_dir: apparel
+
 beta_settings:
   cloud_sql_instances: final-276802:asia-east1:finalpg1
