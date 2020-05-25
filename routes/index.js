@@ -6,6 +6,7 @@ const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.PROJECT_ID
 //development:
 const path = require('path')
+console.log('##############', __dirname)
 const keyFilename = path.resolve(__dirname, process.env.KEY_FILE_NAME)
 const storage = new Storage({ projectId, keyFilename });
 //production:
