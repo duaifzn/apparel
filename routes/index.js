@@ -1,11 +1,28 @@
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
-const path = require('path')
+
 const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.PROJECT_ID
-const keyFilename = path.join(__dirname, `${process.env.KEY_FILE_NAME}.json`)
-const storage = new Storage({ projectId, keyFilename });
+//development:
+//const path = require('path')
+//const keyFilename = path.join(__dirname, process.env.KEY_FILE_NAME)
+//const storage = new Storage({ projectId, keyFilename });
+//production:
+const storage = new Storage({
+  projectId, credentials: {
+    type: process.env.JSON_KEY_TYPE,
+    project_id: process.env.JSON_KEY_PROJECT_ID,
+    private_key_id: process.env.JSON_KEY_PRIVATE_KEY_ID,
+    private_key: process.env.JSON_KEY_PRIVATE_KEY,
+    client_email: process.env.JSON_KEY_CLIENT_EMAIL,
+    client_id: process.env.JSON_KEY_CLIENT_ID,
+    auth_uri: process.env.JSON_KEY_AUTH_URI,
+    token_uri: process.env.JSON_KEY_TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.JSON_KEY_AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: process.env.JSON_KEY_CLIENT_X509_CERT_URL
+  }
+});
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 const Multer = require('multer');
