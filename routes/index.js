@@ -4,6 +4,7 @@ const messengerController = require('../controllers/messengerController')
 const path = require('path')
 const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.PROJECT_ID
+console.log('!!!!!!!!!!!!!!!!!', process.env.KEY_FILE_NAME)
 const keyFilename = path.join(__dirname, `./${process.env.KEY_FILE_NAME}`)
 const storage = new Storage({ projectId, keyFilename });
 const bucket = storage.bucket(process.env.BUCKET_NAME);
