@@ -6,7 +6,7 @@ const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.PROJECT_ID
 //const keyFilename = path.join(__dirname, process.env.KEY_FILE_NAME)
 //const storage = new Storage({ projectId, keyFilename });
-const storage = new Storage();
+const storage = new Storage({ projectId });
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 const Multer = require('multer');
