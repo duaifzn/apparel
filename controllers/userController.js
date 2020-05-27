@@ -76,7 +76,6 @@ const userController = {
   itemPage: (req, res) => {
     Product.findByPk(req.params.item_id, { include: Catogory })
       .then(product => {
-        //console.log(product)
         res.render('itemPage', JSON.parse(JSON.stringify({ product: product, catogory: product.Catogory })))
       })
   },
@@ -153,7 +152,7 @@ const userController = {
       })
 
   },
-  checkOrder: (req, res) => {
+  checkOrder: (req, res, next) => {
     let total = 0
     CartProduct.findAll({ where: { UserId: req.user.id } })
       .then(async cartProducts => {
@@ -197,8 +196,19 @@ const userController = {
                   order[0].update({
                     sn: tradeInfo.MerchantOrderNo,
                   }).then((o) => {
-
+                    req.ORDER = {
+                      client: req.user,
+                      totalPrice: o.totalPrice,
+                      orderStatus: o.orderStatus,
+                      payment: o.payment,
+                      orderId: o.id,
+                      notice: "訂單成立"
+                    }
+                    next()
                     return res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, tradeInfo: tradeInfo })))
+
+
+
                   })
 
                 })
@@ -247,7 +257,7 @@ const userController = {
         }
       })
   },
-  pay: (req, res) => {
+  pay: (req, res, next) => {
     console.log(req.method)
     console.log(req.query)
     console.log(req.body)
@@ -261,11 +271,31 @@ const userController = {
             orderStatus: '已付款',
             payment: info.Result.PaymentType
           }).then((o) => {
+            req.ORDER = {
+              client: req.user,
+              totalPrice: o.totalPrice,
+              orderStatus: o.orderStatus,
+              payment: o.payment,
+              orderId: o.id,
+              notice: '付款成功'
+            }
+            next()
             res.render('paydone', JSON.parse(JSON.stringify({ order: o, orderStatus: true })))
+            return
           })
         }
         else {
+          req.ORDER = {
+            client: req.user,
+            totalPrice: order.totalPrice,
+            orderStatus: order.orderStatus,
+            payment: order.payment,
+            orderId: order.id,
+            notice: '付款失敗'
+          }
+          next()
           res.render('paydone', JSON.parse(JSON.stringify({ order: order, orderStatus: false })))
+          return
         }
       })
 
@@ -274,14 +304,24 @@ const userController = {
   adminPay: (req, res) => {
     return
   },
-  cancelOrder: (req, res) => {
+  cancelOrder: (req, res, next) => {
     Order.findOne({ where: { id: req.params.order_id } })
       .then(order => {
         if (order.orderStatus === "未付款") {
           order.update({
             orderStatus: "已取消訂單"
           }).then(o => {
+            req.ORDER = {
+              client: req.user,
+              totalPrice: o.totalPrice,
+              orderStatus: o.orderStatus,
+              payment: o.payment,
+              orderId: o.id,
+              notice: "已取消訂單"
+            }
+            next()
             res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
+            return
           })
         }
         else {
@@ -291,15 +331,24 @@ const userController = {
       })
 
   },
-  cancelOrderCheck: (req, res) => {
+  cancelOrderCheck: (req, res, next) => {
     Order.findOne({ where: { id: req.params.order_id } })
       .then(order => {
         order.update({
           reason: req.body.reason,
           orderStatus: "取消訂單申請中"
         }).then(o => {
-          console.log(o)
+          req.ORDER = {
+            client: req.user,
+            totalPrice: o.totalPrice,
+            orderStatus: o.orderStatus,
+            payment: o.payment,
+            orderId: o.id,
+            notice: "取消訂單申請中"
+          }
+          next()
           res.render('checkOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
+          return
         })
       })
 

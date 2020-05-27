@@ -6,7 +6,6 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const flash = require('connect-flash')
 
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 
@@ -16,9 +15,20 @@ const passport = require('./config/passport')
 const app = express()
 const port = process.env.PORT || 3000
 
-
 app.engine('handlebars', exphbs({ defaultLayout: 'main', helpers: require('./config/handlebars-helper') }))
 app.set('view engine', 'handlebars')
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.MAILER_USER,
+    pass: process.env.MAILER_PASSWORD
+  }
+});
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -45,9 +55,11 @@ app.use((req, res, next) => {
 
 
 
-require('./routes')(app, passport)
+require('./routes')(app, passport, transporter)
 
 app.listen(port, () => {
+  //db:migrate
+  //db.sequelize.sync()
   console.log(`Enter http://localhost:${port}/ if you run this app on your local computer.`)
 })
 

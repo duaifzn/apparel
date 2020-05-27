@@ -139,8 +139,8 @@ const adminController = {
         res.redirect('back')
       })
   },
-  cancelOrder: (req, res) => {
-    Order.findOne({ where: { id: req.params.order_id } })
+  cancelOrder: (req, res, next) => {
+    Order.findOne({ where: { id: req.params.order_id }, include: User })
       .then(order => {
         const cancelTradeInfo = blue.getCancelTradeInfo(order.totalPrice, order.sn)
         const params = new URLSearchParams();
@@ -152,7 +152,17 @@ const adminController = {
               order.update({
                 orderStatus: "已取消訂單"
               }).then(o => {
+                req.ORDER = {
+                  client: o.User,
+                  totalPrice: order.totalPrice,
+                  orderStatus: order.orderStatus,
+                  payment: order.payment,
+                  orderId: order.id,
+                  notice: "已取消訂單"
+                }
+                next()
                 res.render('admin/adminOrder', JSON.parse(JSON.stringify({ order: o, cancel: true })))
+                return
               })
             }
             else {

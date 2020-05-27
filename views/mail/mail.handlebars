@@ -1,0 +1,51 @@
+<head>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Thank You!</h1>
+  <div>
+    <p>{{order.client.name}}先生/小姐 您好:</p>
+  </div>
+  <div>
+    <p>【logo電商網】 您的訂單{{notice}}，以電子郵件通知您。</p>
+  </div>
+  <div>
+    <table style="width:100%">
+      <tr>
+        <th>商品名稱</th>
+        <th>價格</th>
+        <th>數量</th>
+        <th>小計</th>
+      </tr>
+      {{#each orderProducts}}
+      <tr>
+        <td>{{this.Product.name}}</td>
+        <td>{{this.Product.price}}</td>
+        <td>{{this.amount}}</td>
+        <td>{{this.price}}</td>
+      </tr>
+      {{/each}}
+    </table>
+    <table style="width:100%">
+      <tr>
+        <td>付款方式</td>
+        <td>{{order.payment}}</td>
+      </tr>
+      <tr>
+        <td>付款狀態</td>
+        <td>{{order.orderStatus}}</td>
+      </tr>
+      <tr>
+        <td>總計</td>
+        <td>NT$ {{order.totalPrice}}</td>
+      </tr>
+    </table>
+  </div>
+</body>

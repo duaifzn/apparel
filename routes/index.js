@@ -1,6 +1,7 @@
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
+const mail = require('../controllers/mail')
 
 const { Storage } = require('@google-cloud/storage');
 const projectId = process.env.PROJECT_ID
@@ -8,21 +9,6 @@ const projectId = process.env.PROJECT_ID
 const path = require('path')
 const keyFilename = path.join(__dirname, process.env.KEY_FILE_NAME)
 const storage = new Storage({ projectId, keyFilename });
-//production:
-// const storage = new Storage({
-//   projectId, credentials: {
-//     type: process.env.JSON_KEY_TYPE,
-//     project_id: process.env.JSON_KEY_PROJECT_ID,
-//     private_key_id: process.env.JSON_KEY_PRIVATE_KEY_ID,
-//     private_key: process.env.JSON_KEY_PRIVATE_KEY,
-//     client_email: process.env.JSON_KEY_CLIENT_EMAIL,
-//     client_id: process.env.JSON_KEY_CLIENT_ID,
-//     auth_uri: process.env.JSON_KEY_AUTH_URI,
-//     token_uri: process.env.JSON_KEY_TOKEN_URI,
-//     auth_provider_x509_cert_url: process.env.JSON_KEY_AUTH_PROVIDER_X509_CERT_URL,
-//     client_x509_cert_url: process.env.JSON_KEY_CLIENT_X509_CERT_URL
-//   }
-// });
 const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 const Multer = require('multer');
@@ -41,7 +27,7 @@ const multer = Multer({
 //const upload = multer({ dest: 'tmp/' })
 
 
-module.exports = (app, passport) => {
+module.exports = (app, passport, transporter) => {
 
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -153,15 +139,15 @@ module.exports = (app, passport) => {
   //結帳頁面，填寫顧客及配送資訊
   app.get('/order', authenticated, userController.order)
   //將購買資訊寫入訂單資料庫，顯示訂單資訊成功刪除購物車內容
-  app.post('/checkorder', authenticated, userController.checkOrder)
+  app.post('/checkorder', authenticated, userController.checkOrder, mail.sentMail(transporter))
   app.get('/checkorder', authenticated, userController.getOrder)
   //查看訂單
   app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
   //取消訂單
-  app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder)
-  app.post('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck)
+  app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder, mail.sentMail(transporter))
+  app.post('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck, mail.sentMail(transporter))
   //藍金callback
-  app.post('/pay/callback', authenticated, userController.pay)
+  app.post('/pay/callback', authenticated, userController.pay, mail.sentMail(transporter))
 
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', messengerController.postWebhook)
@@ -192,7 +178,7 @@ module.exports = (app, passport) => {
   //看見站內所有訂單
   app.get('/admin/orders', authenticatedAdmin, adminController.orderPage)
   //確認取消訂單
-  app.get('/admin/orders/cancel/:order_id', authenticatedAdmin, adminController.cancelOrder)
+  app.get('/admin/orders/cancel/:order_id', authenticatedAdmin, adminController.cancelOrder, mail.sentMail(transporter))
   //拒絕取消訂單
   app.get('/admin/orders/refuse/:order_id', authenticatedAdmin, adminController.refuseCancelOrder)
   //查看訂單詳細資訊頁面
