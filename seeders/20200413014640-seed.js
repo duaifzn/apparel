@@ -13,6 +13,17 @@ module.exports = {
       role: 'admin',
       createdAt: new Date(),
       updatedAt: new Date()
+    },
+    {
+      id: 2,
+      name: 'Cat',
+      email: 'test@test.com',
+      password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10)),
+      address: 'taipei',
+      telephone: '09342422',
+      role: 'user',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }]);
     queryInterface.bulkInsert('Products', [{
       name: 'True麵',
