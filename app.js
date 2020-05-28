@@ -19,14 +19,26 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main', helpers: require('./con
 app.set('view engine', 'handlebars')
 
 const nodemailer = require('nodemailer');
+const mg = require('nodemailer-mailgun-transport');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
+// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
+const auth = {
   auth: {
-    user: process.env.MAILER_USER,
-    pass: process.env.MAILER_PASSWORD
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN
   }
-});
+}
+
+const nodemailerMailgun = nodemailer.createTransport(mg(auth));
+
+
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+// //     user: process.env.MAILER_USER,
+//     pass: process.env.MAILER_PASSWORD
+//   }
+// });
 
 
 
@@ -55,7 +67,7 @@ app.use((req, res, next) => {
 
 
 
-require('./routes')(app, passport, transporter)
+require('./routes')(app, passport, nodemailerMailgun)
 
 app.listen(port, () => {
   //db:migrate

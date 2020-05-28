@@ -27,7 +27,7 @@ const multer = Multer({
 //const upload = multer({ dest: 'tmp/' })
 
 
-module.exports = (app, passport, transporter) => {
+module.exports = (app, passport, nodemailerMailgun) => {
 
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -139,15 +139,15 @@ module.exports = (app, passport, transporter) => {
   //結帳頁面，填寫顧客及配送資訊
   app.get('/order', authenticated, userController.order)
   //將購買資訊寫入訂單資料庫，顯示訂單資訊成功刪除購物車內容
-  app.post('/checkorder', authenticated, userController.checkOrder, mail.sentMail(transporter))
+  app.post('/checkorder', authenticated, userController.checkOrder, mail.sentMail(nodemailerMailgun))
   app.get('/checkorder', authenticated, userController.getOrder)
   //查看訂單
   app.get('/checkorder/:order_id', authenticated, userController.getAOrder)
   //取消訂單
-  app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder, mail.sentMail(transporter))
-  app.post('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck, mail.sentMail(transporter))
+  app.get('/cancelorder/:order_id', authenticated, userController.cancelOrder, mail.sentMail(nodemailerMailgun))
+  app.post('/cancelorder/check/:order_id', authenticated, userController.cancelOrderCheck, mail.sentMail(nodemailerMailgun))
   //藍金callback
-  app.post('/pay/callback', authenticated, userController.pay, mail.sentMail(transporter))
+  app.post('/pay/callback', authenticated, userController.pay, mail.sentMail(nodemailerMailgun))
 
   // Accepts POST requests at /webhook endpoint
   app.post('/webhook', messengerController.postWebhook)
@@ -178,7 +178,7 @@ module.exports = (app, passport, transporter) => {
   //看見站內所有訂單
   app.get('/admin/orders', authenticatedAdmin, adminController.orderPage)
   //確認取消訂單
-  app.get('/admin/orders/cancel/:order_id', authenticatedAdmin, adminController.cancelOrder, mail.sentMail(transporter))
+  app.get('/admin/orders/cancel/:order_id', authenticatedAdmin, adminController.cancelOrder, mail.sentMail(nodemailerMailgun))
   //拒絕取消訂單
   app.get('/admin/orders/refuse/:order_id', authenticatedAdmin, adminController.refuseCancelOrder)
   //查看訂單詳細資訊頁面
