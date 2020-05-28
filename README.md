@@ -29,6 +29,7 @@ Alpha Camp 畢業專題，以「電商平台」為主題所打造的作品，其
 - 採用 bcrypt 處理使用者密碼
 - 使用 dotenv 設定環境變數
 - 使用 google cloud platform，bucket、cloud storage
+- 使用 nodemailer 寄送創建訂單、結帳付款等信件
 - FB messenger BOT展示
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=apfYOkF8-6Q

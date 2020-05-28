@@ -16,7 +16,7 @@ module.exports = {
               console.log('error in email template');
             }
             let mailOptions = {
-              from: 'logo@sandboxa932dece180c4d2b92bc6a6c0c717280.mailgun.org',
+              from: 'logo@sandbox5d0a89e3dc0648849e09a3c88dfdfad6.mailgun.org',
               to: req.ORDER.client.email,
               subject: req.ORDER.notice + '通知',
               html: html
