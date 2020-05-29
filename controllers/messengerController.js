@@ -100,7 +100,7 @@ const messengerController = {
             }
             Order.findOne({ where: { id: Number(text) } })
               .then((order) => {
-                //如果時間大於七天顯示已過七天鑑賞期無法退貨
+                //如果時間大於七天顯示已過七天鑑賞期無法取消訂單
                 //end_date.diff(start_date, 'days')
                 let time = 0
                 if (order) {
@@ -111,11 +111,11 @@ const messengerController = {
                 if (time > 7 && order) {
 
                   delete ReturnUser[userId]
-                  client.sendText(userId, '很抱歉，已過七天鑑賞期無法退貨');
+                  client.sendText(userId, '很抱歉，已過七天鑑賞期無法取消訂單');
                 }
                 else if (order && order.orderStatus === '未付款') {
                   delete ReturnUser[userId]
-                  client.sendText(userId, '很抱歉，您的訂單未付款，無法退貨');
+                  client.sendText(userId, '很抱歉，您的訂單未付款，無法取消訂單');
                 }
                 else if (order && order.orderStatus === '取消訂單申請中') {
                   delete ReturnUser[userId]
@@ -185,7 +185,7 @@ const messengerController = {
                     },
                     {
                       content_type: 'text',
-                      title: '退貨',
+                      title: '取消訂單',
                       payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
                     },
                     {
@@ -224,7 +224,7 @@ const messengerController = {
                 },
                 {
                   content_type: 'text',
-                  title: '退貨',
+                  title: '取消訂單',
                   payload: 'DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED',
                 },
                 {
