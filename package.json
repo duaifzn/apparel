@@ -5,7 +5,8 @@
   "scripts": {
     "create-env": "printenv > .env",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "mocha test/*/*.js"
   },
   "keywords": [],
   "author": "",
@@ -49,8 +50,10 @@
     "request": "^2.88.2",
     "sequelize": "^4.44.4",
     "sequelize-cli": "^5.5.1",
+    "sequelize-test-helpers": "^1.2.2",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0",
+    "supertest": "^4.0.2",
     "xoauth2": "^1.2.0"
   }
 }

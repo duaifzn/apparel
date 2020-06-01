@@ -29,6 +29,7 @@ const auth = {
   }
 }
 
+
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 
@@ -72,6 +73,7 @@ require('./routes')(app, passport, nodemailerMailgun)
 app.listen(port, () => {
   //db:migrate
   //db.sequelize.sync()
+  console
   console.log(`Enter http://localhost:${port}/ if you run this app on your local computer.`)
 })
 
