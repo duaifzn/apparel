@@ -17,9 +17,9 @@ const db = require('../../models')
 const UserModel = require('../../models/user')
 
 describe('# User Model', () => {
-  before(done => {
-    done()
-  })
+  // before(done => {
+  //   done()
+  // })
 
   const User = UserModel(sequelize, dataTypes)
   const user = new User()
