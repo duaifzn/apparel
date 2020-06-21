@@ -132,7 +132,7 @@ const userController = {
     })
   },
   subCartProduct: (req, res) => {
-    CartProduct.findOne({ where: { UserId: helper.getUser(req).id, productId: req.params.item_id }, include: Product }).then(cartProduct => {
+    CartProduct.findOne({ where: { UserId: helper.getUser(req).id, ProductId: req.params.item_id }, include: Product }).then(cartProduct => {
       cartProduct.update({
         amount: cartProduct.amount - 1 >= 1 ? cartProduct.amount - 1 : 1,
         price: cartProduct.price - cartProduct.Product.price >= cartProduct.Product.price ? (cartProduct.price - cartProduct.Product.price) : cartProduct.Product.price
