@@ -1,5 +1,6 @@
 const db = require('../models')
 const bcrypt = require('bcryptjs')
+const helper = require('../helper')
 const Product = db.Product
 const Cart = db.Cart
 const Catogory = db.Catogory
@@ -80,7 +81,7 @@ const userController = {
       })
   },
   cartPage: (req, res) => {
-    CartProduct.findAll({ where: { UserId: req.user.id }, include: Product })
+    CartProduct.findAll({ where: { UserId: helper.getUser(req).id }, include: Product })
       .then(cartProducts => {
         let totalPrice = 0
         cartProducts.forEach(cartProduct => {
@@ -91,9 +92,9 @@ const userController = {
   },
   addCart: (req, res) => {
     //console.log(req.body)
-    //redisClient.hmset(req.user.id, [req.body.productId, req.body.amount,])
+    //redisClient.hmset(helper.getUser(req).id, [req.body.productId, req.body.amount,])
     CartProduct.findOrCreate({
-      where: { UserId: req.user.id, ProductId: req.body.productId },
+      where: { UserId: helper.getUser(req).id, ProductId: req.body.productId },
       defaults: {
         amount: req.body.amount,
         price: Number(req.body.productPrice) * Number(req.body.amount)
@@ -112,7 +113,7 @@ const userController = {
   deleteCart: (req, res) => {
     CartProduct.destroy({
       where: {
-        UserId: req.user.id,
+        UserId: helper.getUser(req).id,
         ProductId: req.params.item_id
       }
     }).then(() => {
@@ -120,7 +121,7 @@ const userController = {
     })
   },
   addCartProduct: (req, res) => {
-    CartProduct.findOne({ where: { UserId: req.user.id, ProductId: req.params.item_id }, include: Product }).then(cartProduct => {
+    CartProduct.findOne({ where: { UserId: helper.getUser(req).id, ProductId: req.params.item_id }, include: Product }).then(cartProduct => {
       cartProduct.update({
         amount: cartProduct.amount + 1,
         price: cartProduct.price + cartProduct.Product.price
@@ -131,18 +132,17 @@ const userController = {
     })
   },
   subCartProduct: (req, res) => {
-    CartProduct.findOne({ where: { UserId: req.user.id, productId: req.params.item_id }, include: Product }).then(cartProduct => {
+    CartProduct.findOne({ where: { UserId: helper.getUser(req).id, productId: req.params.item_id }, include: Product }).then(cartProduct => {
       cartProduct.update({
         amount: cartProduct.amount - 1 >= 1 ? cartProduct.amount - 1 : 1,
         price: cartProduct.price - cartProduct.Product.price >= cartProduct.Product.price ? cartProduct.price - cartProduct.Product.price : cartProduct.Product.price
+      }).then((cartProduct) => {
+        return res.redirect('back')
       })
-        .then((cartProduct) => {
-          return res.redirect('back')
-        })
     })
   },
   order: (req, res) => {
-    CartProduct.findAll({ where: { UserId: req.user.id }, include: Product })
+    CartProduct.findAll({ where: { UserId: helper.getUser(req).id }, include: Product })
       .then(async cartProducts => {
         let totalPrice = 0
         for await (let cartProduct of cartProducts) {
@@ -154,7 +154,7 @@ const userController = {
   },
   checkOrder: (req, res, next) => {
     let total = 0
-    CartProduct.findAll({ where: { UserId: req.user.id } })
+    CartProduct.findAll({ where: { UserId: helper.getUser(req).id } })
       .then(async cartProducts => {
         for await (let cartProduct of cartProducts) {
           total += cartProduct.price
@@ -164,13 +164,13 @@ const userController = {
           receiver: req.body.receiver,
           telephone: req.body.receiver_telephone,
           address: req.body.receiver_address,
-          UserId: req.user.id,
+          UserId: helper.getUser(req).id,
           orderStatus: '未付款',
           payment: '未付款',
           TransportId: req.body.transport,
           totalPrice: total
         }).then((order) => {
-          CartProduct.findAll({ where: { UserId: req.user.id } })
+          CartProduct.findAll({ where: { UserId: helper.getUser(req).id } })
             .then(cartProducts => {
               blue.asyncForEach(cartProducts, async cartProduct => {
                 await OrderProduct.create({
@@ -185,19 +185,19 @@ const userController = {
                 })
               }).then(() => {
                 Order.findAll({
-                  where: { UserId: req.user.id },
+                  where: { UserId: helper.getUser(req).id },
                   limit: 1,
                   order: [['updatedAt', 'DESC']],
                   include: [Transport]
                 }).then((order) => {
 
-                  const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+                  const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', helper.getUser(req).email)
                   //console.log(tradeInfo.MerchantOrderNo)
                   order[0].update({
                     sn: tradeInfo.MerchantOrderNo,
                   }).then((o) => {
                     req.ORDER = {
-                      client: req.user,
+                      client: helper.getUser(req),
                       totalPrice: o.totalPrice,
                       orderStatus: o.orderStatus,
                       payment: o.payment,
@@ -224,21 +224,21 @@ const userController = {
   },
   getOrder: (req, res) => {
     Order.findAll({
-      where: { UserId: req.user.id },
+      where: { UserId: helper.getUser(req).id },
       limit: 1,
       order: [['updatedAt', 'DESC']],
       include: [Transport]
     }).then((order) => {
       //console.log(order)
-      const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', req.user.email)
+      const tradeInfo = blue.getTradeInfo(order[0].totalPrice, 'LOGO產品', helper.getUser(req).email)
       return res.render('checkOrder', JSON.parse(JSON.stringify({ order: order[0], tradeInfo: tradeInfo })))
     })
   },
   getAOrder: (req, res) => {
-    Order.findOne({ where: { id: req.params.order_id, UserId: req.user.id } })
+    Order.findOne({ where: { id: req.params.order_id, UserId: helper.getUser(req).id } })
       .then((order) => {
         if (order && order.orderStatus === '未付款') {
-          const tradeInfo = blue.getTradeInfo(order.totalPrice, 'LOGO產品', req.user.email)
+          const tradeInfo = blue.getTradeInfo(order.totalPrice, 'LOGO產品', helper.getUser(req).email)
           order.update({
             sn: tradeInfo.MerchantOrderNo
           }).then(o => {
@@ -272,7 +272,7 @@ const userController = {
             payment: info.Result.PaymentType
           }).then((o) => {
             req.ORDER = {
-              client: req.user,
+              client: helper.getUser(req),
               totalPrice: o.totalPrice,
               orderStatus: o.orderStatus,
               payment: o.payment,
@@ -286,7 +286,7 @@ const userController = {
         }
         else {
           req.ORDER = {
-            client: req.user,
+            client: helper.getUser(req),
             totalPrice: order.totalPrice,
             orderStatus: order.orderStatus,
             payment: order.payment,
@@ -312,7 +312,7 @@ const userController = {
             orderStatus: "已取消訂單"
           }).then(o => {
             req.ORDER = {
-              client: req.user,
+              client: helper.getUser(req),
               totalPrice: o.totalPrice,
               orderStatus: o.orderStatus,
               payment: o.payment,
@@ -339,7 +339,7 @@ const userController = {
           orderStatus: "取消訂單申請中"
         }).then(o => {
           req.ORDER = {
-            client: req.user,
+            client: helper.getUser(req),
             totalPrice: o.totalPrice,
             orderStatus: o.orderStatus,
             payment: o.payment,

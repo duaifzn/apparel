@@ -1,6 +1,7 @@
 const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController')
 const messengerController = require('../controllers/messengerController')
+const helper = require('../helper')
 const mail = require('../controllers/mail')
 
 const { Storage } = require('@google-cloud/storage');
@@ -30,13 +31,13 @@ const multer = Multer({
 module.exports = (app, passport, nodemailerMailgun) => {
 
   const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helper.ensureAuthenticated(req)) {
       return next()
     }
     res.redirect('/signin')
   }
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helper.ensureAuthenticated(req)) {
       if (req.user.role === 'admin') { return next() }
       return res.redirect('/')
     }
