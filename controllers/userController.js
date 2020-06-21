@@ -148,7 +148,7 @@ const userController = {
         for await (let cartProduct of cartProducts) {
           totalPrice += cartProduct.price
         }
-        res.render('order', JSON.parse(JSON.stringify({ cartProducts: cartProducts, totalPrice: totalPrice })))
+        return res.render('order', JSON.parse(JSON.stringify({ cartProducts: cartProducts, totalPrice: totalPrice })))
       })
 
   },
