@@ -7,8 +7,8 @@ LOGO電商網使用 Node.js + Express + MySQL + Express-handlebars，部署於 g
 
 |(name) | email              | password | 帳戶類別     |
 | ------| -------------------| ---------| --------------------|
-| John | example@example.com  | 12345678 | 管理員 |
-| test | test@test.com  | 12345678 | 使用者 |
+| John | example@example.com  | asdf1234 | 管理員 |
+| test | test@test.com  | asdf1234 | 使用者 |
 
 
 
